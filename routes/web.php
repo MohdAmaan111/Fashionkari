@@ -21,6 +21,7 @@ Route::get('/admin/logout', [AuthManager::class, 'logout'])->name('logout');
 
 Route::get('/admin/user', [AuthManager::class, 'index'])->name('admin.user');
 Route::get('/admin/product', [ProductController::class, 'index'])->name('admin.product');
+Route::post('/products/store', [ProductController::class, 'store'])->name('admin.products.store');
 
 Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category');
 Route::post('/admin/category/store', [CategoryController::class, 'store'])->name('admin.category.store');

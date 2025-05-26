@@ -1364,205 +1364,205 @@
     @yield('content');
 
     <!-- ========== FOOTER ========== -->
-<footer>
-                <!-- Footer-top-widget -->
-                <div class="container d-none d-lg-block mb-3">
-                    <div class="row">
-                        <div class="col-wd-3 col-lg-4">
-                            <div class="widget-column">
-                                <div class="border-bottom border-color-1 mb-5">
-                                    <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Featured Products</h3>
+    <footer>
+        <!-- Footer-top-widget -->
+        <div class="container d-none d-lg-block mb-3">
+            <div class="row">
+                <div class="col-wd-3 col-lg-4">
+                    <div class="widget-column">
+                        <div class="border-bottom border-color-1 mb-5">
+                            <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Featured Products</h3>
+                        </div>
+                        <ul class="list-unstyled products-group">
+                            <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                                <div class="col-auto">
+                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img1.jpg" alt="Image Description"></a>
                                 </div>
-                                <ul class="list-unstyled products-group">
-                                    <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                        <div class="col-auto">
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img1.jpg" alt="Image Description"></a>
-                                        </div>
-                                        <div class="col pl-4 d-flex flex-column">
-                                            <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Purple Wireless Headphones Solo 2 HD</a></h5>
-                                            <div class="prodcut-price mt-auto">
-                                                <div class="font-size-15">$1149.00</div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                        <div class="col-auto">
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img2.jpg" alt="Image Description"></a>
-                                        </div>
-                                        <div class="col pl-4 d-flex flex-column">
-                                            <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Powerbank 1130 mAh Blue</a></h5>
-                                            <div class="prodcut-price mt-auto">
-                                                <div class="font-size-15">$210.00</div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                        <div class="col-auto">
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img3.jpg" alt="Image Description"></a>
-                                        </div>
-                                        <div class="col pl-4 d-flex flex-column">
-                                            <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Nerocool EN52377 Dead Silence Gaming Cube Case</a></h5>
-                                            <div class="prodcut-price mt-auto">
-                                                <div class="font-size-15">$180.00</div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-wd-3 col-lg-4">
-                            <div class="border-bottom border-color-1 mb-5">
-                                <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Onsale Products</h3>
-                            </div>
-                            <ul class="list-unstyled products-group">
-                                <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                    <div class="col-auto">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img4.jpg" alt="Image Description"></a>
+                                <div class="col pl-4 d-flex flex-column">
+                                    <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Purple Wireless Headphones Solo 2 HD</a></h5>
+                                    <div class="prodcut-price mt-auto">
+                                        <div class="font-size-15">$1149.00</div>
                                     </div>
-                                    <div class="col pl-4 d-flex flex-column">
-                                        <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Yellow Earphones Waterproof with Bluetooth</a></h5>
-                                        <div class="prodcut-price mt-auto flex-horizontal-center">
-                                            <ins class="font-size-15 text-decoration-none">$110.00</ins>
-                                            <del class="font-size-12 text-gray-9 ml-2">$250.00</del>
-                                        </div>
+                                </div>
+                            </li>
+                            <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                                <div class="col-auto">
+                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img2.jpg" alt="Image Description"></a>
+                                </div>
+                                <div class="col pl-4 d-flex flex-column">
+                                    <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Powerbank 1130 mAh Blue</a></h5>
+                                    <div class="prodcut-price mt-auto">
+                                        <div class="font-size-15">$210.00</div>
                                     </div>
-                                </li>
-                                <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                    <div class="col-auto">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img5.jpg" alt="Image Description"></a>
+                                </div>
+                            </li>
+                            <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                                <div class="col-auto">
+                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img3.jpg" alt="Image Description"></a>
+                                </div>
+                                <div class="col pl-4 d-flex flex-column">
+                                    <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Nerocool EN52377 Dead Silence Gaming Cube Case</a></h5>
+                                    <div class="prodcut-price mt-auto">
+                                        <div class="font-size-15">$180.00</div>
                                     </div>
-                                    <div class="col pl-4 d-flex flex-column">
-                                        <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Camera C430W 4k Waterproof</a></h5>
-                                        <div class="prodcut-price mt-auto flex-horizontal-center">
-                                            <ins class="font-size-15 text-decoration-none">$899.00</ins>
-                                            <del class="font-size-12 text-gray-9 ml-2">$1200.00</del>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                    <div class="col-auto">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img6.jpg" alt="Image Description"></a>
-                                    </div>
-                                    <div class="col pl-4 d-flex flex-column">
-                                        <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Smartphone 6S 32GB LTE</a></h5>
-                                        <div class="prodcut-price mt-auto flex-horizontal-center">
-                                            <ins class="font-size-15 text-decoration-none">$2100.00</ins>
-                                            <del class="font-size-12 text-gray-9 ml-2">$3299.00</del>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-wd-3 col-lg-4">
-                            <div class="border-bottom border-color-1 mb-5">
-                                <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Top Rated Products</h3>
-                            </div>
-                            <ul class="list-unstyled products-group">
-                                <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                    <div class="col-auto">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img7.jpg" alt="Image Description"></a>
-                                    </div>
-                                    <div class="col pl-4 d-flex flex-column">
-                                        <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Smartwatch 2.0 LTE Wifi Waterproof</a></h5>
-                                        <div class="text-warning mb-2">
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                        </div>
-                                        <div class="prodcut-price mt-auto">
-                                            <div class="font-size-15">$725.00</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                    <div class="col-auto">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img8.jpg" alt="Image Description"></a>
-                                    </div>
-                                    <div class="col pl-4 d-flex flex-column">
-                                        <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">22Mps Camera 6200U with 500GB SDcard</a></h5>
-                                        <div class="text-warning mb-2">
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="far fa-star text-muted"></small>
-                                        </div>
-                                        <div class="prodcut-price mt-auto">
-                                            <div class="font-size-15">$2999.00</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                    <div class="col-auto">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img9.jpg" alt="Image Description"></a>
-                                    </div>
-                                    <div class="col pl-4 d-flex flex-column">
-                                        <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Full Color LaserJet Pro M452dn</a></h5>
-                                        <div class="text-warning mb-2">
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="fas fa-star"></small>
-                                            <small class="far fa-star text-muted"></small>
-                                        </div>
-                                        <div class="prodcut-price mt-auto">
-                                            <div class="font-size-15">$439.00</div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-wd-3 d-none d-wd-block">
-                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/shop.html" class="d-block"><img class="img-fluid" src="assets/img/330X360/img1.jpg" alt="Image Description"></a>
-                        </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <!-- End Footer-top-widget -->
-                <!-- Footer-newsletter -->
-                <div class="bg-primary py-3">
-                    <div class="container">
+                <div class="col-wd-3 col-lg-4">
+                    <div class="border-bottom border-color-1 mb-5">
+                        <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Onsale Products</h3>
+                    </div>
+                    <ul class="list-unstyled products-group">
+                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                            <div class="col-auto">
+                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img4.jpg" alt="Image Description"></a>
+                            </div>
+                            <div class="col pl-4 d-flex flex-column">
+                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Yellow Earphones Waterproof with Bluetooth</a></h5>
+                                <div class="prodcut-price mt-auto flex-horizontal-center">
+                                    <ins class="font-size-15 text-decoration-none">$110.00</ins>
+                                    <del class="font-size-12 text-gray-9 ml-2">$250.00</del>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                            <div class="col-auto">
+                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img5.jpg" alt="Image Description"></a>
+                            </div>
+                            <div class="col pl-4 d-flex flex-column">
+                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Camera C430W 4k Waterproof</a></h5>
+                                <div class="prodcut-price mt-auto flex-horizontal-center">
+                                    <ins class="font-size-15 text-decoration-none">$899.00</ins>
+                                    <del class="font-size-12 text-gray-9 ml-2">$1200.00</del>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                            <div class="col-auto">
+                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img6.jpg" alt="Image Description"></a>
+                            </div>
+                            <div class="col pl-4 d-flex flex-column">
+                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Smartphone 6S 32GB LTE</a></h5>
+                                <div class="prodcut-price mt-auto flex-horizontal-center">
+                                    <ins class="font-size-15 text-decoration-none">$2100.00</ins>
+                                    <del class="font-size-12 text-gray-9 ml-2">$3299.00</del>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-wd-3 col-lg-4">
+                    <div class="border-bottom border-color-1 mb-5">
+                        <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Top Rated Products</h3>
+                    </div>
+                    <ul class="list-unstyled products-group">
+                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                            <div class="col-auto">
+                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img7.jpg" alt="Image Description"></a>
+                            </div>
+                            <div class="col pl-4 d-flex flex-column">
+                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Smartwatch 2.0 LTE Wifi Waterproof</a></h5>
+                                <div class="text-warning mb-2">
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                </div>
+                                <div class="prodcut-price mt-auto">
+                                    <div class="font-size-15">$725.00</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                            <div class="col-auto">
+                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img8.jpg" alt="Image Description"></a>
+                            </div>
+                            <div class="col pl-4 d-flex flex-column">
+                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">22Mps Camera 6200U with 500GB SDcard</a></h5>
+                                <div class="text-warning mb-2">
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="far fa-star text-muted"></small>
+                                </div>
+                                <div class="prodcut-price mt-auto">
+                                    <div class="font-size-15">$2999.00</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
+                            <div class="col-auto">
+                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img9.jpg" alt="Image Description"></a>
+                            </div>
+                            <div class="col pl-4 d-flex flex-column">
+                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Full Color LaserJet Pro M452dn</a></h5>
+                                <div class="text-warning mb-2">
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="fas fa-star"></small>
+                                    <small class="far fa-star text-muted"></small>
+                                </div>
+                                <div class="prodcut-price mt-auto">
+                                    <div class="font-size-15">$439.00</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-wd-3 d-none d-wd-block">
+                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/shop.html" class="d-block"><img class="img-fluid" src="assets/img/330X360/img1.jpg" alt="Image Description"></a>
+                </div>
+            </div>
+        </div>
+        <!-- End Footer-top-widget -->
+        <!-- Footer-newsletter -->
+        <div class="bg-primary py-3">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 mb-md-3 mb-lg-0">
                         <div class="row align-items-center">
-                            <div class="col-lg-7 mb-md-3 mb-lg-0">
-                                <div class="row align-items-center">
-                                    <div class="col-auto flex-horizontal-center">
-                                        <i class="ec ec-newsletter font-size-40"></i>
-                                        <h2 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h2>
-                                    </div>
-                                    <div class="col my-4 my-md-0">
-                                        <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$20 coupon for first shopping.</strong></h5>
-                                    </div>
-                                </div>
+                            <div class="col-auto flex-horizontal-center">
+                                <i class="ec ec-newsletter font-size-40"></i>
+                                <h2 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h2>
                             </div>
-                            <div class="col-lg-5">
-                                <!-- Subscribe Form -->
-                                <form class="js-validate js-form-message">
-                                    <label class="sr-only" for="subscribeSrEmail">Email address</label>
-                                    <div class="input-group input-group-pill">
-                                        <input type="email" class="form-control border-0 height-40" name="email" id="subscribeSrEmail" placeholder="Email address" aria-label="Email address" aria-describedby="subscribeButton" required
-                                        data-msg="Please enter a valid email address.">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-dark btn-sm-wide height-40 py-2" id="subscribeButton">Sign Up</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <!-- End Subscribe Form -->
+                            <div class="col my-4 my-md-0">
+                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$20 coupon for first shopping.</strong></h5>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-5">
+                        <!-- Subscribe Form -->
+                        <form class="js-validate js-form-message">
+                            <label class="sr-only" for="subscribeSrEmail">Email address</label>
+                            <div class="input-group input-group-pill">
+                                <input type="email" class="form-control border-0 height-40" name="email" id="subscribeSrEmail" placeholder="Email address" aria-label="Email address" aria-describedby="subscribeButton" required
+                                    data-msg="Please enter a valid email address.">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-dark btn-sm-wide height-40 py-2" id="subscribeButton">Sign Up</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- End Subscribe Form -->
+                    </div>
                 </div>
-                <!-- End Footer-newsletter -->
-                <!-- Footer-bottom-widgets -->
-                <div class="pt-8 pb-4 bg-gray-13">
-                    <div class="container mt-1">
-                        <div class="row">
-                            <div class="col-lg-5">
-                                <div class="mb-6">
-                                    <a href="#" class="d-inline-block">
-                                        <svg version="1.1" x="0px" y="0px" width="156px" height="37px" viewBox="0 0 175.748 42.52" enable-background="new 0 0 175.748 42.52">
-                                            <ellipse fill-rule="evenodd" clip-rule="evenodd" fill="#FDD700" cx="170.05" cy="36.341" rx="5.32" ry="5.367"></ellipse>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" fill="#333E48" d="M30.514,0.71c-0.034,0.003-0.066,0.008-0.056,0.056
+            </div>
+        </div>
+        <!-- End Footer-newsletter -->
+        <!-- Footer-bottom-widgets -->
+        <div class="pt-8 pb-4 bg-gray-13">
+            <div class="container mt-1">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="mb-6">
+                            <a href="#" class="d-inline-block">
+                                <svg version="1.1" x="0px" y="0px" width="156px" height="37px" viewBox="0 0 175.748 42.52" enable-background="new 0 0 175.748 42.52">
+                                    <ellipse fill-rule="evenodd" clip-rule="evenodd" fill="#FDD700" cx="170.05" cy="36.341" rx="5.32" ry="5.367"></ellipse>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" fill="#333E48" d="M30.514,0.71c-0.034,0.003-0.066,0.008-0.056,0.056
                                                 C30.263,0.995,29.876,1.181,29.79,1.5c-0.148,0.548,0,1.568,0,2.427v36.459c0.265,0.221,0.506,0.465,0.725,0.734h6.187
                                                 c0.2-0.25,0.423-0.477,0.669-0.678V1.387C37.124,1.185,36.9,0.959,36.701,0.71H30.514z M117.517,12.731
                                                 c-0.232-0.189-0.439-0.64-0.781-0.734c-0.754-0.209-2.039,0-3.121,0h-3.176V4.435c-0.232-0.189-0.439-0.639-0.781-0.733
@@ -1597,539 +1597,540 @@
                                                 c0.404-1.031-0.365-1.502-0.891-2.088c-2.543-2.835-6.66-5.377-11.704-5.137c-6.02,0.288-10.218,3.697-12.484,7.846
                                                 c-1.293,2.365-1.951,5.158-1.729,8.408c0.209,3.053,1.191,5.496,2.619,7.508c2.842,4.004,7.385,6.973,13.656,6.377
                                                 c5.976-0.568,9.574-3.936,11.816-8.354c-0.141-0.271-0.221-0.604-0.336-0.902C92.929,31.364,90.843,30.485,88.812,29.55z">
-                                            </path>
-                                        </svg>
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="mb-4">
+                            <div class="row no-gutters">
+                                <div class="col-auto">
+                                    <i class="ec ec-support text-primary font-size-56"></i>
+                                </div>
+                                <div class="col pl-3">
+                                    <div class="font-size-13 font-weight-light">Got questions? Call us 24/7!</div>
+                                    <a href="tel:+80080018588" class="font-size-20 text-gray-90">(800) 8001-8588, </a><a href="tel:+0600874548" class="font-size-20 text-gray-90">(0600) 874 548</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <h6 class="mb-1 font-weight-bold">Contact info</h6>
+                            <address class="">
+                                17 Princess Road, London, Greater London NW1 8JR, UK
+                            </address>
+                        </div>
+                        <div class="my-4 my-md-4">
+                            <ul class="list-inline mb-0 opacity-7">
+                                <li class="list-inline-item mr-0">
+                                    <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
+                                        <span class="fab fa-facebook-f btn-icon__inner"></span>
                                     </a>
-                                </div>
-                                <div class="mb-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-auto">
-                                            <i class="ec ec-support text-primary font-size-56"></i>
-                                        </div>
-                                        <div class="col pl-3">
-                                            <div class="font-size-13 font-weight-light">Got questions? Call us 24/7!</div>
-                                            <a href="tel:+80080018588" class="font-size-20 text-gray-90">(800) 8001-8588, </a><a href="tel:+0600874548" class="font-size-20 text-gray-90">(0600) 874 548</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <h6 class="mb-1 font-weight-bold">Contact info</h6>
-                                    <address class="">
-                                        17 Princess Road, London, Greater London NW1 8JR, UK
-                                    </address>
-                                </div>
-                                <div class="my-4 my-md-4">
-                                    <ul class="list-inline mb-0 opacity-7">
-                                        <li class="list-inline-item mr-0">
-                                            <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
-                                                <span class="fab fa-facebook-f btn-icon__inner"></span>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item mr-0">
-                                            <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
-                                                <span class="fab fa-google btn-icon__inner"></span>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item mr-0">
-                                            <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
-                                                <span class="fab fa-twitter btn-icon__inner"></span>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item mr-0">
-                                            <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
-                                                <span class="fab fa-github btn-icon__inner"></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                </li>
+                                <li class="list-inline-item mr-0">
+                                    <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
+                                        <span class="fab fa-google btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item mr-0">
+                                    <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
+                                        <span class="fab fa-twitter btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item mr-0">
+                                    <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle" href="#">
+                                        <span class="fab fa-github btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="row">
+                            <div class="col-12 col-md mb-4 mb-md-0">
+                                <h6 class="mb-3 font-weight-bold">Find it Fast</h6>
+                                <!-- List Group -->
+                                <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Laptops & Computers</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Cameras & Photography</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Smart Phones & Tablets</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Video Games & Consoles</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">TV & Audio</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Gadgets</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Car Electronic & GPS</a></li>
+                                </ul>
+                                <!-- End List Group -->
                             </div>
-                            <div class="col-lg-7">
-                                <div class="row">
-                                    <div class="col-12 col-md mb-4 mb-md-0">
-                                        <h6 class="mb-3 font-weight-bold">Find it Fast</h6>
-                                        <!-- List Group -->
-                                        <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Laptops & Computers</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Cameras & Photography</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Smart Phones & Tablets</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Video Games & Consoles</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">TV & Audio</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Gadgets</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Car Electronic & GPS</a></li>
-                                        </ul>
-                                        <!-- End List Group -->
-                                    </div>
 
-                                    <div class="col-12 col-md mb-4 mb-md-0">
-                                        <!-- List Group -->
-                                        <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent mt-md-6">
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Printers & Ink</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Software</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Office Supplies</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Computer Components</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Accesories</a></li>
-                                        </ul>
-                                        <!-- End List Group -->
-                                    </div>
+                            <div class="col-12 col-md mb-4 mb-md-0">
+                                <!-- List Group -->
+                                <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent mt-md-6">
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Printers & Ink</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Software</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Office Supplies</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Computer Components</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Accesories</a></li>
+                                </ul>
+                                <!-- End List Group -->
+                            </div>
 
-                                    <div class="col-12 col-md mb-4 mb-md-0">
-                                        <h6 class="mb-3 font-weight-bold">Customer Care</h6>
-                                        <!-- List Group -->
-                                        <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html">My Account</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/track-your-order.html">Order Tracking</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html">Wish List</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Customer Service</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Returns / Exchange</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="faq.html">FAQs</a></li>
-                                            <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Product Support</a></li>
-                                        </ul>
-                                        <!-- End List Group -->
-                                    </div>
-                                </div>
+                            <div class="col-12 col-md mb-4 mb-md-0">
+                                <h6 class="mb-3 font-weight-bold">Customer Care</h6>
+                                <!-- List Group -->
+                                <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html">My Account</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/track-your-order.html">Order Tracking</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html">Wish List</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Customer Service</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Returns / Exchange</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="faq.html">FAQs</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Product Support</a></li>
+                                </ul>
+                                <!-- End List Group -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- End Footer-bottom-widgets -->
-                <!-- Footer-copy-right -->
-                <div class="bg-gray-14 py-2">
-                    <div class="container">
-                        <div class="flex-center-between d-block d-md-flex">
-                            <div class="mb-3 mb-md-0">© <a href="#" class="font-weight-bold text-gray-90">Electro</a> - All rights Reserved</div>
-                            <div class="text-md-right">
-                                <span class="d-inline-block bg-white border rounded p-1">
-                                    <img class="max-width-5" src="assets/img/100X60/img1.jpg" alt="Image Description">
-                                </span>
-                                <span class="d-inline-block bg-white border rounded p-1">
-                                    <img class="max-width-5" src="assets/img/100X60/img2.jpg" alt="Image Description">
-                                </span>
-                                <span class="d-inline-block bg-white border rounded p-1">
-                                    <img class="max-width-5" src="assets/img/100X60/img3.jpg" alt="Image Description">
-                                </span>
-                                <span class="d-inline-block bg-white border rounded p-1">
-                                    <img class="max-width-5" src="assets/img/100X60/img4.jpg" alt="Image Description">
-                                </span>
-                                <span class="d-inline-block bg-white border rounded p-1">
-                                    <img class="max-width-5" src="assets/img/100X60/img5.jpg" alt="Image Description">
-                                </span>
-                            </div>
-                        </div>
+            </div>
+        </div>
+        <!-- End Footer-bottom-widgets -->
+        <!-- Footer-copy-right -->
+        <div class="bg-gray-14 py-2">
+            <div class="container">
+                <div class="flex-center-between d-block d-md-flex">
+                    <div class="mb-3 mb-md-0">© <a href="#" class="font-weight-bold text-gray-90">Electro</a> - All rights Reserved</div>
+                    <div class="text-md-right">
+                        <span class="d-inline-block bg-white border rounded p-1">
+                            <img class="max-width-5" src="assets/img/100X60/img1.jpg" alt="Image Description">
+                        </span>
+                        <span class="d-inline-block bg-white border rounded p-1">
+                            <img class="max-width-5" src="assets/img/100X60/img2.jpg" alt="Image Description">
+                        </span>
+                        <span class="d-inline-block bg-white border rounded p-1">
+                            <img class="max-width-5" src="assets/img/100X60/img3.jpg" alt="Image Description">
+                        </span>
+                        <span class="d-inline-block bg-white border rounded p-1">
+                            <img class="max-width-5" src="assets/img/100X60/img4.jpg" alt="Image Description">
+                        </span>
+                        <span class="d-inline-block bg-white border rounded p-1">
+                            <img class="max-width-5" src="assets/img/100X60/img5.jpg" alt="Image Description">
+                        </span>
                     </div>
                 </div>
-                <!-- End Footer-copy-right -->
-            </footer>
-            <!-- ========== END FOOTER ========== -->
+            </div>
+        </div>
+        <!-- End Footer-copy-right -->
+    </footer>
+    <!-- ========== END FOOTER ========== -->
 
-            <!-- ========== SECONDARY CONTENTS ========== -->
-            <!-- Account Sidebar Navigation -->
-            <aside id="sidebarContent" class="u-sidebar u-sidebar__lg" aria-labelledby="sidebarNavToggler">
-                <div class="u-sidebar__scroller">
-                    <div class="u-sidebar__container">
-                        <div class="js-scrollbar u-header-sidebar__footer-offset pb-3">
-                            <!-- Toggle Button -->
-                            <div class="d-flex align-items-center pt-4 px-7">
-                                <button type="button" class="close ml-auto"
-                                    aria-controls="sidebarContent"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    data-unfold-event="click"
-                                    data-unfold-hide-on-scroll="false"
-                                    data-unfold-target="#sidebarContent"
-                                    data-unfold-type="css-animation"
-                                    data-unfold-animation-in="fadeInRight"
-                                    data-unfold-animation-out="fadeOutRight"
-                                    data-unfold-duration="500">
-                                    <i class="ec ec-close-remove"></i>
-                                </button>
-                            </div>
-                            <!-- End Toggle Button -->
+    <!-- ========== SECONDARY CONTENTS ========== -->
+    <!-- Account Sidebar Navigation -->
+    <aside id="sidebarContent" class="u-sidebar u-sidebar__lg" aria-labelledby="sidebarNavToggler">
+        <div class="u-sidebar__scroller">
+            <div class="u-sidebar__container">
+                <div class="js-scrollbar u-header-sidebar__footer-offset pb-3">
+                    <!-- Toggle Button -->
+                    <div class="d-flex align-items-center pt-4 px-7">
+                        <button type="button" class="close ml-auto"
+                            aria-controls="sidebarContent"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebarContent"
+                            data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInRight"
+                            data-unfold-animation-out="fadeOutRight"
+                            data-unfold-duration="500">
+                            <i class="ec ec-close-remove"></i>
+                        </button>
+                    </div>
+                    <!-- End Toggle Button -->
 
-                            <!-- Content -->
-                            <div class="js-scrollbar u-sidebar__body">
-                                <div class="u-sidebar__content u-header-sidebar__content">
-                                    <form class="js-validate">
-                                        <!-- Login -->
-                                        <div id="login" data-target-group="idForm">
-                                            <!-- Title -->
-                                            <header class="text-center mb-7">
-                                            <h2 class="h4 mb-0">Welcome Back!</h2>
-                                            <p>Login to manage your account.</p>
-                                            </header>
-                                            <!-- End Title -->
+                    <!-- Content -->
+                    <div class="js-scrollbar u-sidebar__body">
+                        <div class="u-sidebar__content u-header-sidebar__content">
+                            <form class="js-validate">
+                                <!-- Login -->
+                                <div id="login" data-target-group="idForm">
+                                    <!-- Title -->
+                                    <header class="text-center mb-7">
+                                        <h2 class="h4 mb-0">Welcome Back!</h2>
+                                        <p>Login to manage your account.</p>
+                                    </header>
+                                    <!-- End Title -->
 
-                                            <!-- Form Group -->
-                                            <div class="form-group">
-                                                <div class="js-form-message js-focus-state">
-                                                    <label class="sr-only" for="signinEmail">Email</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="signinEmailLabel">
-                                                                <span class="fas fa-user"></span>
-                                                            </span>
-                                                        </div>
-                                                        <input type="email" class="form-control" name="email" id="signinEmail" placeholder="Email" aria-label="Email" aria-describedby="signinEmailLabel" required
-                                                        data-msg="Please enter a valid email address."
-                                                        data-error-class="u-has-error"
-                                                        data-success-class="u-has-success">
-                                                    </div>
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="signinEmail">Email</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="signinEmailLabel">
+                                                        <span class="fas fa-user"></span>
+                                                    </span>
                                                 </div>
+                                                <input type="email" class="form-control" name="email" id="signinEmail" placeholder="Email" aria-label="Email" aria-describedby="signinEmailLabel" required
+                                                    data-msg="Please enter a valid email address."
+                                                    data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
                                             </div>
-                                            <!-- End Form Group -->
+                                        </div>
+                                    </div>
+                                    <!-- End Form Group -->
 
-                                            <!-- Form Group -->
-                                            <div class="form-group">
-                                                <div class="js-form-message js-focus-state">
-                                                <label class="sr-only" for="signinPassword">Password</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="signinPasswordLabel">
-                                                            <span class="fas fa-lock"></span>
-                                                        </span>
-                                                    </div>
-                                                    <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPasswordLabel" required
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="signinPassword">Password</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="signinPasswordLabel">
+                                                        <span class="fas fa-lock"></span>
+                                                    </span>
+                                                </div>
+                                                <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPasswordLabel" required
                                                     data-msg="Your password is invalid. Please try again."
                                                     data-error-class="u-has-error"
                                                     data-success-class="u-has-success">
-                                                </div>
-                                                </div>
                                             </div>
-                                            <!-- End Form Group -->
-
-                                            <div class="d-flex justify-content-end mb-4">
-                                                <a class="js-animation-link small link-muted" href="javascript:;"
-                                                data-target="#forgotPassword"
-                                                data-link-group="idForm"
-                                                data-animation-in="slideInUp">Forgot Password?</a>
-                                            </div>
-
-                                            <div class="mb-2">
-                                                <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Login</button>
-                                            </div>
-
-                                            <div class="text-center mb-4">
-                                                <span class="small text-muted">Do not have an account?</span>
-                                                <a class="js-animation-link small text-dark" href="javascript:;"
-                                                data-target="#signup"
-                                                data-link-group="idForm"
-                                                data-animation-in="slideInUp">Signup
-                                                </a>
-                                            </div>
-
-                                            <div class="text-center">
-                                                <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
-                                            </div>
-
-                                            <!-- Login Buttons -->
-                                            <div class="d-flex">
-                                                <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
-                                                <span class="fab fa-facebook-square mr-1"></span>
-                                                Facebook
-                                                </a>
-                                                <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
-                                                <span class="fab fa-google mr-1"></span>
-                                                Google
-                                                </a>
-                                            </div>
-                                            <!-- End Login Buttons -->
                                         </div>
+                                    </div>
+                                    <!-- End Form Group -->
 
-                                        <!-- Signup -->
-                                        <div id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
-                                            <!-- Title -->
-                                            <header class="text-center mb-7">
-                                            <h2 class="h4 mb-0">Welcome to Electro.</h2>
-                                            <p>Fill out the form to get started.</p>
-                                            </header>
-                                            <!-- End Title -->
+                                    <div class="d-flex justify-content-end mb-4">
+                                        <a class="js-animation-link small link-muted" href="javascript:;"
+                                            data-target="#forgotPassword"
+                                            data-link-group="idForm"
+                                            data-animation-in="slideInUp">Forgot Password?</a>
+                                    </div>
 
-                                            <!-- Form Group -->
-                                            <div class="form-group">
-                                                <div class="js-form-message js-focus-state">
-                                                    <label class="sr-only" for="signupEmail">Email</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="signupEmailLabel">
-                                                                <span class="fas fa-user"></span>
-                                                            </span>
-                                                        </div>
-                                                        <input type="email" class="form-control" name="email" id="signupEmail" placeholder="Email" aria-label="Email" aria-describedby="signupEmailLabel" required
-                                                        data-msg="Please enter a valid email address."
-                                                        data-error-class="u-has-error"
-                                                        data-success-class="u-has-success">
-                                                    </div>
+                                    <div class="mb-2">
+                                        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Login</button>
+                                    </div>
+
+                                    <div class="text-center mb-4">
+                                        <span class="small text-muted">Do not have an account?</span>
+                                        <a class="js-animation-link small text-dark" href="javascript:;"
+                                            data-target="#signup"
+                                            data-link-group="idForm"
+                                            data-animation-in="slideInUp">Signup
+                                        </a>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
+                                    </div>
+
+                                    <!-- Login Buttons -->
+                                    <div class="d-flex">
+                                        <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
+                                            <span class="fab fa-facebook-square mr-1"></span>
+                                            Facebook
+                                        </a>
+                                        <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
+                                            <span class="fab fa-google mr-1"></span>
+                                            Google
+                                        </a>
+                                    </div>
+                                    <!-- End Login Buttons -->
+                                </div>
+
+                                <!-- Signup -->
+                                <div id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
+                                    <!-- Title -->
+                                    <header class="text-center mb-7">
+                                        <h2 class="h4 mb-0">Welcome to Electro.</h2>
+                                        <p>Fill out the form to get started.</p>
+                                    </header>
+                                    <!-- End Title -->
+
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="signupEmail">Email</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="signupEmailLabel">
+                                                        <span class="fas fa-user"></span>
+                                                    </span>
                                                 </div>
+                                                <input type="email" class="form-control" name="email" id="signupEmail" placeholder="Email" aria-label="Email" aria-describedby="signupEmailLabel" required
+                                                    data-msg="Please enter a valid email address."
+                                                    data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
                                             </div>
-                                            <!-- End Input -->
+                                        </div>
+                                    </div>
+                                    <!-- End Input -->
 
-                                            <!-- Form Group -->
-                                            <div class="form-group">
-                                                <div class="js-form-message js-focus-state">
-                                                    <label class="sr-only" for="signupPassword">Password</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="signupPasswordLabel">
-                                                                <span class="fas fa-lock"></span>
-                                                            </span>
-                                                        </div>
-                                                        <input type="password" class="form-control" name="password" id="signupPassword" placeholder="Password" aria-label="Password" aria-describedby="signupPasswordLabel" required
-                                                        data-msg="Your password is invalid. Please try again."
-                                                        data-error-class="u-has-error"
-                                                        data-success-class="u-has-success">
-                                                    </div>
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="signupPassword">Password</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="signupPasswordLabel">
+                                                        <span class="fas fa-lock"></span>
+                                                    </span>
                                                 </div>
+                                                <input type="password" class="form-control" name="password" id="signupPassword" placeholder="Password" aria-label="Password" aria-describedby="signupPasswordLabel" required
+                                                    data-msg="Your password is invalid. Please try again."
+                                                    data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
                                             </div>
-                                            <!-- End Input -->
+                                        </div>
+                                    </div>
+                                    <!-- End Input -->
 
-                                            <!-- Form Group -->
-                                            <div class="form-group">
-                                                <div class="js-form-message js-focus-state">
-                                                <label class="sr-only" for="signupConfirmPassword">Confirm Password</label>
-                                                    <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="signupConfirmPasswordLabel">
-                                                            <span class="fas fa-key"></span>
-                                                        </span>
-                                                    </div>
-                                                    <input type="password" class="form-control" name="confirmPassword" id="signupConfirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="signupConfirmPasswordLabel" required
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="signupConfirmPassword">Confirm Password</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="signupConfirmPasswordLabel">
+                                                        <span class="fas fa-key"></span>
+                                                    </span>
+                                                </div>
+                                                <input type="password" class="form-control" name="confirmPassword" id="signupConfirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="signupConfirmPasswordLabel" required
                                                     data-msg="Password does not match the confirm password."
                                                     data-error-class="u-has-error"
                                                     data-success-class="u-has-success">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Input -->
-
-                                            <div class="mb-2">
-                                                <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Get Started</button>
-                                            </div>
-
-                                            <div class="text-center mb-4">
-                                                <span class="small text-muted">Already have an account?</span>
-                                                <a class="js-animation-link small text-dark" href="javascript:;"
-                                                    data-target="#login"
-                                                    data-link-group="idForm"
-                                                    data-animation-in="slideInUp">Login
-                                                </a>
-                                            </div>
-
-                                            <div class="text-center">
-                                                <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
-                                            </div>
-
-                                            <!-- Login Buttons -->
-                                            <div class="d-flex">
-                                                <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
-                                                    <span class="fab fa-facebook-square mr-1"></span>
-                                                    Facebook
-                                                </a>
-                                                <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
-                                                    <span class="fab fa-google mr-1"></span>
-                                                    Google
-                                                </a>
-                                            </div>
-                                            <!-- End Login Buttons -->
-                                        </div>
-                                        <!-- End Signup -->
-
-                                        <!-- Forgot Password -->
-                                        <div id="forgotPassword" style="display: none; opacity: 0;" data-target-group="idForm">
-                                            <!-- Title -->
-                                            <header class="text-center mb-7">
-                                                <h2 class="h4 mb-0">Recover Password.</h2>
-                                                <p>Enter your email address and an email with instructions will be sent to you.</p>
-                                            </header>
-                                            <!-- End Title -->
-
-                                            <!-- Form Group -->
-                                            <div class="form-group">
-                                                <div class="js-form-message js-focus-state">
-                                                    <label class="sr-only" for="recoverEmail">Your email</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="recoverEmailLabel">
-                                                                <span class="fas fa-user"></span>
-                                                            </span>
-                                                        </div>
-                                                        <input type="email" class="form-control" name="email" id="recoverEmail" placeholder="Your email" aria-label="Your email" aria-describedby="recoverEmailLabel" required
-                                                        data-msg="Please enter a valid email address."
-                                                        data-error-class="u-has-error"
-                                                        data-success-class="u-has-success">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Form Group -->
-
-                                            <div class="mb-2">
-                                                <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Recover Password</button>
-                                            </div>
-
-                                            <div class="text-center mb-4">
-                                                <span class="small text-muted">Remember your password?</span>
-                                                <a class="js-animation-link small" href="javascript:;"
-                                                data-target="#login"
-                                                data-link-group="idForm"
-                                                data-animation-in="slideInUp">Login
-                                                </a>
                                             </div>
                                         </div>
-                                        <!-- End Forgot Password -->
-                                    </form>
+                                    </div>
+                                    <!-- End Input -->
+
+                                    <div class="mb-2">
+                                        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Get Started</button>
+                                    </div>
+
+                                    <div class="text-center mb-4">
+                                        <span class="small text-muted">Already have an account?</span>
+                                        <a class="js-animation-link small text-dark" href="javascript:;"
+                                            data-target="#login"
+                                            data-link-group="idForm"
+                                            data-animation-in="slideInUp">Login
+                                        </a>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
+                                    </div>
+
+                                    <!-- Login Buttons -->
+                                    <div class="d-flex">
+                                        <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
+                                            <span class="fab fa-facebook-square mr-1"></span>
+                                            Facebook
+                                        </a>
+                                        <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
+                                            <span class="fab fa-google mr-1"></span>
+                                            Google
+                                        </a>
+                                    </div>
+                                    <!-- End Login Buttons -->
                                 </div>
-                            </div>
-                            <!-- End Content -->
+                                <!-- End Signup -->
+
+                                <!-- Forgot Password -->
+                                <div id="forgotPassword" style="display: none; opacity: 0;" data-target-group="idForm">
+                                    <!-- Title -->
+                                    <header class="text-center mb-7">
+                                        <h2 class="h4 mb-0">Recover Password.</h2>
+                                        <p>Enter your email address and an email with instructions will be sent to you.</p>
+                                    </header>
+                                    <!-- End Title -->
+
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="recoverEmail">Your email</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="recoverEmailLabel">
+                                                        <span class="fas fa-user"></span>
+                                                    </span>
+                                                </div>
+                                                <input type="email" class="form-control" name="email" id="recoverEmail" placeholder="Your email" aria-label="Your email" aria-describedby="recoverEmailLabel" required
+                                                    data-msg="Please enter a valid email address."
+                                                    data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Form Group -->
+
+                                    <div class="mb-2">
+                                        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Recover Password</button>
+                                    </div>
+
+                                    <div class="text-center mb-4">
+                                        <span class="small text-muted">Remember your password?</span>
+                                        <a class="js-animation-link small" href="javascript:;"
+                                            data-target="#login"
+                                            data-link-group="idForm"
+                                            data-animation-in="slideInUp">Login
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- End Forgot Password -->
+                            </form>
                         </div>
                     </div>
+                    <!-- End Content -->
                 </div>
-            </aside>
-            <!-- End Account Sidebar Navigation -->
-            <!-- ========== END SECONDARY CONTENTS ========== -->
+            </div>
+        </div>
+    </aside>
+    <!-- End Account Sidebar Navigation -->
+    <!-- ========== END SECONDARY CONTENTS ========== -->
 
-            <!-- Go to Top -->
-            <a class="js-go-to u-go-to" href="#"
-                data-position='{"bottom": 15, "right": 15 }'
-                data-type="fixed"
-                data-offset-top="400"
-                data-compensation="#header"
-                data-show-effect="slideInUp"
-                data-hide-effect="slideOutDown">
-                <span class="fas fa-arrow-up u-go-to__inner"></span>
-            </a>
-            <!-- End Go to Top -->
+    <!-- Go to Top -->
+    <a class="js-go-to u-go-to" href="#"
+        data-position='{"bottom": 15, "right": 15 }'
+        data-type="fixed"
+        data-offset-top="400"
+        data-compensation="#header"
+        data-show-effect="slideInUp"
+        data-hide-effect="slideOutDown">
+        <span class="fas fa-arrow-up u-go-to__inner"></span>
+    </a>
+    <!-- End Go to Top -->
 
-            <!-- JS Global Compulsory -->
-            <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-            <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
-            <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
-            <script src="assets/vendor/bootstrap/bootstrap.min.js"></script>
+    <!-- JS Global Compulsory -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
+    <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/bootstrap.min.js"></script>
 
-            <!-- JS Implementing Plugins -->
-            <script src="assets/vendor/appear.js"></script>
-            <script src="assets/vendor/jquery.countdown.min.js"></script>
-            <script src="assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
-            <script src="assets/vendor/svg-injector/dist/svg-injector.min.js"></script>
-            <script src="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-            <script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-            <script src="assets/vendor/fancybox/jquery.fancybox.min.js"></script>
-            <script src="assets/vendor/typed.js/lib/typed.min.js"></script>
-            <script src="assets/vendor/slick-carousel/slick/slick.js"></script>
-            <script src="assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <!-- JS Implementing Plugins -->
+    <script src="assets/vendor/appear.js"></script>
+    <script src="assets/vendor/jquery.countdown.min.js"></script>
+    <script src="assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+    <script src="assets/vendor/svg-injector/dist/svg-injector.min.js"></script>
+    <script src="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+    <script src="assets/vendor/typed.js/lib/typed.min.js"></script>
+    <script src="assets/vendor/slick-carousel/slick/slick.js"></script>
+    <script src="assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 
-            <!-- JS Electro -->
-            <script src="assets/js/hs.core.js"></script>
-            <script src="assets/js/components/hs.countdown.js"></script>
-            <script src="assets/js/components/hs.header.js"></script>
-            <script src="assets/js/components/hs.hamburgers.js"></script>
-            <script src="assets/js/components/hs.unfold.js"></script>
-            <script src="assets/js/components/hs.focus-state.js"></script>
-            <script src="assets/js/components/hs.malihu-scrollbar.js"></script>
-            <script src="assets/js/components/hs.validation.js"></script>
-            <script src="assets/js/components/hs.fancybox.js"></script>
-            <script src="assets/js/components/hs.onscroll-animation.js"></script>
-            <script src="assets/js/components/hs.slick-carousel.js"></script>
-            <script src="assets/js/components/hs.show-animation.js"></script>
-            <script src="assets/js/components/hs.svg-injector.js"></script>
-            <script src="assets/js/components/hs.go-to.js"></script>
-            <script src="assets/js/components/hs.selectpicker.js"></script>
+    <!-- JS Electro -->
+    <script src="assets/js/hs.core.js"></script>
+    <script src="assets/js/components/hs.countdown.js"></script>
+    <script src="assets/js/components/hs.header.js"></script>
+    <script src="assets/js/components/hs.hamburgers.js"></script>
+    <script src="assets/js/components/hs.unfold.js"></script>
+    <script src="assets/js/components/hs.focus-state.js"></script>
+    <script src="assets/js/components/hs.malihu-scrollbar.js"></script>
+    <script src="assets/js/components/hs.validation.js"></script>
+    <script src="assets/js/components/hs.fancybox.js"></script>
+    <script src="assets/js/components/hs.onscroll-animation.js"></script>
+    <script src="assets/js/components/hs.slick-carousel.js"></script>
+    <script src="assets/js/components/hs.show-animation.js"></script>
+    <script src="assets/js/components/hs.svg-injector.js"></script>
+    <script src="assets/js/components/hs.go-to.js"></script>
+    <script src="assets/js/components/hs.selectpicker.js"></script>
 
-            <!-- JS Plugins Init. -->
-            <script>
-                $(window).on('load', function () {
-                    // initialization of HSMegaMenu component
-                    $('.js-mega-menu').HSMegaMenu({
-                        event: 'hover',
-                        direction: 'horizontal',
-                        pageContainer: $('.container'),
-                        breakpoint: 767.98,
-                        hideTimeOut: 0
-                    });
-                });
+    <!-- JS Plugins Init. -->
+    <script>
+        $(window).on('load', function() {
+            // initialization of HSMegaMenu component
+            $('.js-mega-menu').HSMegaMenu({
+                event: 'hover',
+                direction: 'horizontal',
+                pageContainer: $('.container'),
+                breakpoint: 767.98,
+                hideTimeOut: 0
+            });
+        });
 
-                $(document).on('ready', function () {
-                    // initialization of header
-                    $.HSCore.components.HSHeader.init($('#header'));
+        $(document).on('ready', function() {
+            // initialization of header
+            $.HSCore.components.HSHeader.init($('#header'));
 
-                    // initialization of animation
-                    $.HSCore.components.HSOnScrollAnimation.init('[data-animation]');
+            // initialization of animation
+            $.HSCore.components.HSOnScrollAnimation.init('[data-animation]');
 
-                    // initialization of unfold component
-                    $.HSCore.components.HSUnfold.init($('[data-unfold-target]'), {
-                        afterOpen: function () {
-                            $(this).find('input[type="search"]').focus();
-                        }
-                    });
+            // initialization of unfold component
+            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'), {
+                afterOpen: function() {
+                    $(this).find('input[type="search"]').focus();
+                }
+            });
 
-                    // initialization of popups
-                    $.HSCore.components.HSFancyBox.init('.js-fancybox');
+            // initialization of popups
+            $.HSCore.components.HSFancyBox.init('.js-fancybox');
 
-                    // initialization of countdowns
-                    var countdowns = $.HSCore.components.HSCountdown.init('.js-countdown', {
-                        yearsElSelector: '.js-cd-years',
-                        monthsElSelector: '.js-cd-months',
-                        daysElSelector: '.js-cd-days',
-                        hoursElSelector: '.js-cd-hours',
-                        minutesElSelector: '.js-cd-minutes',
-                        secondsElSelector: '.js-cd-seconds'
-                    });
+            // initialization of countdowns
+            var countdowns = $.HSCore.components.HSCountdown.init('.js-countdown', {
+                yearsElSelector: '.js-cd-years',
+                monthsElSelector: '.js-cd-months',
+                daysElSelector: '.js-cd-days',
+                hoursElSelector: '.js-cd-hours',
+                minutesElSelector: '.js-cd-minutes',
+                secondsElSelector: '.js-cd-seconds'
+            });
 
-                    // initialization of malihu scrollbar
-                    $.HSCore.components.HSMalihuScrollBar.init($('.js-scrollbar'));
+            // initialization of malihu scrollbar
+            $.HSCore.components.HSMalihuScrollBar.init($('.js-scrollbar'));
 
-                    // initialization of forms
-                    $.HSCore.components.HSFocusState.init();
+            // initialization of forms
+            $.HSCore.components.HSFocusState.init();
 
-                    // initialization of form validation
-                    $.HSCore.components.HSValidation.init('.js-validate', {
-                        rules: {
-                            confirmPassword: {
-                                equalTo: '#signupPassword'
-                            }
-                        }
-                    });
+            // initialization of form validation
+            $.HSCore.components.HSValidation.init('.js-validate', {
+                rules: {
+                    confirmPassword: {
+                        equalTo: '#signupPassword'
+                    }
+                }
+            });
 
-                    // initialization of show animations
-                    $.HSCore.components.HSShowAnimation.init('.js-animation-link');
+            // initialization of show animations
+            $.HSCore.components.HSShowAnimation.init('.js-animation-link');
 
-                    // initialization of fancybox
-                    $.HSCore.components.HSFancyBox.init('.js-fancybox');
+            // initialization of fancybox
+            $.HSCore.components.HSFancyBox.init('.js-fancybox');
 
-                    // initialization of slick carousel
-                    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+            // initialization of slick carousel
+            $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
 
-                    // initialization of go to
-                    $.HSCore.components.HSGoTo.init('.js-go-to');
+            // initialization of go to
+            $.HSCore.components.HSGoTo.init('.js-go-to');
 
-                    // initialization of hamburgers
-                    $.HSCore.components.HSHamburgers.init('#hamburgerTrigger');
+            // initialization of hamburgers
+            $.HSCore.components.HSHamburgers.init('#hamburgerTrigger');
 
-                    // initialization of unfold component
-                    $.HSCore.components.HSUnfold.init($('[data-unfold-target]'), {
-                        beforeClose: function () {
-                            $('#hamburgerTrigger').removeClass('is-active');
-                        },
-                        afterClose: function() {
-                            $('#headerSidebarList .collapse.show').collapse('hide');
-                        }
-                    });
+            // initialization of unfold component
+            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'), {
+                beforeClose: function() {
+                    $('#hamburgerTrigger').removeClass('is-active');
+                },
+                afterClose: function() {
+                    $('#headerSidebarList .collapse.show').collapse('hide');
+                }
+            });
 
-                    $('#headerSidebarList [data-toggle="collapse"]').on('click', function (e) {
-                        e.preventDefault();
+            $('#headerSidebarList [data-toggle="collapse"]').on('click', function(e) {
+                e.preventDefault();
 
-                        var target = $(this).data('target');
+                var target = $(this).data('target');
 
-                        if($(this).attr('aria-expanded') === "true") {
-                            $(target).collapse('hide');
-                        } else {
-                            $(target).collapse('show');
-                        }
-                    });
+                if ($(this).attr('aria-expanded') === "true") {
+                    $(target).collapse('hide');
+                } else {
+                    $(target).collapse('show');
+                }
+            });
 
-                    // initialization of unfold component
-                    $.HSCore.components.HSUnfold.init($('[data-unfold-target]'));
+            // initialization of unfold component
+            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'));
 
-                    // initialization of select picker
-                    $.HSCore.components.HSSelectPicker.init('.js-select');
-                });
-            </script>
-        </body>
-    </html>
+            // initialization of select picker
+            $.HSCore.components.HSSelectPicker.init('.js-select');
+        });
+    </script>
+</body>
+
+</html>
