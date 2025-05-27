@@ -69,7 +69,7 @@
                       <td>{{ $product->mrp }}</td>
                       <td>{{ $product->selling_price }}</td>
                       <td>
-                        <div style="width: 60px; height: 50px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;">
+                        <div style="width: 60px; height: 50px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                           <img src="{{ asset('uploads/products/' . $product->image) }}" alt="Product Image"
                             style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
