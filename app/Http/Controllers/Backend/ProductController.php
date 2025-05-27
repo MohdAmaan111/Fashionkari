@@ -13,11 +13,13 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // $products = Product::with('category')->get();
-        $products = Product::all();  // Get all products
+        // $products = Product::all();  // Get all products
         $categories = Category::all(); // Get all categories
+        $products = Product::join('categories', 'products.cat_id', '=', 'categories.cat_id')
+            ->select('products.*', 'categories.cat_name')
+            ->get();
 
-        return view('backend.products', compact('products', 'categories'));
+        return view('backend.products', compact('products','categories'));
     }
 
     public function store(Request $request)

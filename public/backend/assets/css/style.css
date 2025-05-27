@@ -1231,3 +1231,24 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+/*--------------------------------------------------------------
+# Active/Inactive column
+--------------------------------------------------------------*/
+.status-label {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.status-label.active {
+    background-color: #e6fff2;
+    color: #23c48e;
+}
+
+.status-label.inactive {
+    background-color: #fff0f0;
+    color: #ff4d4d;
+}

@@ -40,7 +40,7 @@
               <!-- Product table data start -->
               <div class="table-responsive">
                 <!-- Table with stripped rows -->
-                <table id="productTable" class="table table-striped table-hover table-responsive display nowrap">
+                <table id="productTable" class="table  table-hover table-responsive display nowrap">
                   <thead>
                     <tr>
                       <th>
@@ -65,7 +65,7 @@
                       </td>
                       <td>{{ $product->prod_id }}</td>
                       <td>{{ $product->prod_name }}</td>
-                      <td>{{ $product->category->name ?? 'N/A' }}</td>
+                      <td>{{ $product->cat_name ?? 'N/A' }}</td>
                       <td>{{ $product->mrp }}</td>
                       <td>{{ $product->selling_price }}</td>
                       <td>
@@ -76,7 +76,22 @@
                       </td>
 
                       <td>{{ $product->stock }}</td>
-                      <td>{{ $product->status ? 'Active' : 'Inactive' }}</td>
+                      <td>
+                        @if($product->status)
+                        <span class="status-label active">Active</span>
+                        @else
+                        <span class="status-label inactive">Inactive</span>
+                        @endif
+                      </td>
+                      <td>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary" data-id="{{ $product->prod_id }}" data-name="{{ $product->prod_name }}" data-status="{{ $product->status }}">Edit</a>
+
+                        <form action="{{ route('admin.product', $product->prod_id) }}" method="POST" class="d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this user?')">Delete</button>
+                        </form>
+                      </td>
                     </tr>
                     @endforeach
                   </tbody>
