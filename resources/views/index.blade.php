@@ -4,6 +4,10 @@
 
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
+
+    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
+    </div>
+
     <!-- Slider Section -->
     <div class="mb-4">
         <div class="bg-img-hero" style="background-image: url(assets/img/1920X422/img2.jpg);">
@@ -1204,7 +1208,15 @@
                                         </div>
                                         <div class="flex-center-between mb-3">
                                             <div class="prodcut-price">
-                                                <div class="text-gray-100">${{ number_format($product->mrp, 2) }}</div>
+                                                @if($product->selling_price < $product->mrp)
+                                                    <div class="prodcut-price d-flex align-items-center position-relative">
+                                                        <ins class="font-size-20 text-red text-decoration-none">₹{{ number_format($product->selling_price, 2) }}</ins>
+                                                        <del class="font-size-12 tex-gray-6 position-absolute bottom-100">₹{{ number_format($product->mrp, 2) }}</del>
+                                                    </div>
+                                                    @else
+                                                    <div class="text-gray-100">₹{{ number_format($product->mrp, 2) }}</div>
+                                                    @endif
+
                                             </div>
                                             <div class="d-none d-xl-block prodcut-add-cart">
                                                 <a href="#" class="btn-add-cart btn-primary transition-3d-hover">
@@ -4796,11 +4808,5 @@
     <!-- End Brand Carousel -->
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
-
-<script>
-    $(document).ready(function() {
-        // alert("jQuery is working!");
-    });
-</script>
 
 @endsection

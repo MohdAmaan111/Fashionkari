@@ -3,12 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\CustomerController as FrontCustomerController;
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\AuthManager;
-use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\CustomerController as BackCustomerController;
 
 
 // Route::get('/', function () {
@@ -17,12 +18,13 @@ use App\Http\Controllers\Backend\CustomerController;
 
 //Frontend Routes
 Route::get('/', [FrontendController::class, 'index']);
-Route::get('/admin/profile', function () {
-    return view('backend.profile');
-})->name('admin.profile');
+Route::post('/customer/register', [FrontCustomerController::class, 'register'])->name('customer.register');
 
 //Backend Routes
 
+Route::get('/admin/profile', function () {
+    return view('backend.profile');
+})->name('admin.profile');
 // Public Routes (login/register)
 Route::match(['get', 'post'], '/admin/login', [AuthManager::class, 'login'])->name('admin.login');
 Route::match(['get', 'post'], '/admin/register', [AuthManager::class, 'register'])->name('admin.register');
@@ -35,8 +37,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/user', [AuthManager::class, 'index'])->name('admin.user');
 
-    Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer');
-    Route::post('/customer/register', [CustomerController::class, 'register'])->name('admin.customer.register');
+    Route::get('/customer', [BackCustomerController::class, 'index'])->name('admin.customer');
+    Route::post('/customer/register', [BackCustomerController::class, 'register'])->name('admin.customer.register');
 
     Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
     Route::post('/products/store', [ProductController::class, 'store'])->name('admin.products.store');

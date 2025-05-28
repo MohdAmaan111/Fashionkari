@@ -29,7 +29,7 @@
 
     <!-- CSS Electro Template -->
     <link rel="stylesheet" href="assets/css/theme.css">
-    
+
     <!-- jQuery File -->
     <script src="{{asset('assets/jquery/jquery.min.js')}}"></script>
 </head>
@@ -1714,6 +1714,7 @@
                     <div class="js-scrollbar u-sidebar__body">
                         <div class="u-sidebar__content u-header-sidebar__content">
                             <!-- <form class="js-validate"> -->
+
                             <!-- Login -->
                             <div id="login" data-target-group="idForm">
                                 <!-- Title -->
@@ -1797,7 +1798,7 @@
                                     </a>
                                 </div>
                                 <!-- End Login Buttons -->
-                            </div>
+                            </div><!-- End Login -->
 
                             <!-- Signup -->
                             <div id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
@@ -1808,7 +1809,7 @@
                                 </header>
                                 <!-- End Title -->
 
-                                <form method="POST" action="{{ route('admin.customer.register') }}">
+                                <form id="customerRegisterForm">
                                     @csrf
                                     <!-- Name -->
                                     <div class="form-group">
@@ -1825,9 +1826,8 @@
                                                     data-error-class="u-has-error"
                                                     data-success-class="u-has-success">
                                             </div>
-                                            @error('customer_name')
-                                            <div class="text-danger">{{ $message }}</div>
-                                            @enderror
+                                            <!-- name error -->
+                                            <div id="error_customer_name" class="text-danger"></div>
                                         </div>
                                     </div>
                                     <!-- End Input -->
@@ -1839,7 +1839,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="signupEmailLabel">
-                                                        <span class="fas fa-user"></span>
+                                                        <span class="fas fa-envelope"></span>
                                                     </span>
                                                 </div>
                                                 <input type="email" class="form-control" name="email" id="signupEmail" placeholder="Email" aria-label="Email" aria-describedby="signupEmailLabel" required
@@ -1847,9 +1847,8 @@
                                                     data-error-class="u-has-error"
                                                     data-success-class="u-has-success">
                                             </div>
-                                            @error('email')
-                                            <div class="text-danger">{{ $message }}</div>
-                                            @enderror
+                                            <!-- email error -->
+                                            <div id="error_email" class="text-danger"></div>
                                         </div>
                                     </div>
                                     <!-- End Input -->
@@ -1869,9 +1868,8 @@
                                                     data-error-class="u-has-error"
                                                     data-success-class="u-has-success">
                                             </div>
-                                            @error('password')
-                                            <div class="text-danger">{{ $message }}</div>
-                                            @enderror
+                                            <!-- password error -->
+                                            <div id="error_password" class="text-danger"></div>
                                         </div>
                                     </div>
                                     <!-- End Input -->
@@ -1899,12 +1897,6 @@
                                         <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Register</button>
                                     </div>
                                 </form>
-
-                                @if(session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                                @endif
 
                                 <div class="text-center mb-4">
                                     <span class="small text-muted">Already have an account?</span>
@@ -2036,6 +2028,56 @@
 
     <!-- JS Plugins Init. -->
     <script>
+        $(document).ready(function() {
+            // alert("jQuery is working!")
+            // $('#successMessage')
+            //     .text("success")
+            //     .fadeIn(200)
+            //     .delay(1500)
+            //     .fadeOut(400);
+        });
+
+        // To register customer with ajax
+        $('#customerRegisterForm').on('submit', function(e) {
+            e.preventDefault(); // prevent page reload
+
+            // Clear old errors
+            $('#error_customer_name, #error_email, #error_password').text('');
+
+            $.ajax({
+                url: "{{ route('customer.register') }}", // Your controller route
+                method: "POST",
+                data: $(this).serialize(),
+                success: function(response) {
+                    // ✅ Show success toast
+                    $('#successMessage')
+                        .text(response.message)
+                        .fadeIn(200)
+                        .delay(1500)
+                        .fadeOut(400);
+
+                    // ✅ Reload after 2 seconds
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        if (errors.customer_name) {
+                            $('#error_customer_name').text(errors.customer_name[0]);
+                        }
+                        if (errors.email) {
+                            $('#error_email').text(errors.email[0]);
+                        }
+                        if (errors.password) {
+                            $('#error_password').text(errors.password[0]);
+                        }
+                    }
+                }
+            });
+        });
+
         $(window).on('load', function() {
             // initialization of HSMegaMenu component
             $('.js-mega-menu').HSMegaMenu({
