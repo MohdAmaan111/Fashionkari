@@ -4797,4 +4797,10 @@
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
 
+<script>
+    $(document).ready(function() {
+        // alert("jQuery is working!");
+    });
+</script>
+
 @endsection

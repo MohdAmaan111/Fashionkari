@@ -105,36 +105,6 @@ class AuthManager extends Controller
         return view('backend.register');
     }
 
-    public function loginPost(Request $req)
-    {
-        $req->validate([
-            'username' => 'required',
-            'password' => 'required'
-        ]);
-        $credentials = $req->only('username', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended(route(name: 'dashboard'));
-        }
-        return redirect(route(name: 'login'))->with('error', 'login details are not valid');
-    }
-
-    public function registerPost(Request $req)
-    {
-        $user = User::create([
-            'name'     => $req->name,
-            'email'    => $req->email,
-            'username' => $req->username,
-            'password' => Hash::make($req->password), // Hash password
-        ]);
-
-        if ($user) {
-            return redirect()->route('dashboard');
-        }
-
-        return back()->with('error', 'Registration failed.');
-    }
-
     public function logout()
     {
         Session::flush();

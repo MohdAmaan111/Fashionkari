@@ -20,7 +20,12 @@ class CustomerController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'customer_name' => 'required|string|max:255',
+            'customer_name' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z\s]+$/'
+            ],
             'email' => 'required|email|unique:customers,email',
             'password' => 'required|min:3|confirmed',
         ]);
@@ -31,6 +36,7 @@ class CustomerController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->back()->with('success', 'Account created successfully!');
+        // return redirect()->back()->with('success', 'Account created successfully!');
+        return response()->json(['message' => 'Account created successfully!']);
     }
 }

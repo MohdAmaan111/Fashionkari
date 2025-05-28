@@ -29,6 +29,9 @@
 
     <!-- CSS Electro Template -->
     <link rel="stylesheet" href="assets/css/theme.css">
+    
+    <!-- jQuery File -->
+    <script src="{{asset('assets/jquery/jquery.min.js')}}"></script>
 </head>
 
 <body>
@@ -1805,7 +1808,7 @@
                                 </header>
                                 <!-- End Title -->
 
-                                <form method="POST" action="{{ route('customer.register') }}">
+                                <form method="POST" action="{{ route('admin.customer.register') }}">
                                     @csrf
                                     <!-- Name -->
                                     <div class="form-group">

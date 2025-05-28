@@ -29,6 +29,9 @@
   <!-- Template Main CSS File -->
   <link href="{{asset('backend/assets/css/style.css')}}" rel="stylesheet">
 
+  <!-- jQuery File -->
+  <script src="{{asset('assets/jquery/jquery.min.js')}}"></script>
+
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/

@@ -22,20 +22,25 @@ Route::get('/admin/profile', function () {
 })->name('admin.profile');
 
 //Backend Routes
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
+// Public Routes (login/register)
 Route::match(['get', 'post'], '/admin/login', [AuthManager::class, 'login'])->name('admin.login');
 Route::match(['get', 'post'], '/admin/register', [AuthManager::class, 'register'])->name('admin.register');
 
-Route::get('/admin/logout', [AuthManager::class, 'logout'])->name('logout');
+// Routes protected by auth middleware
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::get('/admin/user', [AuthManager::class, 'index'])->name('admin.user');
+    Route::get('/logout', [AuthManager::class, 'logout'])->name('admin.logout');
 
-Route::get('/admin/customer', [CustomerController::class, 'index'])->name('admin.customer');
-Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
+    Route::get('/user', [AuthManager::class, 'index'])->name('admin.user');
 
-Route::get('/admin/product', [ProductController::class, 'index'])->name('admin.product');
-Route::post('/products/store', [ProductController::class, 'store'])->name('admin.products.store');
+    Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer');
+    Route::post('/customer/register', [CustomerController::class, 'register'])->name('admin.customer.register');
 
-Route::get('/admin/category', [CategoryController::class, 'index'])->name('admin.category');
-Route::post('/admin/category/store', [CategoryController::class, 'store'])->name('admin.category.store');
+    Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
+    Route::post('/products/store', [ProductController::class, 'store'])->name('admin.products.store');
+
+    Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store');
+});
