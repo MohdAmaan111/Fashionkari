@@ -55,54 +55,43 @@ class AuthManager extends Controller
     //Register
     public function register(Request $request)
     {
+        // Redirect authenticated users
+        if (Auth::check()) {
+            // return redirect()->route('admin.dashboard');
+        }
 
         if ($request->isMethod('post')) {
             //Validation
-            // $validatedData = $request->validate([
-            //     'name' => 'required|string|max:255',
-            //     'email' => 'required|email|unique:users,email',
-            //     'mobile' => 'required|string|unique:users,mobile',
-            //     'username' => 'required|string|unique:users,username',
-            //     'password' => 'required|min:6|confirmed',
-            // ]);
-
-            // Check if email or username already exists
-
-            // $exists = User::where('email', $request->email)
-            //     ->orWhere('username', $request->username)->exists();
-
-            $errors = [];
-
-            if (User::where('email', $request->email)->exists()) {
-                $errors[] = 'Email already exists.';
-            }
-
-            if (User::where('username', $request->username)->exists()) {
-                $errors[] = 'Username already exists.';
-            }
-
-            if (!empty($errors)) {
-                return redirect()->route('admin.register')->with('error', implode(' ', $errors));
-            }
-
-            // Create User
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'mobile' => $request->mobile,
-                'username' => $request->username,
-                'password' => Hash::make($request->password)
+            $validatedData = $request->validate([
+                'name' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    'regex:/^[a-zA-Z\s]+$/'
+                ],
+                'email' => 'required|email|unique:users,email',
+                'username' => 'required|string|max:255|unique:users,username',
+                'password' => 'required|min:3|confirmed',
             ]);
 
-            // Log in the user
+            // Create new user
+            $user = User::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'username' => $validatedData['username'],
+                'password' => Hash::make($validatedData['password']),
+            ]);
+
+            // Auto-login
             Auth::login($user);
-            return redirect()->route('admin.dashboard')->with('success', 'Registration successful');
+
+            // AJAX or normal redirect
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Registered successful'], 200);
+            }
         }
 
-        if (Auth::check()) {
-            return redirect()->route('admin.dashboard');
-        }
-        return view('backend.register');
+        // return view('backend.register');
     }
 
     public function logout()

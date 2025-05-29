@@ -1804,7 +1804,7 @@
                             <div id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
                                 <!-- Title -->
                                 <header class="text-center mb-7">
-                                    <h2 class="h4 mb-0">Welcome to Electro.</h2>
+                                    <h2 class="h4 mb-0">Welcome to Fashionkari.</h2>
                                     <p>Fill out the form to get started.</p>
                                 </header>
                                 <!-- End Title -->
@@ -2030,11 +2030,6 @@
     <script>
         $(document).ready(function() {
             // alert("jQuery is working!")
-            // $('#successMessage')
-            //     .text("success")
-            //     .fadeIn(200)
-            //     .delay(1500)
-            //     .fadeOut(400);
         });
 
         // To register customer with ajax
