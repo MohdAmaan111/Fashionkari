@@ -18,6 +18,7 @@ class AuthManager extends Controller
         $users = User::all();
         return view('backend.user', compact('users'));
     }
+
     // Login
     public function login(Request $request)
     {

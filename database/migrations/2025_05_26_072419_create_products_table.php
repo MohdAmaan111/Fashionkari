@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cat_id');
             $table->decimal('mrp', 10, 2);
             $table->decimal('selling_price', 10, 2);
-            $table->string('image');
+            $table->text('images');
             $table->integer('stock');
             $table->string('meta_title')->nullable();
             $table->string('meta_keyword')->nullable();

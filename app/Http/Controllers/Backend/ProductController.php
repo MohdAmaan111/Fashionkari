@@ -15,6 +15,11 @@ class ProductController extends Controller
 
     public function index()
     {
+        // Check if the user is not authenticated
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');
+        }
+
         $categories = Category::all(); // Get all categories
         $products = Product::join('categories', 'products.cat_id', '=', 'categories.cat_id')
             ->select('products.*', 'categories.cat_name')
@@ -32,7 +37,7 @@ class ProductController extends Controller
             'mrp' => 'required|numeric',
             'selling_price' => 'required|numeric|lte:mrp',
             'stock' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'meta_title' => 'nullable|string|max:255',
             'meta_keyword' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
@@ -40,9 +45,9 @@ class ProductController extends Controller
         ]);
 
         // Handle the image upload
-        $imageName = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
 
             // Get category name from DB using category_id
             $category = Category::where('cat_id', $request->category_id)->first();
@@ -59,15 +64,17 @@ class ProductController extends Controller
             }
 
             // Create image name using product name + random string
-            $slug = Str::slug($request->prod_name) ?: 'product';
-            $imageName = $slug . '_' . Str::random(6) . '.' . $image->getClientOriginalExtension();
+            $slug = Str::slug($request->product_name) ?: 'product';
 
-            // Move the image
-            $image->move($folderPath, $imageName);
-
-            // Store the relative path to the image in DB
-            $imagePathForDB = $categorySlug . '/' . $imageName;
+            foreach ($images as $image) {
+                $imageName = $slug . '_' . Str::random(6) . '.' . $image->getClientOriginalExtension();
+                $image->move($folderPath, $imageName); // Move the image
+                $imagePaths[] = $categorySlug . '/' . $imageName;
+            }
         }
+
+        // dd($request->file('images'));
+        // dd($imagePaths);
 
         // Save product
         Product::create([
@@ -76,7 +83,7 @@ class ProductController extends Controller
             'mrp' => $request->mrp,
             'selling_price' => $request->selling_price,
             'stock' => $request->stock,
-            'image' => $imagePathForDB,
+            'images' => json_encode($imagePaths),
             'meta_title' => $request->meta_title,
             'meta_keyword' => $request->meta_keyword,
             'meta_description' => $request->meta_description,

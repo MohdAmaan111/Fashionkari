@@ -11,24 +11,24 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/img/fashionkari.png">
+    <link rel="shortcut icon" href="{{asset('assets/img/fashionkari.png')}}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;display=swap" rel="stylesheet">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="assets/vendor/font-awesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/font-electro.css">
+    <link rel="stylesheet" href="{{asset('assets/vendor/font-awesome/css/fontawesome-all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/font-electro.css')}}">
 
-    <link rel="stylesheet" href="assets/vendor/animate.css/animate.min.css">
-    <link rel="stylesheet" href="assets/vendor/hs-megamenu/src/hs.megamenu.css">
-    <link rel="stylesheet" href="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
-    <link rel="stylesheet" href="assets/vendor/fancybox/jquery.fancybox.css">
-    <link rel="stylesheet" href="assets/vendor/slick-carousel/slick/slick.css">
-    <link rel="stylesheet" href="assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="{{asset('assets/vendor/animate.css/animate.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/hs-megamenu/src/hs.megamenu.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/fancybox/jquery.fancybox.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/slick-carousel/slick/slick.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
 
     <!-- CSS Electro Template -->
-    <link rel="stylesheet" href="assets/css/theme.css">
+    <link rel="stylesheet" href="{{asset('assets/css/theme.css')}}">
 
     <!-- jQuery File -->
     <script src="{{asset('assets/jquery/jquery.min.js')}}"></script>
@@ -117,7 +117,7 @@
                             <nav class="navbar navbar-expand u-header__navbar py-0 justify-content-xl-between max-width-270 min-width-270">
                                 <!-- Logo -->
                                 <a class="order-1 order-xl-0 navbar-brand u-header__navbar-brand u-header__navbar-brand-center" href="index.html" aria-label="Electro">
-                                    <img src="assets/img/fashionkari.png" alt="Fashionkari">
+                                    <img src="{{asset('assets/img/fashionkari.png')}}" alt="Fashionkari">
                                 </a>
                                 <!-- End Logo -->
 
@@ -1330,161 +1330,6 @@
 
     <!-- ========== FOOTER ========== -->
     <footer>
-        <!-- Footer-top-widget -->
-        <div class="container d-none d-lg-block mb-3">
-            <div class="row">
-                <div class="col-wd-3 col-lg-4">
-                    <div class="widget-column">
-                        <div class="border-bottom border-color-1 mb-5">
-                            <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Featured Products</h3>
-                        </div>
-                        <ul class="list-unstyled products-group">
-                            <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                <div class="col-auto">
-                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img1.jpg" alt="Image Description"></a>
-                                </div>
-                                <div class="col pl-4 d-flex flex-column">
-                                    <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Purple Wireless Headphones Solo 2 HD</a></h5>
-                                    <div class="prodcut-price mt-auto">
-                                        <div class="font-size-15">$1149.00</div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                <div class="col-auto">
-                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img2.jpg" alt="Image Description"></a>
-                                </div>
-                                <div class="col pl-4 d-flex flex-column">
-                                    <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Powerbank 1130 mAh Blue</a></h5>
-                                    <div class="prodcut-price mt-auto">
-                                        <div class="font-size-15">$210.00</div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                                <div class="col-auto">
-                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img3.jpg" alt="Image Description"></a>
-                                </div>
-                                <div class="col pl-4 d-flex flex-column">
-                                    <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Nerocool EN52377 Dead Silence Gaming Cube Case</a></h5>
-                                    <div class="prodcut-price mt-auto">
-                                        <div class="font-size-15">$180.00</div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-wd-3 col-lg-4">
-                    <div class="border-bottom border-color-1 mb-5">
-                        <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Onsale Products</h3>
-                    </div>
-                    <ul class="list-unstyled products-group">
-                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                            <div class="col-auto">
-                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img4.jpg" alt="Image Description"></a>
-                            </div>
-                            <div class="col pl-4 d-flex flex-column">
-                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Yellow Earphones Waterproof with Bluetooth</a></h5>
-                                <div class="prodcut-price mt-auto flex-horizontal-center">
-                                    <ins class="font-size-15 text-decoration-none">$110.00</ins>
-                                    <del class="font-size-12 text-gray-9 ml-2">$250.00</del>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                            <div class="col-auto">
-                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img5.jpg" alt="Image Description"></a>
-                            </div>
-                            <div class="col pl-4 d-flex flex-column">
-                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Camera C430W 4k Waterproof</a></h5>
-                                <div class="prodcut-price mt-auto flex-horizontal-center">
-                                    <ins class="font-size-15 text-decoration-none">$899.00</ins>
-                                    <del class="font-size-12 text-gray-9 ml-2">$1200.00</del>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                            <div class="col-auto">
-                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img6.jpg" alt="Image Description"></a>
-                            </div>
-                            <div class="col pl-4 d-flex flex-column">
-                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Smartphone 6S 32GB LTE</a></h5>
-                                <div class="prodcut-price mt-auto flex-horizontal-center">
-                                    <ins class="font-size-15 text-decoration-none">$2100.00</ins>
-                                    <del class="font-size-12 text-gray-9 ml-2">$3299.00</del>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-wd-3 col-lg-4">
-                    <div class="border-bottom border-color-1 mb-5">
-                        <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Top Rated Products</h3>
-                    </div>
-                    <ul class="list-unstyled products-group">
-                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                            <div class="col-auto">
-                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img7.jpg" alt="Image Description"></a>
-                            </div>
-                            <div class="col pl-4 d-flex flex-column">
-                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Smartwatch 2.0 LTE Wifi Waterproof</a></h5>
-                                <div class="text-warning mb-2">
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                </div>
-                                <div class="prodcut-price mt-auto">
-                                    <div class="font-size-15">$725.00</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                            <div class="col-auto">
-                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img8.jpg" alt="Image Description"></a>
-                            </div>
-                            <div class="col pl-4 d-flex flex-column">
-                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">22Mps Camera 6200U with 500GB SDcard</a></h5>
-                                <div class="text-warning mb-2">
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="far fa-star text-muted"></small>
-                                </div>
-                                <div class="prodcut-price mt-auto">
-                                    <div class="font-size-15">$2999.00</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="product-item product-item__list row no-gutters mb-6 remove-divider">
-                            <div class="col-auto">
-                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="d-block width-75 text-center"><img class="img-fluid" src="assets/img/75X75/img9.jpg" alt="Image Description"></a>
-                            </div>
-                            <div class="col pl-4 d-flex flex-column">
-                                <h5 class="product-item__title mb-0"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html" class="text-blue font-weight-bold">Full Color LaserJet Pro M452dn</a></h5>
-                                <div class="text-warning mb-2">
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="fas fa-star"></small>
-                                    <small class="far fa-star text-muted"></small>
-                                </div>
-                                <div class="prodcut-price mt-auto">
-                                    <div class="font-size-15">$439.00</div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-wd-3 d-none d-wd-block">
-                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/shop.html" class="d-block"><img class="img-fluid" src="assets/img/330X360/img1.jpg" alt="Image Description"></a>
-                </div>
-            </div>
-        </div>
-        <!-- End Footer-top-widget -->
         <!-- Footer-newsletter -->
         <div class="bg-primary py-3">
             <div class="container">
@@ -1992,39 +1837,39 @@
     <!-- End Go to Top -->
 
     <!-- JS Global Compulsory -->
-    <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
-    <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="{{asset('assets/vendor/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/jquery-migrate/dist/jquery-migrate.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/popper.js/dist/umd/popper.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/bootstrap/bootstrap.min.js')}}"></script>
 
     <!-- JS Implementing Plugins -->
-    <script src="assets/vendor/appear.js"></script>
-    <script src="assets/vendor/jquery.countdown.min.js"></script>
-    <script src="assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
-    <script src="assets/vendor/svg-injector/dist/svg-injector.min.js"></script>
-    <script src="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="assets/vendor/fancybox/jquery.fancybox.min.js"></script>
-    <script src="assets/vendor/typed.js/lib/typed.min.js"></script>
-    <script src="assets/vendor/slick-carousel/slick/slick.js"></script>
-    <script src="assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="{{asset('assets/vendor/appear.js')}}"></script>
+    <script src="{{asset('assets/vendor/jquery.countdown.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/hs-megamenu/src/hs.megamenu.js')}}"></script>
+    <script src="{{asset('assets/vendor/svg-injector/dist/svg-injector.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/jquery-validation/dist/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/fancybox/jquery.fancybox.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/typed.js/lib/typed.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/slick-carousel/slick/slick.js')}}"></script>
+    <script src="{{asset('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
 
     <!-- JS Electro -->
-    <script src="assets/js/hs.core.js"></script>
-    <script src="assets/js/components/hs.countdown.js"></script>
-    <script src="assets/js/components/hs.header.js"></script>
-    <script src="assets/js/components/hs.hamburgers.js"></script>
-    <script src="assets/js/components/hs.unfold.js"></script>
-    <script src="assets/js/components/hs.focus-state.js"></script>
-    <script src="assets/js/components/hs.malihu-scrollbar.js"></script>
-    <script src="assets/js/components/hs.validation.js"></script>
-    <script src="assets/js/components/hs.fancybox.js"></script>
-    <script src="assets/js/components/hs.onscroll-animation.js"></script>
-    <script src="assets/js/components/hs.slick-carousel.js"></script>
-    <script src="assets/js/components/hs.show-animation.js"></script>
-    <script src="assets/js/components/hs.svg-injector.js"></script>
-    <script src="assets/js/components/hs.go-to.js"></script>
-    <script src="assets/js/components/hs.selectpicker.js"></script>
+    <script src="{{asset('assets/js/hs.core.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.countdown.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.header.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.hamburgers.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.unfold.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.focus-state.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.malihu-scrollbar.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.validation.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.fancybox.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.onscroll-animation.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.slick-carousel.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.show-animation.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.svg-injector.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.go-to.js')}}"></script>
+    <script src="{{asset('assets/js/components/hs.selectpicker.js')}}"></script>
 
     <!-- JS Plugins Init. -->
     <script>

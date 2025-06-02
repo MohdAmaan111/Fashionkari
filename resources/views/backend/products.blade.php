@@ -150,10 +150,23 @@
                 <input type="number" name="stock" class="form-control" required>
               </div>
 
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <label class="form-label">Image</label>
-                <input type="file" name="image" class="form-control" required>
+                <input type="file" name="image[]" class="form-control" multiple required>
+              </div> -->
+
+              <!-- <div class="col-md-6">
+                <label class="form-label">Images</label>
+                <input type="file" id="imageInput" class="form-control" multiple>
+                <ul id="imageList" class="mt-2"></ul>
+              </div> -->
+
+              <div class="col-md-6">
+                <label class="form-label">Images</label>
+                <input type="file" id="imageInput" class="form-control" name="images[]" multiple required>
+                <div id="imageList" class="mt-2 d-flex flex-wrap gap-2"></div>
               </div>
+
 
               <div class="col-md-6">
                 <label class="form-label">Meta Title</label>

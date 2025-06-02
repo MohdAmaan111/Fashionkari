@@ -11,7 +11,7 @@ class Product extends Model
         'cat_id',
         'mrp',
         'selling_price',
-        'image',
+        'images',
         'stock',
         'meta_title',
         'meta_keyword',

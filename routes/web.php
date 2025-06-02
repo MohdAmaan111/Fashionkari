@@ -13,12 +13,13 @@ use App\Http\Controllers\Backend\AuthManager;
 use App\Http\Controllers\Backend\CustomerController;
 
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('/welcome', function () {
+    // return view('welcome');
+});
 
 //Frontend Routes
-Route::get('/', [FrontendController::class, 'index']);
+Route::get('/', [FrontendController::class, 'index'])->name('index');
+Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('product.show');
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
 
 //Backend Routes
