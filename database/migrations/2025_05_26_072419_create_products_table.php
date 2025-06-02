@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('prod_id');      // product_id
             $table->string('prod_name');
+            $table->string('prod_slug')->unique();
             $table->unsignedBigInteger('cat_id');
             $table->decimal('mrp', 10, 2);
             $table->decimal('selling_price', 10, 2);
@@ -21,11 +22,12 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('meta_title')->nullable();
             $table->string('meta_keyword')->nullable();
-            $table->text('meta_description')->nullable();
+            $table->longText('meta_description')->nullable();
             $table->boolean('status')->default(1); // 1=active, 0=inactive
             $table->timestamps();
 
-            // $table->foreign('cat_id')->references('cat_id')->on('categories')->onDelete('cascade');
+            //If a category is deleted, all products with that cat_id will also be deleted automatically
+            // $table->foreign('cat_id')->references('cat_id')->on('categories')->onDelete('cascade'); 
         });
     }
 

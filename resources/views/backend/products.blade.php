@@ -14,6 +14,16 @@
     </nav>
   </div><!-- End Page Title -->
 
+  @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+  @endif
+
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
