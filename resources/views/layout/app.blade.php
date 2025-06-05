@@ -1569,54 +1569,57 @@
                                 </header>
                                 <!-- End Title -->
 
-                                <!-- Form Group -->
-                                <div class="form-group">
-                                    <div class="js-form-message js-focus-state">
-                                        <label class="sr-only" for="signinEmail">Email</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="signinEmailLabel">
-                                                    <span class="fas fa-user"></span>
-                                                </span>
+                                <form action="{{route('customer.login')}}" method="post">
+
+                                    <!-- Form Email -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="signinEmail">Email</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="signinEmailLabel">
+                                                        <span class="fas fa-user"></span>
+                                                    </span>
+                                                </div>
+                                                <input type="email" class="form-control" name="email" id="signinEmail" placeholder="Email" aria-label="Email" aria-describedby="signinEmailLabel" required
+                                                    data-msg="Please enter a valid email address."
+                                                    data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
                                             </div>
-                                            <input type="email" class="form-control" name="email" id="signinEmail" placeholder="Email" aria-label="Email" aria-describedby="signinEmailLabel" required
-                                                data-msg="Please enter a valid email address."
-                                                data-error-class="u-has-error"
-                                                data-success-class="u-has-success">
                                         </div>
                                     </div>
-                                </div>
-                                <!-- End Form Group -->
+                                    <!-- End Form Email -->
 
-                                <!-- Form Group -->
-                                <div class="form-group">
-                                    <div class="js-form-message js-focus-state">
-                                        <label class="sr-only" for="signinPassword">Password</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="signinPasswordLabel">
-                                                    <span class="fas fa-lock"></span>
-                                                </span>
+                                    <!-- Form Password -->
+                                    <div class="form-group">
+                                        <div class="js-form-message js-focus-state">
+                                            <label class="sr-only" for="signinPassword">Password</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="signinPasswordLabel">
+                                                        <span class="fas fa-lock"></span>
+                                                    </span>
+                                                </div>
+                                                <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPasswordLabel" required
+                                                    data-msg="Your password is invalid. Please try again."
+                                                    data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
                                             </div>
-                                            <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPasswordLabel" required
-                                                data-msg="Your password is invalid. Please try again."
-                                                data-error-class="u-has-error"
-                                                data-success-class="u-has-success">
                                         </div>
                                     </div>
-                                </div>
-                                <!-- End Form Group -->
+                                    <!-- End Form Password -->
 
-                                <div class="d-flex justify-content-end mb-4">
-                                    <a class="js-animation-link small link-muted" href="javascript:;"
-                                        data-target="#forgotPassword"
-                                        data-link-group="idForm"
-                                        data-animation-in="slideInUp">Forgot Password?</a>
-                                </div>
+                                    <div class="d-flex justify-content-end mb-4">
+                                        <a class="js-animation-link small link-muted" href="javascript:;"
+                                            data-target="#forgotPassword"
+                                            data-link-group="idForm"
+                                            data-animation-in="slideInUp">Forgot Password?</a>
+                                    </div>
 
-                                <div class="mb-2">
-                                    <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Login</button>
-                                </div>
+                                    <div class="mb-2">
+                                        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Login</button>
+                                    </div>
+                                </form>
 
                                 <div class="text-center mb-4">
                                     <span class="small text-muted">Do not have an account?</span>

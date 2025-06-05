@@ -32,6 +32,9 @@
     <!-- jQuery File -->
     <script src="{{asset('assets/jquery/jquery.min.js')}}"></script>
 
+    <!-- Tagify CSS -->
+    <link href="{{asset('tagify/tagify.css')}}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -488,6 +491,12 @@
     <!-- Template Main JS File -->
     <script src="{{asset('backend/assets/js/main.js')}}"></script>
 
+    <!-- CKEditor JS File -->
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+
+    <!-- Tagify (CDN) -->
+    <script src="{{asset('tagify/tagify.js')}}"></script>
+
     <script>
         // Multiple image selecting for products
         const input = document.getElementById('imageInput');
@@ -539,9 +548,13 @@
             const dataTransfer = new DataTransfer();
             selectedFiles.forEach(file => dataTransfer.items.add(file));
             input.files = dataTransfer.files;
-        });        
+        });
         // Multiple image selecting End
 
+        $(document).ready(function() {
+            var input = document.querySelector('#meta_keyword');
+            new Tagify(input);
+        });
     </script>
 
 </body>

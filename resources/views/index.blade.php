@@ -1199,9 +1199,11 @@
                             <div class="product-item__outer h-100 w-100">
                                 <div class="product-item__inner p-md-3 row no-gutters">
                                     <div class="col col-lg-auto col-xl-5 col-wd-auto product-media-left">
-
+                                        @php
+                                        $images = json_decode($product->images, true);
+                                        @endphp
                                         <a href="{{ route('product.show', $product->prod_id) }}" class="max-width-150 d-block" style="height: 150px; overflow: hidden;">
-                                            <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $product->image) }}" alt="{{ $product->name }}">
+                                            <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $images[0]) }}" alt="{{ $product->prod_name }}">
                                         </a>
 
                                     </div>
@@ -1211,7 +1213,7 @@
                                                 <a href="#" class="font-size-12 text-gray-5">{{ $product->cat_name ?? 'Uncategorized' }}</a>
                                             </div>
                                             <h5 class="product-item__title">
-                                                <a href="#" class="text-blue font-weight-bold">{{ $product->prod_name }}</a>
+                                                <a href="{{ route('product.show', $product->prod_id) }}" class="text-blue font-weight-bold">{{ $product->prod_name }}</a>
                                             </h5>
                                         </div>
                                         <div class="flex-center-between mb-3">
@@ -1233,9 +1235,6 @@
                                         </div>
                                         <div class="product-item__footer">
                                             <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="#" class="text-gray-6 font-size-13">
-                                                    <i class="ec ec-compare mr-1 font-size-15"></i> Compare
-                                                </a>
                                                 <a href="#" class="text-gray-6 font-size-13">
                                                     <i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist
                                                 </a>

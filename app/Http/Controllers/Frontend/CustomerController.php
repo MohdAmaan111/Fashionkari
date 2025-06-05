@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,43 @@ class CustomerController extends Controller
     {
         //
     }
+    
+    // Login
+    public function login(Request $request)
+    {
+        if ($request->isMethod('post')) {
+
+            // Find user by email or username
+            $cust = Customer::where('email', $request->username)
+                ->first();
+
+            // Check if user exists and password matches
+            if ($cust && Hash::check($request->password, $cust->password)) {
+                // Log in user by ID
+                Auth::loginUsingId($cust->id);
+
+                $request->session()->regenerate();
+
+                $sessionId = $request->session()->getId();
+                // Log login time
+                // Userlog::create([
+                //     'user_id' => $user->id,
+                //     'session_id' => $sessionId,
+                //     'login_time' => now(),
+                // ]);
+
+                return redirect()->route('index')->with('success', 'Login successfully');
+            }
+
+            return back()->with('login_error', 'Invalid email or password')->onlyInput('email');
+        }
+        if (Auth::check()) {
+            return redirect()->route('index');
+        }
+        return view('backend.login');
+    }
+
+    //Register
     public function register(Request $request)
     {
         // dd($request->all());

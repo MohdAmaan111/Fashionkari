@@ -37,7 +37,7 @@ class ProductController extends Controller
             'mrp' => 'required|numeric',
             'selling_price' => 'required|numeric|lte:mrp',
             'stock' => 'required|integer',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'meta_title' => 'nullable|string|max:255',
             'meta_keyword' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
@@ -76,6 +76,16 @@ class ProductController extends Controller
         // dd($request->file('images'));
         // dd($imagePaths);
 
+        $keywordsRaw = $request->meta_keyword;
+        $keywords = collect(json_decode($request->meta_keyword))->pluck('value');
+
+        // Debug: See the raw and processed values
+        dd([
+            'raw' => $keywordsRaw,
+            'decoded' => json_decode($keywordsRaw),
+            'final' => $keywords,
+        ]);
+
         // Save product
         Product::create([
             'prod_name' => $request->product_name,
@@ -85,7 +95,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'images' => json_encode($imagePaths),
             'meta_title' => $request->meta_title,
-            'meta_keyword' => $request->meta_keyword,
+            'meta_keyword' => json_encode(explode(',', $request->$keywords)),
             'meta_description' => $request->meta_description,
             'status' => $request->status,
         ]);

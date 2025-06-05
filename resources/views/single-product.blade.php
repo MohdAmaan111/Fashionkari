@@ -31,6 +31,9 @@
     <div class="container">
         <div class="mb-xl-14 mb-6">
             <div class="row">
+                @php
+                $images = json_decode($product->images, true);
+                @endphp
                 <!-- Product image body -->
                 <div class="col-md-5 mb-4 mb-md-0">
                     <div id="sliderSyncingNav" class="js-slick-carousel u-slick mb-2 slick-initialized slick-slider" data-infinite="true" data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-classic u-slick__arrow-centered--y rounded-circle" data-arrow-left-classes="fas fa-arrow-left u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left ml-lg-2 ml-xl-4" data-arrow-right-classes="fas fa-arrow-right u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right mr-lg-2 mr-xl-4" data-nav-for="#sliderSyncingThumb">
@@ -40,8 +43,11 @@
                                 <div class="js-slide slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" style="width: 270px;" tabindex="-1">
                                     <img class="img-fluid" src="{{ asset('uploads/products/' . $product->image) }}" alt="Image Description">
                                 </div>
-                                <div class="js-slide slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 270px; height: auto;" tabindex="0">
-                                    <img class="img-fluid" src="{{ asset('uploads/products/' . $product->image) }}" alt="Image Description">
+                                <div class="js-slide slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 470px; height: 430px;" tabindex="0">
+                                    <img class="img-fluid "
+                                        style="object-fit: contain;"
+                                        src="{{ asset('uploads/products/' . $images[0]) }}"
+                                        alt="Image Description">
                                 </div>
                                 <div class="js-slide slick-slide" data-slick-index="1" aria-hidden="true" style="width: 270px; height: auto;" tabindex="-1">
                                     <img class="img-fluid" src="{{ asset('uploads/products/' . $product->image) }}" alt="Image Description">
@@ -606,6 +612,9 @@
             </div>
             <ul class="row list-unstyled products-group no-gutters">
                 @forelse ($similarProducts as $similar)
+                @php
+                $images = json_decode($similar->images, true);
+                @endphp
                 <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item">
                     <div class="product-item__outer h-100">
                         <div class="product-item__inner px-xl-4 p-3">
@@ -620,7 +629,7 @@
                                 </h5>
                                 <div class="mb-2">
                                     <a href="{{ url('/single-product/' . $similar->prod_id) }}" class="d-block text-center">
-                                        <img class="img-fluid" src="{{ asset('uploads/products/' . $similar->image) }}" alt="{{ $similar->prod_name }}">
+                                        <img class="img-fluid" src="{{ asset('uploads/products/' . $images[0]) }}" alt="{{ $similar->prod_name }}">
                                     </a>
                                 </div>
                                 <div class="flex-center-between mb-1">

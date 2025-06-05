@@ -20,6 +20,7 @@ Route::get('/welcome', function () {
 //Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('product.show');
+Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
 
 //Backend Routes
