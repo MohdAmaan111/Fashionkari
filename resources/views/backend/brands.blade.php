@@ -5,11 +5,11 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Category Management</h1>
+    <h1>Brands Management</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item active">Categories</li>
+        <li class="breadcrumb-item active">Brands</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -27,7 +27,7 @@
 
             <form id="bulkDeleteForm" method="post">
               <h5 class="card-title d-flex justify-content-between align-items-center">
-                Category List
+                Brands List
 
                 <button type="button" class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
                   Add
@@ -50,19 +50,19 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($categories as $category)
+                    @foreach($brands as $brand)
                     <tr>
                       <td>
                         <div class="form-check"><input type="checkbox" class="form-check-input product-checkbox" id="select-all"></div>
                       </td>
-                      <td>{{ $category->cat_id }}</td>
-                      <td>{{ $category->cat_name }}</td>
-                      <td>{{ $category->status ? 'Active' : 'Inactive' }}</td>
-                      <td>{{ $category->created_at->format('Y-m-d') }}</td>
+                      <td>{{ $brand->brand_id }}</td>
+                      <td>{{ $brand->brand_name }}</td>
+                      <td>{{ $brand->status ? 'Active' : 'Inactive' }}</td>
+                      <td>{{ $brand->created_at->format('Y-m-d') }}</td>
                       <td>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-primary edit-category" data-id="{{ $category->cat_id }}" data-name="{{ $category->cat_name }}" data-status="{{ $category->status }}">Edit</a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary edit-category" data-id="{{ $brand->brand_id }}" data-name="{{ $brand->brand_name }}" data-status="{{ $brand->status }}">Edit</a>
 
-                        <form action="{{ route('admin.category', $category->cat_id) }}" method="POST" class="d-inline">
+                        <form action="{{ route('admin.brand', $brand->brand_id) }}" method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this user?')">Delete</button>
@@ -87,18 +87,18 @@
   <!-- Add Category Modal -->
   <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <form action="{{ route('admin.category.store') }}" method="POST">
+      <form action="{{ route('admin.brand.store') }}" method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
+            <h5 class="modal-title" id="addBrandModalLabel">Add Brand</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <!-- Form Fields -->
             @csrf
             <div class="mb-3">
-              <label for="categoryName" class="form-label">Category Name</label>
-              <input type="text" class="form-control" id="categoryName" name="cat_name" required>
+              <label for="brandName" class="form-label">Brand Name</label>
+              <input type="text" class="form-control" id="brandName" name="brand_name" required>
 
               <label for="status" class="form-label">Status:</label>
               <select class="form-select" id="status" name="status" required>

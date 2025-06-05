@@ -1256,17 +1256,17 @@ h6 {
 --------------------------------------------------------------*/
 /* Fix modal height and make body scrollable */
 .modal-dialog {
-    max-width: 800px;
+    /* max-width: 800px; */
 }
 
 .modal-content {
-    height: 90vh; /* or any fixed height like 600px */
-    overflow: hidden;
+    /* height: 90vh; or any fixed height like 600px */
+    /* overflow: hidden; */
 }
 
 .modal-body {
-    height: calc(
+    /* height: calc(
         90vh - 130px
-    ); /* adjust based on modal-header + footer height */
-    overflow-y: auto;
+    ); adjust based on modal-header + footer height
+    overflow-y: auto; */
 }

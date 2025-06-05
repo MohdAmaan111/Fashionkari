@@ -429,6 +429,13 @@
             </li><!-- End Products Page Nav -->
 
             <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('admin.brand')}}">
+                    <i class="bi bi-person"></i>
+                    <span>Brands</span>
+                </a>
+            </li><!-- End Brands Page Nav -->
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('admin.category')}}">
                     <i class="bi bi-person"></i>
                     <span>Categories</span>

@@ -33,6 +33,7 @@ class AuthManager extends Controller
             if ($user && Hash::check($request->password, $user->password)) {
                 // Log in user by ID
                 Auth::loginUsingId($user->id);
+                
                 $request->session()->regenerate();
                 $sessionId = $request->session()->getId();
                 // Log login time
@@ -58,7 +59,7 @@ class AuthManager extends Controller
     {
         // Redirect authenticated users
         if (Auth::check()) {
-            // return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         if ($request->isMethod('post')) {
@@ -92,7 +93,7 @@ class AuthManager extends Controller
             }
         }
 
-        // return view('backend.register');
+        return view('backend.register');
     }
 
     public function logout()

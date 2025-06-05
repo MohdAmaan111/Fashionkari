@@ -32,20 +32,13 @@
           <div class="card-body">
 
             <form id="bulkDeleteForm" method="post">
-              <h5 class="card-title">Product List
+              <h5 class="card-title d-flex justify-content-between align-items-center">
+                Product List
 
-                <!-- Example single danger button -->
-                <div class="btn-group float-end">
-                  <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Actions
-                  </button>
-                  <ul class="dropdown-menu py-0">
-                    <li><a class="dropdown-item" href="javascript:void(0);" id="addProductBtn">Add Product</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);" id="bulkUploadProductBtn" data-bs-toggle="modal" data-bs-target="#bulkUploadProductModal">Bulk Upload</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);" id="addCategoryBtn" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);" onclick="return confirm('Are you sure to delete selected categories?')">Bulk Delete</a></li>
-                  </ul>
-                </div>
+                <button type="button" class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                  Add
+                  <i class="bi bi-plus-circle fs-5"></i>
+                </button>
               </h5>
               <!-- Product table data start -->
               <div class="table-responsive">
@@ -126,221 +119,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
-        <form id="multiStepForm" method="POST" action="" enctype="multipart/form-data">
-          @csrf
-          <div class="modal-header">
-            <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-
-          <div class="modal-body">
-            <!-- Step 1 => Basic Information -->
-            <div class="form-step step-1">
-
-              <div class="">
-                <h5>Basic Information</h5>
-              </div>
-
-              <div class="">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label">Product Name</label>
-                    <input type="text" name="product_name" class="form-control" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">Category</label>
-                    <select name="category_id" class="form-control" required>
-                      <option value="">Select Category</option>
-                      @foreach ($categories as $category)
-                      <option value="{{ $category->cat_id }}">{{ $category->cat_name }}</option>
-                      @endforeach
-                    </select>
-                  </div>
-
-                  <div class="col-md-12">
-                    <label class="form-label">Meta Description</label>
-                    <textarea name="meta_description" id="meta_description" class="form-control" rows="2"></textarea>
-                  </div>
-                </div>
-
-                <div class="mt-2">
-                  <button type="button" class="btn btn-primary next-step">Next</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Step 2 => Product Information -->
-            <div class="form-step step-2 d-none">
-              <div class="">
-                <h5 class="mb-3">Product Information</h5>
-              </div>
-
-              <div class="row g-3">
-                <!-- Fabric Name -->
-                <div class="col-md-6">
-                  <label class="form-label">Fabric Name</label>
-                  <input type="text" name="fabric_name" class="form-control" required>
-                </div>
-
-                <!-- Color -->
-                <div class="col-md-6">
-                  <label class="form-label">Available Colors</label>
-                  <input type="text" name="fabric_name" class="form-control" required>
-                </div>
-
-                <!-- Size -->
-                <div class="col-md-12">
-                  <label class="form-label">Available Sizes & Quantity</label>
-                  <div class="table-responsive">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Size</th>
-                          <th>Select</th>
-                          <th>Stock</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @foreach (['S', 'M', 'L', 'XL', 'XXL'] as $size)
-                        <tr>
-                          <td>{{ $size }}</td>
-                          <td>
-                            <input type="checkbox" name="sizes[{{ $size }}][selected]" value="1">
-                          </td>
-                          <td>
-                            <input type="number" name="sizes[{{ $size }}][stock]" class="form-control" placeholder="Stock for {{ $size }}">
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-
-
-                <!-- Style -->
-                <div class="col-md-6">
-                  <label class="form-label">Style</label>
-                  <input type="text" name="style" class="form-control">
-                </div>
-
-                <!-- Sleeve Type -->
-                <div class="col-md-6">
-                  <label class="form-label">Sleeve Type</label>
-                  <select name="sleeve_type" class="form-select">
-                    <option value="">Select Sleeve Type</option>
-                    <option value="Full">Full Sleeve</option>
-                    <option value="Half">Half Sleeve</option>
-                    <option value="Sleeveless">Sleeveless</option>
-                  </select>
-                </div>
-
-                <!-- Neck Length -->
-                <div class="col-md-6">
-                  <label class="form-label">Neck Length</label>
-                  <input type="text" name="neck_length" class="form-control">
-                </div>
-
-                <!-- Length -->
-                <div class="col-md-6">
-                  <label class="form-label">Length</label>
-                  <select name="length" class="form-select">
-                    <option value="">Select Length</option>
-                    <option value="Short">Short</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Long">Long</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-
-            <!-- Step 3 => Upload Images -->
-            <div class="form-step step-3 d-none">
-              <div class="">
-                <h5>Upload Images</h5>
-              </div>
-
-              <div class="">
-                <div class="row g-3">
-                  <div class="col-md-12">
-                    <label class="form-label">Images</label>
-                    <input type="file" id="imageInput" class="form-control" name="images[]" multiple required>
-                    <div id="imageList" class="mt-2 d-flex flex-wrap gap-2"></div>
-                  </div>
-                </div>
-
-                <div class="mt-2">
-                  <button type="button" class="btn btn-secondary prev-step">Back</button>
-                  <button type="button" class="btn btn-primary next-step">Next</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Step 4 => Pricing and quantity -->
-            <div class="form-step step-4 d-none">
-
-              <div class="">
-                <h5>Pricing and quantity</h5>
-              </div>
-
-              <div class="">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label">MRP</label>
-                    <input type="number" name="mrp" class="form-control" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label">Selling Price</label>
-                    <input type="number" name="selling_price" class="form-control" required>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <label class="form-label">Stock</label>
-                  <input type="number" name="stock" class="form-control" required>
-                </div>
-
-                <div class="mt-2">
-                  <button type="button" class="btn btn-secondary prev-step">Back</button>
-                  <button type="button" class="btn btn-primary next-step">Next</button>
-                </div>
-              </div>
-
-
-            </div>
-
-            <!-- Step 5 => Tags -->
-            <div class="form-step step-5 d-none">
-              <div class="">
-                <h5>Tags</h5>
-              </div>
-
-              <div class="">
-                <div class="row g-3">
-
-                  <div class="col-md-6">
-                    <label class="form-label">Meta Keyword</label>
-                    <input type="text" name="meta_keyword" class="form-control" id="meta_keyword" placeholder="">
-                  </div>
-                </div>
-
-                <div class="mt-2">
-                  <button type="button" class="btn btn-secondary prev-step">Back</button>
-                  <button type="submit" class="btn btn-success">Publish Product</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <!-- <button type="submit" class="btn btn-primary">Save Product</button> -->
-          </div>
-        </form>
-
-        <!-- <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="modal-header">
             <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
@@ -348,11 +127,30 @@
           </div>
           <div class="modal-body">
             <div class="row g-3">
+              <!-- Product -->
               <div class="col-md-6">
                 <label class="form-label">Product Name</label>
                 <input type="text" name="product_name" class="form-control" required>
               </div>
 
+              <!-- Fabric -->
+              <div class="col-md-6">
+                <label class="form-label">Fabric</label>
+                <input type="text" name="fabric_name" class="form-control" required>
+              </div>
+
+              <!-- Brand -->
+              <div class="col-md-6">
+                <label class="form-label">Brand</label>
+                <select name="brand_id" class="form-control" required>
+                  <option value="">Select Brand</option>
+                  @foreach ($categories as $category)
+                  <option value="{{ $category->cat_id }}">{{ $category->cat_name }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <!-- Category -->
               <div class="col-md-6">
                 <label class="form-label">Category</label>
                 <select name="category_id" class="form-control" required>
@@ -363,56 +161,122 @@
                 </select>
               </div>
 
+              <!-- Age Group -->
               <div class="col-md-6">
-                <label class="form-label">MRP</label>
-                <input type="number" name="mrp" class="form-control" required>
+                <label class="form-label">Age Group</label>
+                <select name="age_group" class="form-select">
+                  <option value="">Select Age Group</option>
+                  <option value="Men">Men</option>
+                  <option value="Women">Women</option>
+                  <option value="Baby">Baby</option>
+                  <option value="Boy">Boy</option>
+                  <option value="Girl">Girl</option>
+                </select>
+              </div>
+
+              <!-- Neck Length -->
+              <div class="col-md-6">
+                <label class="form-label">Neck Type</label>
+                <select name="neck_type" class="form-select">
+                  <option value="">Select Length</option>
+                  <option value="Round Neck">Round Neck</option>
+                  <option value="V-Neck">V-Neck</option>
+                  <option value="Collar">Collar</option>
+                  <option value="Mandarin Collar">Mandarin Collar</option>
+                  <option value="High Neck">High Neck</option>
+                </select>
+              </div>
+
+              <!-- Length -->
+              <div class="col-md-6">
+                <label class="form-label">Length Type</label>
+                <select name="length_type" class="form-select">
+                  <option value="">Select Length Type</option>
+                  <option value="Crop">Crop</option>
+                  <option value="Waist Length">Waist Length</option>
+                  <option value="Hip Length">Hip Length</option>
+                  <option value="Thigh Length">Thigh Length</option>
+                  <option value="Knee Length">Knee Length</option>
+                  <option value="Mid-Calf Length">Mid-Calf Length</option>
+                  <option value="Ankle Length">Ankle Length</option>
+                  <option value="Full Length">Full Length</option>
+                </select>
               </div>
 
               <div class="col-md-6">
-                <label class="form-label">Selling Price</label>
-                <input type="number" name="selling_price" class="form-control" required>
+                <label class="form-label">Sleeve Type</label>
+                <select name="sleeve_type" class="form-select">
+                  <option value="">Select Sleeve Type</option>
+                  <option value="Full">Full Sleeve</option>
+                  <option value="Half">Half Sleeve</option>
+                  <option value="Sleeveless">Sleeveless</option>
+                </select>
               </div>
 
               <div class="col-md-6">
-                <label class="form-label">Stock</label>
-                <input type="number" name="stock" class="form-control" required>
+                <label class="form-label">Fit Type</label>
+                <select name="fit_type" class="form-select">
+                  <option value="">Select Fit Type</option>
+                  <option value="Slim">Slim Fit</option>
+                  <option value="Regular">Regular Fit</option>
+                  <option value="Loose">Loose Fit</option>
+                </select>
               </div>
 
               <div class="col-md-6">
-                <label class="form-label">Images</label>
-                <input type="file" id="imageInput" class="form-control" name="images[]" multiple required>
-                <div id="imageList" class="mt-2 d-flex flex-wrap gap-2"></div>
-              </div>
-
-
-              <div class="col-md-6">
-                <label class="form-label">Meta Title</label>
-                <input type="text" name="meta_title" class="form-control">
-              </div>
-
-              <div class="col-md-6">
-                <label class="form-label">Meta Keyword</label>
-                <input type="text" name="meta_keyword" class="form-control" id="meta_keyword" placeholder="">
+                <label class="form-label">Care Instructions</label>
+                <select name="care_instructions" class="form-select">
+                  <option value="">Select Care Instructions</option>
+                  <option value="Machine Wash">Machine Wash</option>
+                  <option value="Hand Wash Only">Hand Wash Only</option>
+                  <option value="Dry Clean Only">Dry Clean Only</option>
+                  <option value="Do Not Bleach">Do Not Bleach</option>
+                  <option value="Tumble Dry Low">Tumble Dry Low</option>
+                  <option value="Line Dry">Line Dry</option>
+                  <option value="Iron at Low Temperature">Iron at Low Temperature</option>
+                </select>
               </div>
 
               <div class="col-md-12">
-                <label class="form-label">Meta Description</label>
-                <textarea name="meta_description" id="meta_description" class="form-control" rows="2"></textarea>
+                <label class="form-label">Product Description</label>
+                <textarea name="prod_description" id="prod_description" class="form-control" rows="2"></textarea>
               </div>
 
-              <div class="col-md-6">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-control">
-                  <option value="1">Active</option>
-                  <option value="0">Inactive</option>
-                </select>
+              <!-- Toggle Button -->
+              <div class="col-md-12 mt-2">
+                <button class="btn btn-outline-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#metaInfoSection" aria-expanded="false" aria-controls="metaInfoSection">
+                  <i class="bi bi-info-circle me-1"></i> Add Meta Information (Optional)
+                </button>
               </div>
+
+              <!-- Collapsible Meta Info Section -->
+              <div class="collapse mt-3" id="metaInfoSection">
+                <div class="card card-body border rounded shadow-sm">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label">Meta Title</label>
+                      <input type="text" name="meta_title" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label">Meta Keyword</label>
+                      <input type="text" name="meta_keyword" class="form-control" placeholder="">
+                    </div>
+
+                    <div class="col-md-12">
+                      <label class="form-label">Meta Description</label>
+                      <textarea name="meta_description" class="form-control" rows="2"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Save Product</button>
           </div>
-        </form> -->
+        </form>
       </div>
     </div>
   </div>

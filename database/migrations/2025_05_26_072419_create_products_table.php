@@ -12,19 +12,31 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->bigIncrements('prod_id');      // product_id
-            $table->string('prod_name');
+            $table->bigIncrements('prod_id'); // Custom primary key
+            $table->string('product_name');
             $table->string('prod_slug')->unique();
-            $table->unsignedBigInteger('cat_id');
-            $table->decimal('mrp', 10, 2);
-            $table->decimal('selling_price', 10, 2);
-            $table->text('images');
-            $table->integer('stock');
+            $table->string('fabric_name');
+            $table->unsignedBigInteger('brand_id')->nullable(); // FK from brands table
+            $table->unsignedBigInteger('category_id')->nullable(); // FK from categories table
+
+            $table->enum('age_group', ['Men', 'Women', 'Baby', 'Boy', 'Girl'])->nullable();
+            $table->enum('neck_type', ['Round Neck', 'V-Neck', 'Collar', 'Mandarin Collar', 'High Neck'])->nullable();
+            $table->enum('length_type', ['Crop', 'Waist Length', 'Hip Length', 'Thigh Length', 'Knee Length', 'Mid-Calf Length', 'Ankle Length', 'Full Length'])->nullable();
+            $table->enum('sleeve_type', ['Full', 'Half', 'Sleeveless'])->nullable();
+            $table->enum('fit_type', ['Slim', 'Regular', 'Loose'])->nullable();
+            $table->string('care_instructions')->nullable();
+
+            $table->text('prod_description')->nullable();
             $table->string('meta_title')->nullable();
             $table->string('meta_keyword')->nullable();
-            $table->longText('meta_description')->nullable();
-            $table->boolean('status')->default(1); // 1=active, 0=inactive
-            $table->timestamps();
+            $table->text('meta_description')->nullable();
+
+            $table->boolean('status')->default(true);
+            $table->timestamps(); // created_at and updated_at
+
+            // Add foreign keys if applicable
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');
+            $table->foreign('category_id')->references('cat_id')->on('categories')->onDelete('set null');
 
             //If a category is deleted, all products with that cat_id will also be deleted automatically
             // $table->foreign('cat_id')->references('cat_id')->on('categories')->onDelete('cascade'); 

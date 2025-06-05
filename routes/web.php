@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\FrontendController;
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\AuthManager;
 // use App\Http\Controllers\Backend\CustomerController as BackCustomerController;
@@ -29,13 +30,15 @@ Route::post('/customer/register', [CustomerController::class, 'register'])->name
 Route::match(['get', 'post'], '/admin/login', [AuthManager::class, 'login'])->name('admin.login');
 Route::match(['get', 'post'], '/admin/register', [AuthManager::class, 'register'])->name('admin.register');
 
+Route::get('/admin/logout', [AuthManager::class, 'logout'])->name('admin.logout');
+
 // Routes protected by auth middleware
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('admin.profile');
 
-    Route::get('/logout', [AuthManager::class, 'logout'])->name('admin.logout');
+    // Route::get('/logout', [AuthManager::class, 'logout'])->name('admin.logout');
 
     Route::get('/user', [AuthManager::class, 'index'])->name('admin.user');
 
@@ -43,7 +46,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/customer/register', [CustomerController::class, 'register'])->name('admin.customer.register');
 
     Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
-    Route::post('/products/store', [ProductController::class, 'store'])->name('admin.products.store');
+    Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
+
+    Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand');
+    Route::post('/brand/store', [BrandController::class, 'store'])->name('admin.brand.store');
 
     Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::post('/category/store', [CategoryController::class, 'store'])->name('admin.category.store');
