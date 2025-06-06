@@ -52,10 +52,7 @@
                       <th>ID</th>
                       <th>Name</th>
                       <th>Category</th>
-                      <th>MRP</th>
-                      <th>Selling Price</th>
-                      <th>Image</th>
-                      <th>Stock</th>
+                      <th>Color/Image</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -67,21 +64,11 @@
                         <div class="form-check"><input type="checkbox" class="form-check-input product-checkbox" id="select-all"></div>
                       </td>
                       <td>{{ $product->prod_id }}</td>
-                      <td>{{ $product->prod_name }}</td>
+                      <td>{{ $product->product_name }}</td>
                       <td>{{ $product->cat_name ?? 'N/A' }}</td>
-                      <td>{{ $product->mrp }}</td>
-                      <td>{{ $product->selling_price }}</td>
-                      @php
-                      $images = json_decode($product->images, true);
-                      @endphp
                       <td>
-                        <div style="width: 60px; height: 50px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                          <img src="{{ asset('uploads/products/' . $images[0]) }}" alt="{{ $product->prod_name }}"
-                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                        </div>
-                      </td>
 
-                      <td>{{ $product->stock }}</td>
+                      </td>
                       <td>
                         @if($product->status)
                         <span class="status-label active">Active</span>
@@ -144,8 +131,8 @@
                 <label class="form-label">Brand</label>
                 <select name="brand_id" class="form-control" required>
                   <option value="">Select Brand</option>
-                  @foreach ($categories as $category)
-                  <option value="{{ $category->cat_id }}">{{ $category->cat_name }}</option>
+                  @foreach ($brands as $brand)
+                  <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
                   @endforeach
                 </select>
               </div>

@@ -8,17 +8,25 @@ use Illuminate\Support\Str;
 class Product extends Model
 {
     protected $fillable = [
-        'prod_name',
-        'prod_slug',
-        'cat_id',
+        'product_name',
+        'product_slug',
+        'category_id',
         'mrp',
         'selling_price',
-        'images',
         'stock',
         'meta_title',
         'meta_keyword',
         'meta_description',
-        'status'
+        'status',
+        'fabric_name',
+        'brand_id',
+        'age_group',
+        'neck_type',
+        'length_type',
+        'sleeve_type',
+        'fit_type',
+        'care_instructions',
+        'prod_description'
     ];
 
     public function category()
@@ -29,12 +37,12 @@ class Product extends Model
     protected static function booted()
     {
         static::creating(function ($product) {
-            $product->prod_slug = Str::slug($product->prod_name . '-' . Str::random(4));
+            $product->product_slug = Str::slug($product->product_name . '-' . Str::random(4));
         });
 
         static::updating(function ($product) {
-            if ($product->isDirty('prod_name')) {
-                $product->prod_slug = Str::slug($product->prod_name . '-' . Str::random(4));
+            if ($product->isDirty('product_name')) {
+                $product->product_slug = Str::slug($product->product_name . '-' . Str::random(4));
             }
         });
     }

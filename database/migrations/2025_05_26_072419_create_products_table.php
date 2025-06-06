@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('prod_id'); // Custom primary key
             $table->string('product_name');
-            $table->string('prod_slug')->unique();
+            $table->string('product_slug')->unique();
             $table->string('fabric_name');
             $table->unsignedBigInteger('brand_id')->nullable(); // FK from brands table
             $table->unsignedBigInteger('category_id')->nullable(); // FK from categories table
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('meta_keyword')->nullable();
             $table->text('meta_description')->nullable();
 
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->default(1);
             $table->timestamps(); // created_at and updated_at
 
             // Add foreign keys if applicable

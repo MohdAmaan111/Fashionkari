@@ -506,56 +506,56 @@
 
     <script>
         // Multiple image selecting for products
-        const input = document.getElementById('imageInput');
-        const list = document.getElementById('imageList');
-        let selectedFiles = [];
+        // const input = document.getElementById('imageInput');
+        // const list = document.getElementById('imageList');
+        // let selectedFiles = [];
 
-        input.addEventListener('change', function() {
-            for (const file of this.files) {
-                // Prevent duplicate selection
-                if (selectedFiles.some(f => f.name === file.name && f.lastModified === file.lastModified)) {
-                    continue;
-                }
+        // input.addEventListener('change', function() {
+        //     for (const file of this.files) {
+        //         // Prevent duplicate selection
+        //         if (selectedFiles.some(f => f.name === file.name && f.lastModified === file.lastModified)) {
+        //             continue;
+        //         }
 
-                selectedFiles.push(file);
+        //         selectedFiles.push(file);
 
-                const badge = document.createElement('span');
-                badge.className = 'badge bg-primary p-2 d-flex align-items-center';
-                badge.style.gap = '8px';
+        //         const badge = document.createElement('span');
+        //         badge.className = 'badge bg-primary p-2 d-flex align-items-center';
+        //         badge.style.gap = '8px';
 
-                const fileName = document.createElement('span');
-                fileName.textContent = file.name;
+        //         const fileName = document.createElement('span');
+        //         fileName.textContent = file.name;
 
-                const removeBtn = document.createElement('button');
-                removeBtn.type = 'button';
-                removeBtn.className = 'btn-close btn-close-white btn-sm';
-                removeBtn.ariaLabel = 'Remove';
-                removeBtn.onclick = function() {
-                    // Remove from array
-                    selectedFiles = selectedFiles.filter(f => !(f.name === file.name && f.lastModified === file.lastModified));
+        //         const removeBtn = document.createElement('button');
+        //         removeBtn.type = 'button';
+        //         removeBtn.className = 'btn-close btn-close-white btn-sm';
+        //         removeBtn.ariaLabel = 'Remove';
+        //         removeBtn.onclick = function() {
+        //             // Remove from array
+        //             selectedFiles = selectedFiles.filter(f => !(f.name === file.name && f.lastModified === file.lastModified));
 
-                    // Remove from DOM
-                    badge.remove();
+        //             // Remove from DOM
+        //             badge.remove();
 
-                    // Update input files
-                    const dataTransfer = new DataTransfer();
-                    selectedFiles.forEach(f => dataTransfer.items.add(f));
-                    input.files = dataTransfer.files;
-                };
+        //             // Update input files
+        //             const dataTransfer = new DataTransfer();
+        //             selectedFiles.forEach(f => dataTransfer.items.add(f));
+        //             input.files = dataTransfer.files;
+        //         };
 
-                badge.appendChild(fileName);
-                badge.appendChild(removeBtn);
-                list.appendChild(badge);
-            }
+        //         badge.appendChild(fileName);
+        //         badge.appendChild(removeBtn);
+        //         list.appendChild(badge);
+        //     }
 
-            // Reset input to allow re-selecting the same file again
-            this.value = '';
+        //     // Reset input to allow re-selecting the same file again
+        //     this.value = '';
 
-            // Rebuild input file list using DataTransfer
-            const dataTransfer = new DataTransfer();
-            selectedFiles.forEach(file => dataTransfer.items.add(file));
-            input.files = dataTransfer.files;
-        });
+        //     // Rebuild input file list using DataTransfer
+        //     const dataTransfer = new DataTransfer();
+        //     selectedFiles.forEach(file => dataTransfer.items.add(file));
+        //     input.files = dataTransfer.files;
+        // });
         // Multiple image selecting End
 
         $(document).ready(function() {
