@@ -67,21 +67,35 @@
                     </td>
                     <td>{{ $product->prod_id }}</td>
                     <td>{{ $product->product_name }}</td>
-                    <td>{{ $product->cat_name ?? 'N/A' }}</td>
+                    <td>{{ $product->category->cat_name ?? 'N/A' }}</td>
                     <td>
+                      @if ($product->variants->isNotEmpty())
+                      @foreach ($product->variants as $variant)
+                      <div>{{ $variant->color }}</div>
+                      @endforeach
+                      @else
                       <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
                         <i class="bi bi-plus-circle me-1"></i> Add
                       </button>
+                      @endif
                     </td>
                     <td>
+                      @if ($product->variants->isNotEmpty())
+                      <img src="{{ asset('uploads/variant/' . $product->variants->first()->image) }}" width="40">
+                      @else
                       <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
                         <i class="bi bi-plus-circle me-1"></i> Add
                       </button>
+                      @endif
                     </td>
                     <td>
+                      @if ($product->variants->isNotEmpty())
+                      {{ $product->variants->sum('stock') }} pcs
+                      @else
                       <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
                         <i class="bi bi-plus-circle me-1"></i> Add
                       </button>
+                      @endif
                     </td>
                     <td>
                       @if($product->status)

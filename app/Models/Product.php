@@ -31,7 +31,8 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
+        return $this->belongsTo(Category::class, 'category_id', 'cat_id');
     }
 
     protected static function booted()
@@ -49,6 +50,7 @@ class Product extends Model
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class);
+        // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
+        return $this->hasMany(ProductVariant::class, 'product_id', 'prod_id');
     }
 }
