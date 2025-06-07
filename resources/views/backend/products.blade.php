@@ -31,68 +31,82 @@
         <div class="card border rounded-3">
           <div class="card-body">
 
-            <form id="bulkDeleteForm" method="post">
-              <h5 class="card-title d-flex justify-content-between align-items-center">
-                Product List
+            <!-- <form id="bulkDeleteForm" method="post"> -->
+            <h5 class="card-title d-flex justify-content-between align-items-center">
+              Product List
 
-                <button type="button" class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                  Add
-                  <i class="bi bi-plus-circle fs-5"></i>
-                </button>
-              </h5>
-              <!-- Product table data start -->
-              <div class="table-responsive">
-                <!-- Table with stripped rows -->
-                <table id="productTable" class="table  table-hover table-responsive display nowrap">
-                  <thead>
-                    <tr>
-                      <th>
-                        <div class="form-check"><input type="checkbox" class="form-check-input product-checkbox" id="select-all"></div>
-                      </th>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Category</th>
-                      <th>Color/Image</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($products as $product)
-                    <tr>
-                      <td>
-                        <div class="form-check"><input type="checkbox" class="form-check-input product-checkbox" id="select-all"></div>
-                      </td>
-                      <td>{{ $product->prod_id }}</td>
-                      <td>{{ $product->product_name }}</td>
-                      <td>{{ $product->cat_name ?? 'N/A' }}</td>
-                      <td>
+              <button type="button" class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                Add
+                <i class="bi bi-plus-circle fs-5"></i>
+              </button>
+            </h5>
+            <!-- Product table data start -->
+            <div class="table-responsive">
+              <!-- Table with stripped rows -->
+              <table id="productTable" class="table  table-hover table-responsive display nowrap">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="form-check"><input type="checkbox" class="form-check-input product-checkbox" id="select-all"></div>
+                    </th>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Color</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($products as $product)
+                  <tr>
+                    <td>
+                      <div class="form-check"><input type="checkbox" class="form-check-input product-checkbox" id="select-all"></div>
+                    </td>
+                    <td>{{ $product->prod_id }}</td>
+                    <td>{{ $product->product_name }}</td>
+                    <td>{{ $product->cat_name ?? 'N/A' }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
+                        <i class="bi bi-plus-circle me-1"></i> Add
+                      </button>
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
+                        <i class="bi bi-plus-circle me-1"></i> Add
+                      </button>
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
+                        <i class="bi bi-plus-circle me-1"></i> Add
+                      </button>
+                    </td>
+                    <td>
+                      @if($product->status)
+                      <span class="status-label active">Active</span>
+                      @else
+                      <span class="status-label inactive">Inactive</span>
+                      @endif
+                    </td>
+                    <td>
+                      <a href="javascript:void(0);" class="btn btn-sm btn-primary" data-id="{{ $product->prod_id }}" data-name="{{ $product->prod_name }}" data-status="{{ $product->status }}">Edit</a>
 
-                      </td>
-                      <td>
-                        @if($product->status)
-                        <span class="status-label active">Active</span>
-                        @else
-                        <span class="status-label inactive">Inactive</span>
-                        @endif
-                      </td>
-                      <td>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-primary" data-id="{{ $product->prod_id }}" data-name="{{ $product->prod_name }}" data-status="{{ $product->status }}">Edit</a>
-
-                        <form action="{{ route('admin.product', $product->prod_id) }}" method="POST" class="d-inline">
+                      <!-- <form action="{{ route('admin.product', $product->prod_id) }}" method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this user?')">Delete</button>
-                        </form>
-                      </td>
-                    </tr>
-                    @endforeach
-                  </tbody>
+                        </form> -->
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
 
-                </table>
-                <!-- End Table with stripped rows -->
-              </div>
-            </form>
+              </table>
+              <!-- End Table with stripped rows -->
+            </div>
+            <!-- </form> -->
           </div>
         </div>
 
@@ -268,6 +282,86 @@
     </div>
   </div>
 
+  <!-- Variant Modal -->
+  <div class="modal fade" id="variantModal{{ $product->prod_id }}" tabindex="-1" aria-labelledby="variantModalLabel{{ $product->prod_id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="{{ route('admin.variant.store') }}" method="POST" enctype="multipart/form-data">
+          @csrf
+
+          <input type="hidden" name="product_id" value="{{ $product->prod_id }}">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="variantModalLabel{{ $product->prod_id }}">Add Variant for {{ $product->product_name }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <!-- Color -->
+            <div class="mb-3">
+              <label for="color" class="form-label">Color</label>
+              <input type="text" class="form-control" name="color" required>
+            </div>
+
+            <!-- Image -->
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <input type="file" class="form-control" name="image" required>
+            </div>
+
+            <!-- Sizes -->
+            <div class="mb-3">
+              <label class="form-label">Available Sizes & Details</label>
+              <div class="table-responsive">
+                <table class="table table-bordered" id="sizeTable">
+                  <thead>
+                    <tr>
+                      <th>Size</th>
+                      <th>Stock</th>
+                      <th>MRP</th>
+                      <th>Selling Price</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (['S', 'M', 'L', 'XL', 'XXL'] as $size)
+                    <tr>
+                      <td>
+                        <div class="form-check d-flex align-items-center gap-2">
+                          <input type="checkbox" name="sizes[{{ $loop->index }}][selected]" value="1" class="form-check-input">
+                          <input type="text" name="sizes[{{ $loop->index }}][size]" class="form-control" value="{{ $size }}" style="width: 80px;">
+                        </div>
+                      </td>
+                      <td><input type="number" name="sizes[{{ $loop->index }}][stock]" class="form-control" placeholder="Stock"></td>
+                      <td><input type="number" name="sizes[{{ $loop->index }}][mrp]" class="form-control" placeholder="MRP"></td>
+                      <td><input type="number" name="sizes[{{ $loop->index }}][selling_price]" class="form-control" placeholder="Selling Price"></td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-danger removeRowBtn">−</button>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+
+                <button type="button" class="btn btn-success mt-2" id="addSizeRowBtn">
+                  <i class="fas fa-plus-circle"></i> Add Size
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Variant</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 
 </main><!-- End #main -->
 
@@ -279,6 +373,36 @@
 
 
   $(document).ready(function() {
+
+    // product variants modal
+    let sizeIndex = $('#sizeTable tbody tr').length;
+
+    $('#addSizeRowBtn').on('click', function() {
+      const newRow = `
+        <tr>
+          <td>
+            <div class="form-check d-flex align-items-center gap-2">
+              <input type="checkbox" name="sizes[${sizeIndex}][selected]" value="1" class="form-check-input">
+              <input type="text" name="sizes[${sizeIndex}][size]" class="form-control" placeholder="Size" style="width: 80px;">
+            </div>
+          </td>
+          <td><input type="number" name="sizes[${sizeIndex}][stock]" class="form-control" placeholder="Stock"></td>
+          <td><input type="number" name="sizes[${sizeIndex}][mrp]" class="form-control" placeholder="MRP"></td>
+          <td><input type="number" name="sizes[${sizeIndex}][selling_price]" class="form-control" placeholder="Selling Price"></td>
+          <td class="text-center">
+            <button type="button" class="btn btn-danger removeRowBtn">−</button>
+          </td>
+        </tr>
+      `;
+      $('#sizeTable tbody').append(newRow);
+      sizeIndex++;
+    });
+
+    $(document).on('click', '.removeRowBtn', function() {
+      $(this).closest('tr').remove();
+    });
+    // product variants modal end
+
 
     // steps navigation
     let currentStep = 0;

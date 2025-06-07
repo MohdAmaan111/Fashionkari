@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\FrontendController;
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\VariantController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\AuthManager;
@@ -45,8 +46,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer');
     Route::post('/customer/register', [CustomerController::class, 'register'])->name('admin.customer.register');
 
+    // products routes
     Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
     Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
+    Route::get('/variant', [VariantController::class, 'index'])->name('admin.variant');
+    Route::post('/variant/store', [VariantController::class, 'store'])->name('admin.variant.store');
 
     Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand');
     Route::post('/brand/store', [BrandController::class, 'store'])->name('admin.brand.store');
