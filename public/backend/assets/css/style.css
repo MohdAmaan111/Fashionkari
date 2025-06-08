@@ -1252,21 +1252,60 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Modal
+# Backend Table Add Button
 --------------------------------------------------------------*/
-/* Fix modal height and make body scrollable */
-.modal-dialog {
-    /* max-width: 800px; */
+.btn-icon-outline-blue {
+    border: 2px solid #0d6efd;
+    background-color: transparent;
+    color: #0d6efd;
+    border-radius: 50%;
+    padding: 6px 8px;
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
 }
 
-.modal-content {
-    /* height: 90vh; or any fixed height like 600px */
-    /* overflow: hidden; */
+.btn-icon-outline-blue:hover {
+    background-color: #0d6efd;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
 }
 
-.modal-body {
-    /* height: calc(
-        90vh - 130px
-    ); adjust based on modal-header + footer height
-    overflow-y: auto; */
+/*--------------------------------------------------------------
+# Backend Image Preview
+--------------------------------------------------------------*/
+.image-preview {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    position: relative;
+}
+.image-preview img {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
+}
+.image-preview:hover {
+    border-color: #007bff;
+}
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    cursor: pointer;
 }

@@ -34,23 +34,52 @@ class VariantController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
 
         $request->validate([
             'product_id' => 'required|exists:products,prod_id',
             'color' => 'required|string',
-            'image' => 'required|image',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif',  // Each item must be a valid image
             'sizes' => 'required|array',
         ]);
 
-        $path = $request->file('image')->store('variants', 'public');
+
+        // Handle the image upload
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+
+            // Get category name from DB using category_id
+            $category = Category::where('cat_id', $request->category_id)->first();
+
+            // Get category name from category model
+            $categorySlug = $category ? Str::slug($category->cat_name) : 'uncategorized';
+
+            // Create folder path
+            $folderPath = public_path('uploads/products/' . $categorySlug);
+
+            // Create folder if it doesn't exist
+            if (!File::exists($folderPath)) {
+                File::makeDirectory($folderPath, 0755, true);
+            }
+
+            // Create image name using product name + random string
+            $slug = Str::slug($request->product_name) ?: 'product';
+
+            foreach ($images as $image) {
+                $imageName = $slug . '_' . Str::random(6) . '.' . $image->getClientOriginalExtension();
+                $image->move($folderPath, $imageName); // Move the image
+                $imagePaths[] = $categorySlug . '/' . $imageName;
+            }
+        }
 
         foreach ($request->sizes as $sizeData) {
             if (isset($sizeData['selected'])) {
                 ProductVariant::create([
                     'product_id' => $request->product_id,
                     'color' => $request->color,
-                    'image' => $path,
+                    'images' => json_encode($imagePaths),
                     'size' => $sizeData['size'],
                     'stock' => $sizeData['stock'],
                     'mrp' => $sizeData['mrp'],

@@ -74,17 +74,19 @@
                       <div>{{ $variant->color }}</div>
                       @endforeach
                       @else
-                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
-                        <i class="bi bi-plus-circle me-1"></i> Add
+
+                      <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
+                        <i class="bi bi-plus-lg"></i>
                       </button>
+
                       @endif
                     </td>
                     <td>
                       @if ($product->variants->isNotEmpty())
                       <img src="{{ asset('uploads/variant/' . $product->variants->first()->image) }}" width="40">
                       @else
-                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
-                        <i class="bi bi-plus-circle me-1"></i> Add
+                      <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
+                        <i class="bi bi-plus-lg"></i>
                       </button>
                       @endif
                     </td>
@@ -92,8 +94,8 @@
                       @if ($product->variants->isNotEmpty())
                       {{ $product->variants->sum('stock') }} pcs
                       @else
-                      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
-                        <i class="bi bi-plus-circle me-1"></i> Add
+                      <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
+                        <i class="bi bi-plus-lg"></i>
                       </button>
                       @endif
                     </td>
@@ -297,6 +299,10 @@
   </div>
 
   <!-- Variant Modal -->
+
+  @foreach ($products as $product)
+  <!---- Your product row ---->
+
   <div class="modal fade" id="variantModal{{ $product->prod_id }}" tabindex="-1" aria-labelledby="variantModalLabel{{ $product->prod_id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -304,6 +310,7 @@
           @csrf
 
           <input type="hidden" name="product_id" value="{{ $product->prod_id }}">
+          <input type="hidden" name="category_id" value="{{ $product->category_id }}">
 
           <div class="modal-header">
             <h5 class="modal-title" id="variantModalLabel{{ $product->prod_id }}">Add Variant for {{ $product->product_name }}</h5>
@@ -319,8 +326,43 @@
 
             <!-- Image -->
             <div class="mb-3">
-              <label for="image" class="form-label">Image</label>
-              <input type="file" class="form-control" name="image" required>
+              <label for="imageUpload" class="form-label">Image</label>
+              <div class="d-flex gap-3 flex-wrap">
+
+                <!-- Image 1 -->
+                <div>
+                  <div class="image-preview" id="imagePreviewBox1_{{ $product->prod_id }}">
+                    <div class="img-holder text-center">
+                      <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+                      <small>Click to select</small>
+                    </div>
+                  </div>
+                  <input type="file" name="images[]" id="imageInput1_{{ $product->prod_id }}" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- Image 2 -->
+                <div>
+                  <div class="image-preview" id="imagePreviewBox2_{{ $product->prod_id }}">
+                    <div class="img-holder text-center">
+                      <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+                      <small>Click to select</small>
+                    </div>
+                  </div>
+                  <input type="file" name="images[]" id="imageInput2_{{ $product->prod_id }}" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- Image 3 -->
+                <div>
+                  <div class="image-preview" id="imagePreviewBox3_{{ $product->prod_id }}">
+                    <div class="img-holder text-center">
+                      <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+                      <small>Click to select</small>
+                    </div>
+                  </div>
+                  <input type="file" name="images[]" id="imageInput3_{{ $product->prod_id }}" accept="image/*" style="display: none;">
+                </div>
+              </div>
+
             </div>
 
             <!-- Sizes -->
@@ -374,6 +416,7 @@
       </div>
     </div>
   </div>
+  @endforeach
 
 
 
@@ -385,7 +428,36 @@
     addModal.show();
   });
 
+  // Define the binding function for preview image
+  function bindImagePreview(previewId, inputId) {
+    // When preview box is clicked
+    $(`#${previewId}`).on('click', function() {
+      $(`#${inputId}`).val('');
+      $(`#${inputId}`).click();
+    });
 
+    // When file is selected
+    $(`#${inputId}`).on('change', function() {
+      const file = this.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          $(`#${previewId}`).html(`
+            <div class="position-relative">
+              <img src="${e.target.result}" alt="Preview" class="img-fluid">
+              <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image-btn" data-input="${inputId}" data-preview="${previewId}" style="z-index: 10;">&times;</button>
+            </div>
+          `);
+        };
+        reader.readAsDataURL(file);
+      }
+      // Reset input so same file can be selected again later
+    });
+  }
+
+
+  // Now run the script after DOM is ready
   $(document).ready(function() {
 
     // product variants modal
@@ -412,10 +484,51 @@
       sizeIndex++;
     });
 
+
     $(document).on('click', '.removeRowBtn', function() {
       $(this).closest('tr').remove();
     });
     // product variants modal end
+
+
+    // preview input image
+
+    // Handle remove buttons (one-time global binding)
+    $(document).on('click', '.remove-image-btn', function() {
+      const inputId = $(this).data('input');
+      const previewId = $(this).data('preview');
+
+      $(`#${inputId}`).val('');
+      $(`#${previewId}`).html(`
+        <div class="img-holder text-center">
+          <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+          <small>Click to select</small>
+        </div>
+      `);
+    });
+
+    // Bind for type 1
+    $("[id^=imagePreviewBox1_]").each(function() {
+      const previewId = $(this).attr("id");
+      const suffix = previewId.split("_")[1];
+      bindImagePreview(previewId, `imageInput1_${suffix}`);
+    });
+
+    // Bind for type 2
+    $("[id^=imagePreviewBox2_]").each(function() {
+      const previewId = $(this).attr("id");
+      const suffix = previewId.split("_")[1];
+      bindImagePreview(previewId, `imageInput2_${suffix}`);
+    });
+
+    // Bind for type 3
+    $("[id^=imagePreviewBox3_]").each(function() {
+      const previewId = $(this).attr("id");
+      const suffix = previewId.split("_")[1];
+      bindImagePreview(previewId, `imageInput3_${suffix}`);
+    });
+
+    // preview input image end
 
 
     // steps navigation
@@ -444,6 +557,7 @@
     // Initialize first step
     showStep(currentStep);
   });
+  // steps navigation end
 </script>
 
 

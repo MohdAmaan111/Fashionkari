@@ -338,7 +338,7 @@
           </div>
         </form>
 
-        <!-- <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="modal-header">
             <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
@@ -410,7 +410,7 @@
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Save Product</button>
           </div>
-        </form> -->
+        </form>
       </div>
     </div>
   </div>
