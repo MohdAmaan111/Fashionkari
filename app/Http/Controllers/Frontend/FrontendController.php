@@ -11,10 +11,13 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $products = Product::join('categories', 'products.cat_id', '=', 'categories.cat_id')
-            ->select('products.*', 'categories.cat_name')
-            ->get();   // Get all products
+        // $products = Product::join('categories', 'products.cat_id', '=', 'categories.cat_id')
+        //     ->select('products.*', 'categories.cat_name')
+        //     ->get();   // Get all products
         $categories = Category::all();   // Get all categories
+
+        $products = Product::with(['category', 'variants'])->get();
+
         return view('index', compact('products', 'categories'));
     }
 

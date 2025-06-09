@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductVariant extends Model
 {
+    protected $primaryKey = 'variant_id';
+
     protected $fillable = [
         'product_id',
         'color',

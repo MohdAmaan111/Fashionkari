@@ -1200,31 +1200,51 @@
                                 <div class="product-item__inner p-md-3 row no-gutters">
                                     <div class="col col-lg-auto col-xl-5 col-wd-auto product-media-left">
                                         @php
-                                        $images = json_decode($product->images, true);
+                                        $firstVariant = $product->variants->first();
+                                        $variantImages = [];
+
+                                        if ($firstVariant && !empty($firstVariant->images)) {
+                                        $variantImages = json_decode($firstVariant->images, true);
+                                        }
                                         @endphp
                                         <a href="{{ route('product.show', $product->prod_id) }}" class="max-width-150 d-block" style="height: 150px; overflow: hidden;">
-                                            <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $images[0]) }}" alt="{{ $product->prod_name }}">
+                                            @if (!empty($variantImages) && isset($variantImages[0]))
+                                            <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $variantImages[0]) }}" alt="{{ $product->prod_name }}">
+                                            @else
+                                            <img class="img-fluid object-fit-cover" src="{{ asset('uploads/default.png') }}" alt="No Image">
+                                            @endif
                                         </a>
 
                                     </div>
                                     <div class="col col-xl-7 col-wd product-item__body pl-2 pl-lg-3 pl-xl-0 pl-wd-3 mr-wd-1">
                                         <div class="mb-4 mb-xl-2 mb-wd-6">
                                             <div class="mb-2">
-                                                <a href="#" class="font-size-12 text-gray-5">{{ $product->cat_name ?? 'Uncategorized' }}</a>
+                                                <a href="#" class="font-size-12 text-gray-5">{{ $product->category->cat_name ?? 'Uncategorized' }}</a>
                                             </div>
                                             <h5 class="product-item__title">
-                                                <a href="{{ route('product.show', $product->prod_id) }}" class="text-blue font-weight-bold">{{ $product->prod_name }}</a>
+                                                <a href="{{ route('product.show', $product->prod_id) }}" class="text-blue font-weight-bold">{{ $product->product_name }}</a>
                                             </h5>
                                         </div>
                                         <div class="flex-center-between mb-3">
+                                            @php
+                                            $firstVariant = $product->variants->first();
+                                            @endphp
                                             <div class="prodcut-price">
-                                                @if($product->selling_price < $product->mrp)
+                                                @if ($firstVariant && $firstVariant->selling_price < $firstVariant->mrp)
                                                     <div class="prodcut-price d-flex align-items-center position-relative">
-                                                        <ins class="font-size-20 text-red text-decoration-none">₹{{ number_format($product->selling_price, 2) }}</ins>
-                                                        <del class="font-size-12 tex-gray-6 position-absolute bottom-100">₹{{ number_format($product->mrp, 2) }}</del>
+                                                        <ins class="font-size-20 text-red text-decoration-none">
+                                                            ₹{{ number_format($firstVariant->selling_price, 2) }}
+                                                        </ins>
+                                                        <del class="font-size-12 tex-gray-6 position-absolute bottom-100">
+                                                            ₹{{ number_format($firstVariant->mrp, 2) }}
+                                                        </del>
+                                                    </div>
+                                                    @elseif ($firstVariant)
+                                                    <div class="text-gray-100">
+                                                        ₹{{ number_format($firstVariant->mrp, 2) }}
                                                     </div>
                                                     @else
-                                                    <div class="text-gray-100">₹{{ number_format($product->mrp, 2) }}</div>
+                                                    <div class="text-muted">No Price Available</div>
                                                     @endif
                                             </div>
                                             <div class="d-none d-xl-block prodcut-add-cart">

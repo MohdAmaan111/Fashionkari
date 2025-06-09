@@ -56,26 +56,57 @@ class ProductController extends Controller
             // 'status' => 'in:0,1', // Default to "Active"
         ]);
 
-        // Save product
-        Product::create([
-            'product_name'      => $request->product_name,
-            'fabric_name'       => $request->fabric_name,
-            'brand_id'          => $request->brand_id,
-            'category_id'       => $request->category_id,
-            'age_group'         => $request->age_group,
-            'neck_type'         => $request->neck_type,
-            'length_type'       => $request->length_type,
-            'sleeve_type'       => $request->sleeve_type,
-            'fit_type'          => $request->fit_type,
-            'care_instructions' => $request->care_instructions,
-            'prod_description'  => $request->prod_description,
-            'meta_title'        => $request->meta_title,
-            'meta_keyword'      => $request->meta_keyword,
-            'meta_description'  => $request->meta_description,
-            // 'status'            => $request->status,
-        ]);
+        if ($request->filled('product_id')) {
+            // dd("Update Product");
 
+            // Update existing product
+            $product = Product::findOrFail($request->product_id);
 
-        return redirect()->back()->with('success', 'Product added successfully.');
+            $product->update([
+                'product_name'      => $request->product_name,
+                'fabric_name'       => $request->fabric_name,
+                'brand_id'          => $request->brand_id,
+                'category_id'       => $request->category_id,
+                'age_group'         => $request->age_group,
+                'neck_type'         => $request->neck_type,
+                'length_type'       => $request->length_type,
+                'sleeve_type'       => $request->sleeve_type,
+                'fit_type'          => $request->fit_type,
+                'care_instructions' => $request->care_instructions,
+                'prod_description'  => $request->prod_description,
+                'meta_title'        => $request->meta_title,
+                'meta_keyword'      => $request->meta_keyword,
+                'meta_description'  => $request->meta_description,
+            ]);
+
+            return redirect()->back()->with('success', 'Product updated successfully.');
+        } else {
+            // dd("Create Product");
+
+            // Create new product
+            Product::create([
+                'product_name'      => $request->product_name,
+                'fabric_name'       => $request->fabric_name,
+                'brand_id'          => $request->brand_id,
+                'category_id'       => $request->category_id,
+                'age_group'         => $request->age_group,
+                'neck_type'         => $request->neck_type,
+                'length_type'       => $request->length_type,
+                'sleeve_type'       => $request->sleeve_type,
+                'fit_type'          => $request->fit_type,
+                'care_instructions' => $request->care_instructions,
+                'prod_description'  => $request->prod_description,
+                'meta_title'        => $request->meta_title,
+                'meta_keyword'      => $request->meta_keyword,
+                'meta_description'  => $request->meta_description,
+            ]);
+
+            return redirect()->back()->with('success', 'Product added successfully.');
+        }
+    }
+
+    public function edit(Request $request)
+    {
+        dd($request->all());
     }
 }

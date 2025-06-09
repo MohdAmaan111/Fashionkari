@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
+    protected $primaryKey = 'prod_id';
+
     protected $fillable = [
         'product_name',
         'product_slug',

@@ -49,7 +49,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // products routes
     Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
     Route::post('/product/store', [ProductController::class, 'store'])->name('admin.product.store');
+    Route::post('/product/edit', [ProductController::class, 'edit'])->name('admin.product.edit');
+
     Route::get('/variant', [VariantController::class, 'index'])->name('admin.variant');
+    Route::post('/variant/get', [VariantController::class, 'getVariants'])->name('admin.variant.get');
     Route::post('/variant/store', [VariantController::class, 'store'])->name('admin.variant.store');
 
     Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand');

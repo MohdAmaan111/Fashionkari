@@ -35,7 +35,7 @@
             <h5 class="card-title d-flex justify-content-between align-items-center">
               Product List
 
-              <button type="button" class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+              <button type="button" id="addProductBtn" class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2">
                 Add
                 <i class="bi bi-plus-circle fs-5"></i>
               </button>
@@ -68,22 +68,24 @@
                     <td>{{ $product->prod_id }}</td>
                     <td>{{ $product->product_name }}</td>
                     <td>{{ $product->category->cat_name ?? 'N/A' }}</td>
+
                     <td>
                       @if ($product->variants->isNotEmpty())
-                      @foreach ($product->variants as $variant)
-                      <div>{{ $variant->color }}</div>
-                      @endforeach
+                      <div>{{ $product->variants->first()->color }}</div>
                       @else
-
                       <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
                         <i class="bi bi-plus-lg"></i>
                       </button>
-
                       @endif
                     </td>
                     <td>
+                      @php
+                      $firstVariant = $product->variants->first();
+                      $variantImages = json_decode($firstVariant->images ?? '[]', true);
+                      @endphp
+
                       @if ($product->variants->isNotEmpty())
-                      <img src="{{ asset('uploads/variant/' . $product->variants->first()->image) }}" width="40">
+                      <img src="{{ asset('uploads/products/' . $variantImages[0]) }}" width="40">
                       @else
                       <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
                         <i class="bi bi-plus-lg"></i>
@@ -99,6 +101,7 @@
                       </button>
                       @endif
                     </td>
+
                     <td>
                       @if($product->status)
                       <span class="status-label active">Active</span>
@@ -107,14 +110,58 @@
                       @endif
                     </td>
                     <td>
-                      <a href="javascript:void(0);" class="btn btn-sm btn-primary" data-id="{{ $product->prod_id }}" data-name="{{ $product->prod_name }}" data-status="{{ $product->status }}">Edit</a>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          Action
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a href="javascript:void(0);"
+                              class="dropdown-item edit-product-btn"
+                              data-id="{{ $product->prod_id }}"
+                              data-name="{{ $product->product_name }}"
+                              data-fabric="{{ $product->fabric_name }}"
+                              data-brand="{{ $product->brand_id }}"
+                              data-category="{{ $product->category_id }}"
+                              data-age="{{ $product->age_group }}"
+                              data-neck="{{ $product->neck_type }}"
+                              data-length="{{ $product->length_type }}"
+                              data-sleeve="{{ $product->sleeve_type }}"
+                              data-fit="{{ $product->fit_type }}"
+                              data-care="{{ $product->care_instructions }}"
+                              data-description="{{ $product->prod_description }}"
+                              data-meta-title="{{ $product->meta_title }}"
+                              data-meta-keyword="{{ $product->meta_keyword }}"
+                              data-meta-description="{{ $product->meta_description }}">
+                              Edit Product
+                            </a>
+                          </li>
+                          @php
+                          $firstVariant = $product->variants->first();
+                          $color = $firstVariant->color ?? '';
 
-                      <!-- <form action="{{ route('admin.product', $product->prod_id) }}" method="POST" class="d-inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this user?')">Delete</button>
-                        </form> -->
+                          $sizesArray = $product->variants->map(function ($variant) {
+                          return [
+                          'size' => $variant->size,
+                          'stock' => $variant->stock,
+                          'mrp' => $variant->mrp,
+                          'selling_price' => $variant->selling_price,
+                          ];
+                          });
+                          @endphp
+                          <li>
+                            <a href="javascript:void(0);"
+                              class="dropdown-item edit-variant-btn"
+                              data-id="{{ $product->prod_id }}"
+                              data-color="{{ $color }}"
+                              data-variants='@json($sizesArray)'>
+                              Edit Variants
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
+
                   </tr>
                   @endforeach
                 </tbody>
@@ -136,8 +183,10 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
-        <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.product.store') }}" id="productForm" method="POST" enctype="multipart/form-data">
           @csrf
+          <input type="hidden" name="product_id" id="editProductId">
+
           <div class="modal-header">
             <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -220,6 +269,7 @@
                 </select>
               </div>
 
+              <!-- Sleeve -->
               <div class="col-md-6">
                 <label class="form-label">Sleeve Type</label>
                 <select name="sleeve_type" class="form-select">
@@ -230,6 +280,7 @@
                 </select>
               </div>
 
+              <!-- Fit Type -->
               <div class="col-md-6">
                 <label class="form-label">Fit Type</label>
                 <select name="fit_type" class="form-select">
@@ -240,6 +291,7 @@
                 </select>
               </div>
 
+              <!-- Care Instructions -->
               <div class="col-md-6">
                 <label class="form-label">Care Instructions</label>
                 <select name="care_instructions" class="form-select">
@@ -254,6 +306,7 @@
                 </select>
               </div>
 
+              <!-- Product Description -->
               <div class="col-md-12">
                 <label class="form-label">Product Description</label>
                 <textarea name="prod_description" id="prod_description" class="form-control" rows="2"></textarea>
@@ -310,7 +363,6 @@
           @csrf
 
           <input type="hidden" name="product_id" value="{{ $product->prod_id }}">
-          <input type="hidden" name="category_id" value="{{ $product->category_id }}">
 
           <div class="modal-header">
             <h5 class="modal-title" id="variantModalLabel{{ $product->prod_id }}">Add Variant for {{ $product->product_name }}</h5>
@@ -369,7 +421,7 @@
             <div class="mb-3">
               <label class="form-label">Available Sizes & Details</label>
               <div class="table-responsive">
-                <table class="table table-bordered" id="sizeTable">
+                <table class="table table-bordered" id="sizeTable sizeTable_{{ $product->prod_id }}">
                   <thead>
                     <tr>
                       <th>Size</th>
@@ -379,7 +431,7 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="variantTableBody{{ $product->prod_id }}">
                     @foreach (['S', 'M', 'L', 'XL', 'XXL'] as $size)
                     <tr>
                       <td>
@@ -420,13 +472,124 @@
 
 
 
+  <div class="modal fade" id="variantModal{{ $product->prod_id }}" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Edit Variants for {{ $product->product_name }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="variantModalBody_{{ $product->prod_id }}">
+          <!-- Fetched via AJAX -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </main><!-- End #main -->
 
 <script>
   $('#addProductBtn').on('click', function() {
+    // Reset form inputs to empty/default values
+    $('#productForm')[0].reset();
+
+    // Also clear hidden product_id input if present
+    $('#productForm input[name="product_id"]').val('');
+
+    // Then show modal
     var addModal = new bootstrap.Modal($('#addProductModal')[0]);
     addModal.show();
   });
+
+  // Write the jQuery to fill in modal fields when "Edit Product Variant" is clicked
+  $(document).on('click', '.edit-variant-btn', function() {
+    const productId = $(this).data('id');
+    const color = $(this).data('color');
+    const variants = $(this).data('variants'); // This will be an array of objects
+
+    console.log("Product ID:", productId);
+    console.log("Color:", color);
+    console.log("Variants:", variants);
+
+    $(`#variantModal${productId} input[name="color"]`).val(color); // Set color
+
+
+    // Clear the table body
+    const tbody = $(`#variantTableBody${productId}`);
+    tbody.empty();
+
+    // Populate with variants
+    variants.forEach((variant, index) => {
+      const row = `
+          <tr>
+            <td>
+              <div class="form-check d-flex align-items-center gap-2">
+                <input type="checkbox" name="sizes[${index}][selected]" value="1" class="form-check-input" checked>
+                <input type="text" name="sizes[${index}][size]" class="form-control" value="${variant.size}" style="width: 80px;">
+              </div>
+            </td>
+            <td><input type="number" name="sizes[${index}][stock]" class="form-control" value="${variant.stock}" placeholder="Stock"></td>
+            <td><input type="number" name="sizes[${index}][mrp]" class="form-control" value="${variant.mrp}" placeholder="MRP"></td>
+            <td><input type="number" name="sizes[${index}][selling_price]" class="form-control" value="${variant.selling_price}" placeholder="Selling Price"></td>
+            <td class="text-center">
+              <button type="button" class="btn btn-danger removeRowBtn">−</button>
+            </td>
+          </tr>`;
+      tbody.append(row);
+    });
+
+    // Show the modal
+    $('#variantModal' + productId).modal('show');
+  });
+
+  // Write the jQuery to fill in modal fields when "Edit Product" is clicked
+  $(document).on('click', '.edit-product-btn', function() {
+    // Extract data
+    const $btn = $(this);
+
+    const productId = $btn.data('id');
+    const productName = $btn.data('name');
+    const fabricName = $btn.data('fabric');
+    const brandId = $btn.data('brand');
+    const categoryId = $btn.data('category');
+    const ageGroup = $btn.data('age');
+    const neckType = $btn.data('neck');
+    const lengthType = $btn.data('length');
+    const sleeveType = $btn.data('sleeve');
+    const fitType = $btn.data('fit');
+    const careInstructions = $btn.data('care');
+    const description = $btn.data('description');
+    const metaTitle = $btn.data('meta-title');
+    const metaKeyword = $btn.data('meta-keyword');
+    const metaDescription = $btn.data('meta-description');
+
+
+    // Fill modal fields
+    $('#addProductModal input[name="product_id"]').val(productId);
+    $('#addProductModal input[name="product_name"]').val(productName);
+    $('#addProductModal input[name="fabric_name"]').val(fabricName);
+    $('#addProductModal select[name="brand_id"]').val(brandId);
+    $('#addProductModal select[name="category_id"]').val(categoryId);
+    $('#addProductModal select[name="age_group"]').val(ageGroup);
+    $('#addProductModal select[name="neck_type"]').val(neckType);
+    $('#addProductModal select[name="length_type"]').val(lengthType);
+    $('#addProductModal select[name="sleeve_type"]').val(sleeveType);
+    $('#addProductModal select[name="fit_type"]').val(fitType);
+    $('#addProductModal select[name="care_instructions"]').val(careInstructions);
+    $('#addProductModal textarea[name="prod_description"]').val(description);
+    $('#addProductModal input[name="meta_title"]').val(metaTitle);
+    $('#addProductModal input[name="meta_keyword"]').val(metaKeyword);
+    $('#addProductModal textarea[name="meta_description"]').val(metaDescription);
+
+    // Show the modal
+    $('#addProductModal').modal('show');
+  });
+  // Edit Product Modal End
+
 
   // Define the binding function for preview image
   function bindImagePreview(previewId, inputId) {
@@ -455,7 +618,6 @@
       // Reset input so same file can be selected again later
     });
   }
-
 
   // Now run the script after DOM is ready
   $(document).ready(function() {
@@ -531,33 +693,6 @@
     // preview input image end
 
 
-    // steps navigation
-    let currentStep = 0;
-    const $steps = $('.form-step');
-
-    function showStep(index) {
-      $steps.addClass('d-none');
-      $steps.eq(index).removeClass('d-none');
-    }
-
-    $('.next-step').click(function() {
-      if (currentStep < $steps.length - 1) {
-        currentStep++;
-        showStep(currentStep);
-      }
-    });
-
-    $('.prev-step').click(function() {
-      if (currentStep > 0) {
-        currentStep--;
-        showStep(currentStep);
-      }
-    });
-
-    // Initialize first step
-    showStep(currentStep);
-  });
-  // steps navigation end
 </script>
 
 
