@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('care_instructions')->nullable();
 
             $table->text('prod_description')->nullable();
+
+            $table->string('color')->nullable();
+            $table->json('images')->nullable();
+
             $table->string('meta_title')->nullable();
             $table->string('meta_keyword')->nullable();
             $table->text('meta_description')->nullable();

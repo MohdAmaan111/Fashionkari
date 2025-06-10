@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('product_variants', function (Blueprint $table) {
             $table->bigIncrements('variant_id'); // Primary key
             $table->unsignedBigInteger('product_id');
-            $table->string('color');
-            $table->string('images'); // path to the variant image
             $table->string('size');
             $table->integer('stock');
             $table->decimal('mrp', 10, 2);

@@ -28,7 +28,9 @@ class Product extends Model
         'sleeve_type',
         'fit_type',
         'care_instructions',
-        'prod_description'
+        'prod_description',
+        'color',
+        'images'
     ];
 
     public function category()

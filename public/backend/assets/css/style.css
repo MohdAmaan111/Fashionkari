@@ -1289,13 +1289,14 @@ h6 {
     position: relative;
 }
 .image-preview img {
-  max-width: 150px;
-  max-height: 150px;
-  object-fit: cover;
+    max-width: 120px;
+    max-height: 120px;
+    object-fit: cover;
 }
 .image-preview:hover {
     border-color: #007bff;
 }
+
 .delete-btn {
     position: absolute;
     top: 5px;

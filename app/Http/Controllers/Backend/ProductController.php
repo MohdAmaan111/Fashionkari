@@ -40,21 +40,46 @@ class ProductController extends Controller
         // Validate the input
         $request->validate([
             'product_name'       => 'required|string|max:255',
-            'fabric_name'        => 'required|string|max:255',
-            'brand_id'           => 'required|exists:brands,brand_id',
+            'fabric_name'        => 'nullable|string|max:255',
+            'brand_id'           => 'nullable|exists:brands,brand_id',
             'category_id'        => 'required|exists:categories,cat_id',
-            'age_group'          => 'nullable|in:Men,Women,Baby,Boy,Girl',
-            'neck_type'          => 'nullable|in:Round Neck,V-Neck,Collar,Mandarin Collar,High Neck',
-            'length_type'        => 'nullable|in:Crop,Waist Length,Hip Length,Thigh Length,Knee Length,Mid-Calf Length,Ankle Length,Full Length',
-            'sleeve_type'        => 'nullable|in:Full,Half,Sleeveless',
-            'fit_type'           => 'nullable|in:Slim,Regular,Loose',
-            'care_instructions'  => 'nullable|in:Machine Wash,Hand Wash Only,Dry Clean Only,Do Not Bleach,Tumble Dry Low,Line Dry,Iron at Low Temperature',
             'prod_description'   => 'nullable|string',
+            'images'             => 'nullable|array',
+            'images.*'           => 'image|mimes:jpg,jpeg,png,webp|max:2048',
             'meta_title'         => 'nullable|string|max:255',
             'meta_keyword'       => 'nullable|string|max:255',
             'meta_description'   => 'nullable|string|max:500',
-            // 'status' => 'in:0,1', // Default to "Active"
         ]);
+
+        $imagePaths = []; // To store array of images
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+
+            // Get category name from DB using category_id
+            $category = Category::where('cat_id', $request->category_id)->first();
+
+            // Get category name from category model
+            $categorySlug = $category ? Str::slug($category->cat_name) : 'uncategorized';
+
+            // Create folder path
+            $folderPath = public_path('uploads/products/' . $categorySlug);
+
+            // Create folder if it doesn't exist
+            if (!File::exists($folderPath)) {
+                File::makeDirectory($folderPath, 0755, true);
+            }
+
+
+            // Create image name using product name + random string
+            $slug = Str::slug($request->product_name) ?: 'product';
+
+            foreach ($images as $image) {
+                $imageName = $slug . '_' . Str::random(4) . '.' . $image->getClientOriginalExtension();
+                $image->move($folderPath, $imageName); // Move the image
+                $imagePaths[] = $categorySlug . '/' . $imageName;
+            }
+        }
+
 
         if ($request->filled('product_id')) {
             // dd("Update Product");
@@ -74,6 +99,8 @@ class ProductController extends Controller
                 'fit_type'          => $request->fit_type,
                 'care_instructions' => $request->care_instructions,
                 'prod_description'  => $request->prod_description,
+                'color'  => $request->color,
+                'images' => json_encode($imagePaths),
                 'meta_title'        => $request->meta_title,
                 'meta_keyword'      => $request->meta_keyword,
                 'meta_description'  => $request->meta_description,
@@ -96,6 +123,8 @@ class ProductController extends Controller
                 'fit_type'          => $request->fit_type,
                 'care_instructions' => $request->care_instructions,
                 'prod_description'  => $request->prod_description,
+                'color' => $request->color,
+                'images' => json_encode($imagePaths),
                 'meta_title'        => $request->meta_title,
                 'meta_keyword'      => $request->meta_keyword,
                 'meta_description'  => $request->meta_description,

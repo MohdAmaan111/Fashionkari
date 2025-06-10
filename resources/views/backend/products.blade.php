@@ -69,28 +69,14 @@
                     <td>{{ $product->product_name }}</td>
                     <td>{{ $product->category->cat_name ?? 'N/A' }}</td>
 
-                    <td>
-                      @if ($product->variants->isNotEmpty())
-                      <div>{{ $product->variants->first()->color }}</div>
-                      @else
-                      <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
-                        <i class="bi bi-plus-lg"></i>
-                      </button>
-                      @endif
-                    </td>
+                    <td>{{ $product->color }}</td>
                     <td>
                       @php
-                      $firstVariant = $product->variants->first();
-                      $variantImages = json_decode($firstVariant->images ?? '[]', true);
+                      $image = json_decode($product->images ?? '[]', true);
+                      // Use a placeholder/default
+                      $firstImage = !empty($image) ? $image[0] : 'default.png';
                       @endphp
-
-                      @if ($product->variants->isNotEmpty())
-                      <img src="{{ asset('uploads/products/' . $variantImages[0]) }}" width="40">
-                      @else
-                      <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
-                        <i class="bi bi-plus-lg"></i>
-                      </button>
-                      @endif
+                      <img src="{{ asset('uploads/products/' . $firstImage) }}" width="40">
                     </td>
                     <td>
                       @if ($product->variants->isNotEmpty())
@@ -109,12 +95,16 @@
                       <span class="status-label inactive">Inactive</span>
                       @endif
                     </td>
+                    
                     <td>
                       <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                           Action
                         </button>
                         <ul class="dropdown-menu">
+                          @php
+                          $imageArray = $product->images ? json_decode($product->images, true) : [];
+                          @endphp
                           <li>
                             <a href="javascript:void(0);"
                               class="dropdown-item edit-product-btn"
@@ -130,6 +120,8 @@
                               data-fit="{{ $product->fit_type }}"
                               data-care="{{ $product->care_instructions }}"
                               data-description="{{ $product->prod_description }}"
+                              data-color="{{ $product->color }}"
+                              data-images='@json($imageArray)'
                               data-meta-title="{{ $product->meta_title }}"
                               data-meta-keyword="{{ $product->meta_keyword }}"
                               data-meta-description="{{ $product->meta_description }}">
@@ -137,9 +129,6 @@
                             </a>
                           </li>
                           @php
-                          $firstVariant = $product->variants->first();
-                          $color = $firstVariant->color ?? '';
-
                           $sizesArray = $product->variants->map(function ($variant) {
                           return [
                           'size' => $variant->size,
@@ -153,7 +142,6 @@
                             <a href="javascript:void(0);"
                               class="dropdown-item edit-variant-btn"
                               data-id="{{ $product->prod_id }}"
-                              data-color="{{ $color }}"
                               data-variants='@json($sizesArray)'>
                               Edit Variants
                             </a>
@@ -192,161 +180,329 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="row g-3">
-              <!-- Product -->
-              <div class="col-md-6">
-                <label class="form-label">Product Name</label>
-                <input type="text" name="product_name" class="form-control" required>
-              </div>
-
-              <!-- Fabric -->
-              <div class="col-md-6">
-                <label class="form-label">Fabric</label>
-                <input type="text" name="fabric_name" class="form-control" required>
-              </div>
-
-              <!-- Brand -->
-              <div class="col-md-6">
-                <label class="form-label">Brand</label>
-                <select name="brand_id" class="form-control" required>
-                  <option value="">Select Brand</option>
-                  @foreach ($brands as $brand)
-                  <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
-                  @endforeach
-                </select>
-              </div>
-
-              <!-- Category -->
-              <div class="col-md-6">
-                <label class="form-label">Category</label>
-                <select name="category_id" class="form-control" required>
-                  <option value="">Select Category</option>
-                  @foreach ($categories as $category)
-                  <option value="{{ $category->cat_id }}">{{ $category->cat_name }}</option>
-                  @endforeach
-                </select>
-              </div>
-
-              <!-- Age Group -->
-              <div class="col-md-6">
-                <label class="form-label">Age Group</label>
-                <select name="age_group" class="form-select">
-                  <option value="">Select Age Group</option>
-                  <option value="Men">Men</option>
-                  <option value="Women">Women</option>
-                  <option value="Baby">Baby</option>
-                  <option value="Boy">Boy</option>
-                  <option value="Girl">Girl</option>
-                </select>
-              </div>
-
-              <!-- Neck Length -->
-              <div class="col-md-6">
-                <label class="form-label">Neck Type</label>
-                <select name="neck_type" class="form-select">
-                  <option value="">Select Length</option>
-                  <option value="Round Neck">Round Neck</option>
-                  <option value="V-Neck">V-Neck</option>
-                  <option value="Collar">Collar</option>
-                  <option value="Mandarin Collar">Mandarin Collar</option>
-                  <option value="High Neck">High Neck</option>
-                </select>
-              </div>
-
-              <!-- Length -->
-              <div class="col-md-6">
-                <label class="form-label">Length Type</label>
-                <select name="length_type" class="form-select">
-                  <option value="">Select Length Type</option>
-                  <option value="Crop">Crop</option>
-                  <option value="Waist Length">Waist Length</option>
-                  <option value="Hip Length">Hip Length</option>
-                  <option value="Thigh Length">Thigh Length</option>
-                  <option value="Knee Length">Knee Length</option>
-                  <option value="Mid-Calf Length">Mid-Calf Length</option>
-                  <option value="Ankle Length">Ankle Length</option>
-                  <option value="Full Length">Full Length</option>
-                </select>
-              </div>
-
-              <!-- Sleeve -->
-              <div class="col-md-6">
-                <label class="form-label">Sleeve Type</label>
-                <select name="sleeve_type" class="form-select">
-                  <option value="">Select Sleeve Type</option>
-                  <option value="Full">Full Sleeve</option>
-                  <option value="Half">Half Sleeve</option>
-                  <option value="Sleeveless">Sleeveless</option>
-                </select>
-              </div>
-
-              <!-- Fit Type -->
-              <div class="col-md-6">
-                <label class="form-label">Fit Type</label>
-                <select name="fit_type" class="form-select">
-                  <option value="">Select Fit Type</option>
-                  <option value="Slim">Slim Fit</option>
-                  <option value="Regular">Regular Fit</option>
-                  <option value="Loose">Loose Fit</option>
-                </select>
-              </div>
-
-              <!-- Care Instructions -->
-              <div class="col-md-6">
-                <label class="form-label">Care Instructions</label>
-                <select name="care_instructions" class="form-select">
-                  <option value="">Select Care Instructions</option>
-                  <option value="Machine Wash">Machine Wash</option>
-                  <option value="Hand Wash Only">Hand Wash Only</option>
-                  <option value="Dry Clean Only">Dry Clean Only</option>
-                  <option value="Do Not Bleach">Do Not Bleach</option>
-                  <option value="Tumble Dry Low">Tumble Dry Low</option>
-                  <option value="Line Dry">Line Dry</option>
-                  <option value="Iron at Low Temperature">Iron at Low Temperature</option>
-                </select>
-              </div>
-
-              <!-- Product Description -->
-              <div class="col-md-12">
-                <label class="form-label">Product Description</label>
-                <textarea name="prod_description" id="prod_description" class="form-control" rows="2"></textarea>
-              </div>
-
-              <!-- Toggle Button -->
-              <div class="col-md-12 mt-2">
-                <button class="btn btn-outline-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#metaInfoSection" aria-expanded="false" aria-controls="metaInfoSection">
-                  <i class="bi bi-info-circle me-1"></i> Add Meta Information (Optional)
-                </button>
-              </div>
-
-              <!-- Collapsible Meta Info Section -->
-              <div class="collapse mt-3" id="metaInfoSection">
-                <div class="card card-body border rounded shadow-sm">
-                  <div class="row g-3">
-                    <div class="col-md-6">
-                      <label class="form-label">Meta Title</label>
-                      <input type="text" name="meta_title" class="form-control">
-                    </div>
-
-                    <div class="col-md-6">
-                      <label class="form-label">Meta Keyword</label>
-                      <input type="text" name="meta_keyword" class="form-control" placeholder="">
-                    </div>
-
-                    <div class="col-md-12">
-                      <label class="form-label">Meta Description</label>
-                      <textarea name="meta_description" class="form-control" rows="2"></textarea>
+            <div class="accordion" id="productAccordion">
+              <!-- Basic Info -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingBasic">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic" aria-expanded="true">
+                    🛍️ Basic Product Info
+                  </button>
+                </h2>
+                <div id="collapseBasic" class="accordion-collapse collapse show" data-bs-parent="#productAccordion">
+                  <div class="accordion-body">
+                    <div class="row g-3">
+                      <!-- Product -->
+                      <div class="col-md-6">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" name="product_name" class="form-control" required>
+                      </div>
+                      <!-- Fabric -->
+                      <div class="col-md-6">
+                        <label class="form-label">Fabric</label>
+                        <input type="text" name="fabric_name" class="form-control" required>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
+              <!-- Category & Brand -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingCategory">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategory">
+                    🧷 Category & Brand
+                  </button>
+                </h2>
+                <div id="collapseCategory" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                  <div class="accordion-body">
+                    <div class="row g-3">
+                      <!-- Brand -->
+                      <div class="col-md-6">
+                        <label class="form-label">Brand</label>
+                        <select name="brand_id" class="form-control" required>
+                          <option value="">Select Brand</option>
+                          @foreach ($brands as $brand)
+                          <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <!-- Category -->
+                      <div class="col-md-6">
+                        <label class="form-label">Category</label>
+                        <select name="category_id" class="form-control" required>
+                          <option value="">Select Category</option>
+                          @foreach ($categories as $category)
+                          <option value="{{ $category->cat_id }}">{{ $category->cat_name }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Attributes -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingAttributes">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAttributes">
+                    👕 Product Attributes
+                  </button>
+                </h2>
+                <div id="collapseAttributes" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                  <div class="accordion-body">
+                    <div class="row g-3">
+                      <!-- Age Group, Neck Type, Length Type, etc. -->
+                      <!-- Add your existing inputs here -->
+
+                      <!-- Age Group -->
+                      <div class="col-md-6">
+                        <label class="form-label">Age Group</label>
+                        <select name="age_group" class="form-select">
+                          <option value="">Select Age Group</option>
+                          <option value="Men">Men</option>
+                          <option value="Women">Women</option>
+                          <option value="Baby">Baby</option>
+                          <option value="Boy">Boy</option>
+                          <option value="Girl">Girl</option>
+                        </select>
+                      </div>
+
+                      <!-- Neck Length -->
+                      <div class="col-md-6">
+                        <label class="form-label">Neck Type</label>
+                        <select name="neck_type" class="form-select">
+                          <option value="">Select Length</option>
+                          <option value="Round Neck">Round Neck</option>
+                          <option value="V-Neck">V-Neck</option>
+                          <option value="Collar">Collar</option>
+                          <option value="Mandarin Collar">Mandarin Collar</option>
+                          <option value="High Neck">High Neck</option>
+                        </select>
+                      </div>
+
+                      <!-- Length -->
+                      <div class="col-md-6">
+                        <label class="form-label">Length Type</label>
+                        <select name="length_type" class="form-select">
+                          <option value="">Select Length Type</option>
+                          <option value="Crop">Crop</option>
+                          <option value="Waist Length">Waist Length</option>
+                          <option value="Hip Length">Hip Length</option>
+                          <option value="Thigh Length">Thigh Length</option>
+                          <option value="Knee Length">Knee Length</option>
+                          <option value="Mid-Calf Length">Mid-Calf Length</option>
+                          <option value="Ankle Length">Ankle Length</option>
+                          <option value="Full Length">Full Length</option>
+                        </select>
+                      </div>
+
+                      <!-- Sleeve -->
+                      <div class="col-md-6">
+                        <label class="form-label">Sleeve Type</label>
+                        <select name="sleeve_type" class="form-select">
+                          <option value="">Select Sleeve Type</option>
+                          <option value="Full">Full Sleeve</option>
+                          <option value="Half">Half Sleeve</option>
+                          <option value="Sleeveless">Sleeveless</option>
+                        </select>
+                      </div>
+
+                      <!-- Fit Type -->
+                      <div class="col-md-6">
+                        <label class="form-label">Fit Type</label>
+                        <select name="fit_type" class="form-select">
+                          <option value="">Select Fit Type</option>
+                          <option value="Slim">Slim Fit</option>
+                          <option value="Regular">Regular Fit</option>
+                          <option value="Loose">Loose Fit</option>
+                        </select>
+                      </div>
+
+                      <!-- Care Instructions -->
+                      <div class="col-md-6">
+                        <label class="form-label">Care Instructions</label>
+                        <select name="care_instructions" class="form-select">
+                          <option value="">Select Care Instructions</option>
+                          <option value="Machine Wash">Machine Wash</option>
+                          <option value="Hand Wash Only">Hand Wash Only</option>
+                          <option value="Dry Clean Only">Dry Clean Only</option>
+                          <option value="Do Not Bleach">Do Not Bleach</option>
+                          <option value="Tumble Dry Low">Tumble Dry Low</option>
+                          <option value="Line Dry">Line Dry</option>
+                          <option value="Iron at Low Temperature">Iron at Low Temperature</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingDescription">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDescription">
+                    🧷 Description
+                  </button>
+                </h2>
+                <div id="collapseDescription" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                  <div class="accordion-body">
+                    <div class="row g-3">
+                      <!-- Product Description -->
+                      <div class="col-md-12">
+                        <label class="form-label">Product Description</label>
+                        <textarea name="prod_description" id="prod_description" class="form-control" rows="2"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Images & Color -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingImages">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseImages">
+                    🎨 Color & Images
+                  </button>
+                </h2>
+                <div id="collapseImages" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                  <div class="accordion-body">
+                    <div class="row g-3">
+                      <!-- Color -->
+                      <div class="col-md-6">
+                        <label for="color" class="form-label">Color</label>
+                        <input type="text" class="form-control" name="color" placeholder="e.g. Red, Blue">
+                      </div>
+
+                      <!-- Image Uploads -->
+                      <div class="col-md-12">
+                        <label class="form-label">Upload Images</label>
+                        <small class="d-block text-muted mb-2">You can upload up to 4 images</small>
+                        <!-- Image -->
+                        <div class="d-flex gap-3 flex-wrap">
+
+                          <!-- Image 1 -->
+                          <div>
+                            <div class="image-preview" id="imagePreviewBox1">
+                              <div class="img-holder text-center">
+                                <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+                                <small>Click to select</small>
+                              </div>
+                            </div>
+                            <input type="file" name="images[]" id="imageInput1" accept="image/*" style="display: none;">
+                          </div>
+
+                          <!-- Image 2 -->
+                          <div>
+                            <div class="image-preview" id="imagePreviewBox2">
+                              <div class="img-holder text-center">
+                                <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+                                <small>Click to select</small>
+                              </div>
+                            </div>
+                            <input type="file" name="images[]" id="imageInput2" accept="image/*" style="display: none;">
+                          </div>
+
+                          <!-- Image 3 -->
+                          <div>
+                            <div class="image-preview" id="imagePreviewBox3">
+                              <div class="img-holder text-center">
+                                <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+                                <small>Click to select</small>
+                              </div>
+                            </div>
+                            <input type="file" name="images[]" id="imageInput3" accept="image/*" style="display: none;">
+                          </div>
+
+                          <!-- Image 4 -->
+                          <div>
+                            <div class="image-preview" id="imagePreviewBox4">
+                              <div class="img-holder text-center">
+                                <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+                                <small>Click to select</small>
+                              </div>
+                            </div>
+                            <input type="file" name="images[]" id="imageInput4" accept="image/*" style="display: none;">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Meta Info -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingMeta">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMeta">
+                    📄 SEO / Meta Info (Optional)
+                  </button>
+                </h2>
+                <div id="collapseMeta" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
+                  <div class="accordion-body">
+                    <div class="row g-3">
+                      <!-- Add meta title, keyword, description -->
+                      <div class="col-md-6">
+                        <label class="form-label">Meta Title</label>
+                        <input type="text" name="meta_title" class="form-control">
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="form-label">Meta Keyword</label>
+                        <input type="text" name="meta_keyword" class="form-control" placeholder="">
+                      </div>
+
+                      <div class="col-md-12">
+                        <label class="form-label">Meta Description</label>
+                        <textarea name="meta_description" class="form-control" rows="2"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Save Product</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Color & Image Modal -->
+  <div class="modal fade" id="colorImageModal" tabindex="-1" aria-labelledby="colorImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="colorImageModalLabel">Color & Images</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="color" class="form-label">Color</label>
+            <input type="text" class="form-control" name="color" placeholder="e.g. Red, Blue" required>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Upload Product Images</label>
+            <small class="text-muted d-block mb-2">You can upload up to 3 images</small>
+            <div class="d-flex gap-3 flex-wrap justify-content-start">
+              @for ($i = 1; $i <= 3; $i++)
+                <div class="text-center">
+                <div class="image-preview" id="imagePreviewBox{{ $i }}" style="cursor:pointer; border:1px dashed #ccc; padding:15px; width:120px; height:120px; display:flex; align-items:center; justify-content:center;">
+                  <i class="bi bi-image" style="font-size: 2rem;"></i>
+                </div>
+                <input type="file" name="images[]" id="imageInput{{ $i }}" accept="image/*" style="display: none;">
+            </div>
+            @endfor
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
       </div>
     </div>
   </div>
@@ -370,58 +526,11 @@
           </div>
 
           <div class="modal-body">
-            <!-- Color -->
-            <div class="mb-3">
-              <label for="color" class="form-label">Color</label>
-              <input type="text" class="form-control" name="color" required>
-            </div>
-
-            <!-- Image -->
-            <div class="mb-3">
-              <label for="imageUpload" class="form-label">Image</label>
-              <div class="d-flex gap-3 flex-wrap">
-
-                <!-- Image 1 -->
-                <div>
-                  <div class="image-preview" id="imagePreviewBox1_{{ $product->prod_id }}">
-                    <div class="img-holder text-center">
-                      <i class="bi bi-image" style="font-size: 2rem;"></i><br>
-                      <small>Click to select</small>
-                    </div>
-                  </div>
-                  <input type="file" name="images[]" id="imageInput1_{{ $product->prod_id }}" accept="image/*" style="display: none;">
-                </div>
-
-                <!-- Image 2 -->
-                <div>
-                  <div class="image-preview" id="imagePreviewBox2_{{ $product->prod_id }}">
-                    <div class="img-holder text-center">
-                      <i class="bi bi-image" style="font-size: 2rem;"></i><br>
-                      <small>Click to select</small>
-                    </div>
-                  </div>
-                  <input type="file" name="images[]" id="imageInput2_{{ $product->prod_id }}" accept="image/*" style="display: none;">
-                </div>
-
-                <!-- Image 3 -->
-                <div>
-                  <div class="image-preview" id="imagePreviewBox3_{{ $product->prod_id }}">
-                    <div class="img-holder text-center">
-                      <i class="bi bi-image" style="font-size: 2rem;"></i><br>
-                      <small>Click to select</small>
-                    </div>
-                  </div>
-                  <input type="file" name="images[]" id="imageInput3_{{ $product->prod_id }}" accept="image/*" style="display: none;">
-                </div>
-              </div>
-
-            </div>
-
             <!-- Sizes -->
             <div class="mb-3">
               <label class="form-label">Available Sizes & Details</label>
               <div class="table-responsive">
-                <table class="table table-bordered" id="sizeTable sizeTable_{{ $product->prod_id }}">
+                <table class="table table-bordered" id="sizeTable_{{ $product->prod_id }}">
                   <thead>
                     <tr>
                       <th>Size</th>
@@ -451,9 +560,10 @@
                   </tbody>
                 </table>
 
-                <button type="button" class="btn btn-success mt-2" id="addSizeRowBtn">
+                <button type="button" class="btn btn-success mt-2 addSizeRowBtn" data-product-id="{{ $product->prod_id }}">
                   <i class="fas fa-plus-circle"></i> Add Size
                 </button>
+
               </div>
             </div>
 
@@ -509,14 +619,48 @@
   $(document).on('click', '.edit-variant-btn', function() {
     const productId = $(this).data('id');
     const color = $(this).data('color');
+    const rawImages = $(this).attr('data-images'); // use attr to get the raw string
     const variants = $(this).data('variants'); // This will be an array of objects
+
+    let images = [];
+
+    images = JSON.parse(rawImages);
 
     console.log("Product ID:", productId);
     console.log("Color:", color);
+    console.log("Images:", images);
     console.log("Variants:", variants);
 
     $(`#variantModal${productId} input[name="color"]`).val(color); // Set color
 
+    // Loop through max images.length and update preview boxes
+    for (let i = 0; i < images.length; i++) {
+      const previewId = `imagePreviewBox${i + 1}_${productId}`;
+      const inputId = `imageInput${i + 1}_${productId}`;
+      const box = $(`#${previewId}`);
+
+      if (images[i]) {
+        // Show existing stored image in preview box
+        box.html(`
+        <div class="position-relative">
+          <img src="/uploads/products/${images[i]}" alt="Preview" class="img-fluid">
+          <input type="hidden" name="existing_images[]" value="${images[i]}">
+
+          <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image-btn"
+            data-input="${inputId}" data-preview="${previewId}" style="z-index: 10;">&times;</button>
+
+        </div>
+      `);
+      } else {
+        // Reset to default icon and text
+        box.html(`
+        <div class="img-holder text-center">
+          <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+          <small>Click to select</small>
+        </div>
+      `);
+      }
+    }
 
     // Clear the table body
     const tbody = $(`#variantTableBody${productId}`);
@@ -563,10 +707,17 @@
     const fitType = $btn.data('fit');
     const careInstructions = $btn.data('care');
     const description = $btn.data('description');
+    const color = $btn.data('color');
+    const rawImages = $(this).attr('data-images'); // use attr to get the raw string
     const metaTitle = $btn.data('meta-title');
     const metaKeyword = $btn.data('meta-keyword');
     const metaDescription = $btn.data('meta-description');
 
+    let images = [];
+
+    images = JSON.parse(rawImages)
+
+    console.log("Images:", images);
 
     // Fill modal fields
     $('#addProductModal input[name="product_id"]').val(productId);
@@ -581,9 +732,38 @@
     $('#addProductModal select[name="fit_type"]').val(fitType);
     $('#addProductModal select[name="care_instructions"]').val(careInstructions);
     $('#addProductModal textarea[name="prod_description"]').val(description);
+    $('#addProductModal input[name="color"]').val(color);
     $('#addProductModal input[name="meta_title"]').val(metaTitle);
     $('#addProductModal input[name="meta_keyword"]').val(metaKeyword);
     $('#addProductModal textarea[name="meta_description"]').val(metaDescription);
+
+    // Loop through max images.length and update preview boxes
+    for (let i = 0; i < images.length; i++) {
+      const previewId = `imagePreviewBox${i + 1}`;
+      const inputId = `imageInput${i + 1}`;
+      const box = $(`#${previewId}`);
+
+      if (images[i]) {
+        // Show existing stored image in preview box
+        box.html(`
+          <div class="position-relative">
+            <img src="/uploads/products/${images[i]}" alt="Preview" class="img-fluid rounded" style="max-height: 120px;">
+            <input type="hidden" name="existing_images[]" value="${images[i]}">
+
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image-btn"
+              data-input="${inputId}" data-preview="${previewId}" style="z-index: 10;">&times;</button>
+          </div>
+    `);
+      } else {
+        // Reset to default icon and text
+        box.html(`
+          <div class="img-holder text-center">
+            <i class="bi bi-image" style="font-size: 2rem;"></i><br>
+            <small>Click to select</small>
+          </div>
+        `);
+      }
+    }
 
     // Show the modal
     $('#addProductModal').modal('show');
@@ -593,29 +773,26 @@
 
   // Define the binding function for preview image
   function bindImagePreview(previewId, inputId) {
-    // When preview box is clicked
+    // Click on preview opens file selector
     $(`#${previewId}`).on('click', function() {
-      $(`#${inputId}`).val('');
-      $(`#${inputId}`).click();
+      $(`#${inputId}`).val('').click();
     });
 
-    // When file is selected
+    // When image selected
     $(`#${inputId}`).on('change', function() {
       const file = this.files[0];
-
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
           $(`#${previewId}`).html(`
-            <div class="position-relative">
-              <img src="${e.target.result}" alt="Preview" class="img-fluid">
-              <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image-btn" data-input="${inputId}" data-preview="${previewId}" style="z-index: 10;">&times;</button>
-            </div>
-          `);
+          <div class="position-relative">
+            <img src="${e.target.result}" alt="Preview" class="img-fluid rounded">
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image-btn" data-input="${inputId}" data-preview="${previewId}" style="z-index: 10;">&times;</button>
+          </div>
+        `);
         };
         reader.readAsDataURL(file);
       }
-      // Reset input so same file can be selected again later
     });
   }
 
@@ -625,7 +802,11 @@
     // product variants modal
     let sizeIndex = $('#sizeTable tbody tr').length;
 
-    $('#addSizeRowBtn').on('click', function() {
+    $(document).on('click', '.addSizeRowBtn', function() {
+      const productId = $(this).data('product-id');
+      const tbody = $(`#sizeTable_${productId} tbody`);
+      let sizeIndex = tbody.find('tr').length;
+
       const newRow = `
         <tr>
           <td>
@@ -642,8 +823,11 @@
           </td>
         </tr>
       `;
-      $('#sizeTable tbody').append(newRow);
-      sizeIndex++;
+
+      tbody.append(newRow);
+
+      // $('#sizeTable tbody').append(newRow);
+      // sizeIndex++;
     });
 
 
@@ -669,30 +853,13 @@
       `);
     });
 
-    // Bind for type 1
-    $("[id^=imagePreviewBox1_]").each(function() {
-      const previewId = $(this).attr("id");
-      const suffix = previewId.split("_")[1];
-      bindImagePreview(previewId, `imageInput1_${suffix}`);
-    });
-
-    // Bind for type 2
-    $("[id^=imagePreviewBox2_]").each(function() {
-      const previewId = $(this).attr("id");
-      const suffix = previewId.split("_")[1];
-      bindImagePreview(previewId, `imageInput2_${suffix}`);
-    });
-
-    // Bind for type 3
-    $("[id^=imagePreviewBox3_]").each(function() {
-      const previewId = $(this).attr("id");
-      const suffix = previewId.split("_")[1];
-      bindImagePreview(previewId, `imageInput3_${suffix}`);
-    });
+    // Bind preview and input for 1 to 4 image boxes
+    for (let i = 1; i <= 4; i++) {
+      bindImagePreview(`imagePreviewBox${i}`, `imageInput${i}`);
+    }
 
     // preview input image end
-
-
+  });
 </script>
 
 

@@ -77,7 +77,7 @@ class VariantController extends Controller
         $productId = $request->input('product_id');
         $color = $request->input('color');
         $sizes = $request->input('sizes');
-
+        $existingImages = $request->input('existing_images', []);
 
         foreach ($sizes as $sizeData) {
             if (!isset($sizeData['selected'])) {
