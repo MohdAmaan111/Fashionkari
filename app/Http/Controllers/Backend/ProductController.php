@@ -134,8 +134,23 @@ class ProductController extends Controller
         }
     }
 
-    public function edit(Request $request)
+    public function destroy($id)
     {
-        dd($request->all());
+        $product = Product::findOrFail($id);
+
+        // Delete associated images from storage if needed
+        if ($product->images) {
+            $images = json_decode($product->images, true);
+            foreach ($images as $image) {
+                $imagePath = public_path('uploads/products/' . $image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+        }
+
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Product deleted successfully.');
     }
 }

@@ -57,6 +57,7 @@
                     <th>Quantity</th>
                     <th>Status</th>
                     <th>Action</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -68,8 +69,9 @@
                     <td>{{ $product->prod_id }}</td>
                     <td>{{ $product->product_name }}</td>
                     <td>{{ $product->category->cat_name ?? 'N/A' }}</td>
-
                     <td>{{ $product->color }}</td>
+
+                    <!-- Product Images -->
                     <td>
                       @php
                       $image = json_decode($product->images ?? '[]', true);
@@ -78,11 +80,13 @@
                       @endphp
                       <img src="{{ asset('uploads/products/' . $firstImage) }}" width="40">
                     </td>
+                    <!-- Product Variant -->
                     <td>
                       @if ($product->variants->isNotEmpty())
                       {{ $product->variants->sum('stock') }} pcs
                       @else
-                      <button class="btn-icon-outline-blue" data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
+                      <button class="btn-icon-outline-blue" id="addVariantBtn" data-product-id="{{ $product->prod_id }}"
+                        data-bs-toggle="modal" data-bs-target="#variantModal{{ $product->prod_id }}">
                         <i class="bi bi-plus-lg"></i>
                       </button>
                       @endif
@@ -95,7 +99,7 @@
                       <span class="status-label inactive">Inactive</span>
                       @endif
                     </td>
-                    
+                    <!-- Action Button -->
                     <td>
                       <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -149,6 +153,17 @@
                         </ul>
                       </div>
                     </td>
+                    <!-- DELETE Button -->
+                    <td>
+                      <form action="{{ route('admin.products.destroy', $product->prod_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn p-0 border-0 bg-transparent" style="font-size: 1.8rem;">
+                          <i class="bi bi-trash-fill text-danger"></i>
+                        </button>
+                      </form>
+                    </td>
+
 
                   </tr>
                   @endforeach
@@ -470,42 +485,6 @@
     </div>
   </div>
 
-  <!-- Color & Image Modal -->
-  <div class="modal fade" id="colorImageModal" tabindex="-1" aria-labelledby="colorImageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="colorImageModalLabel">Color & Images</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="color" class="form-label">Color</label>
-            <input type="text" class="form-control" name="color" placeholder="e.g. Red, Blue" required>
-          </div>
-
-          <div class="mb-2">
-            <label class="form-label">Upload Product Images</label>
-            <small class="text-muted d-block mb-2">You can upload up to 3 images</small>
-            <div class="d-flex gap-3 flex-wrap justify-content-start">
-              @for ($i = 1; $i <= 3; $i++)
-                <div class="text-center">
-                <div class="image-preview" id="imagePreviewBox{{ $i }}" style="cursor:pointer; border:1px dashed #ccc; padding:15px; width:120px; height:120px; display:flex; align-items:center; justify-content:center;">
-                  <i class="bi bi-image" style="font-size: 2rem;"></i>
-                </div>
-                <input type="file" name="images[]" id="imageInput{{ $i }}" accept="image/*" style="display: none;">
-            </div>
-            @endfor
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Variant Modal -->
 
@@ -581,25 +560,6 @@
   @endforeach
 
 
-
-  <div class="modal fade" id="variantModal{{ $product->prod_id }}" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>Edit Variants for {{ $product->product_name }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body" id="variantModalBody_{{ $product->prod_id }}">
-          <!-- Fetched via AJAX -->
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary">Save Changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
 </main><!-- End #main -->
 
 <script>
@@ -614,53 +574,45 @@
     var addModal = new bootstrap.Modal($('#addProductModal')[0]);
     addModal.show();
   });
+  $('#addVariantBtn').on('click', function() {
+    const productId = $(this).data('product-id');
+    console.log("Clicked Add Variant for product:", productId); // ✅ CHECK THIS
+
+
+    // Clear existing variant rows
+    const tbody = $(`#variantTableBody${productId}`);
+    tbody.empty();
+
+    // Optionally: repopulate with blank default rows
+    const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+    sizes.forEach((size, index) => {
+      const row = `
+      <tr>
+        <td>
+          <div class="form-check d-flex align-items-center gap-2">
+            <input type="checkbox" name="sizes[${index}][selected]" value="1" class="form-check-input">
+            <input type="text" name="sizes[${index}][size]" class="form-control" value="${size}" style="width: 80px;">
+          </div>
+        </td>
+        <td><input type="number" name="sizes[${index}][stock]" class="form-control" placeholder="Stock"></td>
+        <td><input type="number" name="sizes[${index}][mrp]" class="form-control" placeholder="MRP"></td>
+        <td><input type="number" name="sizes[${index}][selling_price]" class="form-control" placeholder="Selling Price"></td>
+        <td class="text-center">
+          <button type="button" class="btn btn-danger removeRowBtn">−</button>
+        </td>
+      </tr>`;
+      tbody.append(row);
+    });
+  });
+
 
   // Write the jQuery to fill in modal fields when "Edit Product Variant" is clicked
   $(document).on('click', '.edit-variant-btn', function() {
     const productId = $(this).data('id');
-    const color = $(this).data('color');
-    const rawImages = $(this).attr('data-images'); // use attr to get the raw string
     const variants = $(this).data('variants'); // This will be an array of objects
 
-    let images = [];
-
-    images = JSON.parse(rawImages);
-
     console.log("Product ID:", productId);
-    console.log("Color:", color);
-    console.log("Images:", images);
     console.log("Variants:", variants);
-
-    $(`#variantModal${productId} input[name="color"]`).val(color); // Set color
-
-    // Loop through max images.length and update preview boxes
-    for (let i = 0; i < images.length; i++) {
-      const previewId = `imagePreviewBox${i + 1}_${productId}`;
-      const inputId = `imageInput${i + 1}_${productId}`;
-      const box = $(`#${previewId}`);
-
-      if (images[i]) {
-        // Show existing stored image in preview box
-        box.html(`
-        <div class="position-relative">
-          <img src="/uploads/products/${images[i]}" alt="Preview" class="img-fluid">
-          <input type="hidden" name="existing_images[]" value="${images[i]}">
-
-          <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-image-btn"
-            data-input="${inputId}" data-preview="${previewId}" style="z-index: 10;">&times;</button>
-
-        </div>
-      `);
-      } else {
-        // Reset to default icon and text
-        box.html(`
-        <div class="img-holder text-center">
-          <i class="bi bi-image" style="font-size: 2rem;"></i><br>
-          <small>Click to select</small>
-        </div>
-      `);
-      }
-    }
 
     // Clear the table body
     const tbody = $(`#variantTableBody${productId}`);
