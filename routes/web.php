@@ -25,6 +25,9 @@ Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name(
 Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
 
+Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('cart.add');
+
+
 //Backend Routes
 
 // Public Routes (login/register)
@@ -45,6 +48,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer');
     Route::post('/customer/register', [CustomerController::class, 'register'])->name('admin.customer.register');
+    Route::delete('/customer/{id}', [CustomerController::class, 'destroy'])->name('admin.customer.destroy');
+
 
     // products routes
     Route::get('/product', [ProductController::class, 'index'])->name('admin.product');

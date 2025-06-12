@@ -24,10 +24,6 @@ class ProductController extends Controller
         $categories = Category::all(); // Get all categories
         $brands = Brand::all(); // Get all brands
 
-        // $products = Product::join('categories', 'products.category_id', '=', 'categories.cat_id')
-        //     ->select('products.*', 'categories.cat_name')
-        //     ->get();   // Get all products
-
         $products = Product::with(['category', 'variants'])->get();
 
         return view('backend.products', compact('products', 'categories', 'brands'));

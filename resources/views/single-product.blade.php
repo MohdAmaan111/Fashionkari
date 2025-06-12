@@ -18,7 +18,7 @@
                     <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a></li>
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="../shop/shop.html">{{ $product->cat_name }}</a></li>
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">{{ $product->prod_name }}</li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">{{ $product->product_name }}</li>
                     </ol>
                 </nav>
             </div>
@@ -33,6 +33,8 @@
             <div class="row">
                 @php
                 $images = json_decode($product->images, true);
+
+                $sortedVariants = $product->variants->sortBy('selling_price');
                 @endphp
                 <!-- Product image body -->
                 <div class="col-md-5 mb-4 mb-md-0">
@@ -110,7 +112,7 @@
                     <div class="mb-2">
                         <div class="border-bottom mb-3 pb-md-1 pb-3">
                             <a href="#" class="font-size-12 text-gray-5 mb-2 d-inline-block">{{ $product->cat_name }}</a>
-                            <h2 class="font-size-25 text-lh-1dot2">{{ $product->prod_name }}</h2>
+                            <h2 class="font-size-25 text-lh-1dot2">{{ $product->product_name }}</h2>
                             <div class="mb-2">
                                 <a class="d-inline-flex align-items-center small font-size-15 text-lh-1" href="#">
                                     <div class="text-warning mr-2">
@@ -124,16 +126,11 @@
                                 </a>
                             </div>
                             <div class="d-md-flex align-items-center">
-                                <div class="ml-md-3 text-gray-9 font-size-14">Availability:
-                                    @if ($product->stock > 0)
-                                    <span class="text-green font-weight-bold">
-                                        {{ $product->stock }} in stock
+                                <div class="ml-md-3 text-gray-9 font-size-14">
+                                    Availability:
+                                    <span id="availabilityText">
+                                        <!-- {{-- This will be replaced by jQuery --}} -->
                                     </span>
-                                    @else
-                                    <span class="text-red font-weight-bold">
-                                        Out of Stock
-                                    </span>
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -142,69 +139,106 @@
                         </div>
                         <div class="mb-2">
                             <ul class="font-size-14 pl-3 ml-1 text-gray-110">
-                                <li>4.5 inch HD Touch Screen (1280 x 720)</li>
-                                <li>Android 4.4 KitKat OS</li>
-                                <li>1.4 GHz Quad Core™ Processor</li>
-                                <li>20 MP Electro and 28 megapixel CMOS rear camera</li>
+                                <li><strong>Neck Type: </strong>{{ $product->neck_type }}</li>
+                                <li><strong>Fit Type: </strong>{{ $product->fit_type }}</li>
+                                <li><strong>Sleeve Type: </strong>{{ $product->sleeve_type }}</li>
+                                <li><strong>Length Type: </strong>{{ $product->length_type }}</li>
                             </ul>
                         </div>
                         <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p> -->
-                        <p><strong>SKU</strong>: FW511948218</p>
+                        <p><strong>Fabric</strong>: {{ $product->fabric_name }}</p>
+                        <!-- Product Price -->
                         <div class="mb-4">
-                            <div class="d-flex align-items-baseline">
-                                <ins class="font-size-36 text-decoration-none">₹{{ number_format($product->selling_price, 2) }}</ins>
-                                <del class="font-size-20 ml-2 text-gray-6">₹{{ number_format($product->mrp, 2) }}</del>
+                            @php
+                            $firstVariant = $sortedVariants->first(); // lowest price variant
+                            @endphp
+                            <div class="d-flex align-items-baseline" id="priceBlock">
+                                <ins class="font-size-36 text-decoration-none" id="sellingPrice">₹{{ number_format($firstVariant->selling_price, 2) }}</ins>
+                                <del class="font-size-20 ml-2 text-gray-6" id="mrp">₹{{ number_format($firstVariant->mrp, 2) }}</del>
                             </div>
                         </div>
+                        <!-- Product Color -->
                         <div class="border-top border-bottom py-3 mb-4">
-                            <div class="d-flex align-items-center">
-                                <h6 class="font-size-14 mb-0">Color</h6>
-                                <!-- Select -->
-                                <div class="dropdown bootstrap-select js-select dropdown-select ml-3"><select class="js-select selectpicker dropdown-select ml-3" data-style="btn-sm bg-white font-weight-normal py-2 border" tabindex="-98">
-                                        <option value="one" selected="">White with Gold</option>
-                                        <option value="two">Red</option>
-                                        <option value="three">Green</option>
-                                        <option value="four">Blue</option>
-                                    </select><button type="button" class="btn dropdown-toggle btn-sm bg-white font-weight-normal py-2 border" data-toggle="dropdown" role="button" title="White with Gold">
-                                        <div class="filter-option">
-                                            <div class="filter-option-inner">
-                                                <div class="filter-option-inner-inner">White with Gold</div>
+                            <div class="d-flex align-items-center gap-3">
+                                <h6 class="font-size-14 mb-0 me-3" style="min-width: 60px;">Color:</h6>
+
+                                {{-- If showing just the name --}}
+                                <span class="badge bg-light text-dark px-3 py-2" style="border: 1px solid #ccc;">
+                                    {{ ucfirst($product->color) }}
+                                </span>
+
+                                {{-- Optional: Show actual color swatch visually --}}
+                                @php
+                                $colorCode = strtolower($product->color); // assuming color like "Red", "Blue", "Black"
+                                @endphp
+                                <!-- <span class="ms-2" style="width: 20px; height: 20px; border-radius: 50%; background-color: {{ $colorCode }}; display: inline-block; border: 1px solid #000;"></span> -->
+                            </div>
+                        </div>
+                        <!-- {{-- Size Selection --}} -->
+                        <div class="border-top border-bottom py-3 mb-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h6 class="font-size-14 mb-0">Select Size</h6>
+                                <a href="#" class="text-danger font-weight-bold">Size Guide</a>
+                            </div>
+
+                            <div class="mt-3 d-flex flex-wrap" id="variantButtons">
+                                @foreach($sortedVariants as $variant)
+                                <div class="text-center" style="margin-right: 12px; margin-bottom: 12px;">
+                                    <button type="button"
+                                        class="btn btn-outline-secondary variant-btn py-1 px-3 {{ $variant->stock == 0 ? 'disabled' : '' }}"
+                                        style="border-radius: 30px; min-width: 60px;"
+                                        data-variant-id="{{ $variant->variant_id }}"
+                                        data-size="{{ $variant->size }}"
+                                        data-stock="{{ $variant->stock }}"
+                                        data-mrp="{{ $variant->mrp }}"
+                                        data-price="{{ $variant->selling_price }}">
+                                        {{ $variant->size }}
+                                    </button>
+                                    <div class="mt-1 small" style="font-size: 12px;">
+                                        @if($variant->stock == 0)
+                                        <span class="text-muted">sold out</span>
+                                        @elseif($variant->stock <= 3)
+                                            <span class="text-danger">{{ $variant->stock }} left</span>
+                                            @endif
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <input type="hidden" name="selected_variant_id" id="selectedVariantId" value="{{ $firstVariant->variant_id }}">
+
+                        </div>
+
+                        <!-- Product Quantity -->
+                        <div class="d-md-flex align-items-end mb-3">
+                            <form action="{{ route('cart.add') }}" method="POST">
+                                <div class="max-width-150 mb-4 mb-md-0">
+                                    <h6 class="font-size-14">Quantity</h6>
+                                    <!-- Quantity -->
+                                    <div class="border rounded-pill py-2 px-3 border-color-1">
+                                        <div class="js-quantity row align-items-center">
+                                            <div class="col">
+                                                <input class="js-result form-control h-auto border-0 rounded p-0 shadow-none" type="number" name="quantity" value="1" min="1" class="form-control w-25 d-inline">
+
+                                                <!-- <input class="js-result form-control h-auto border-0 rounded p-0 shadow-none" type="text" value="1"> -->
+                                            </div>
+                                            <div class="col-auto pr-1">
+                                                <a class="js-minus btn btn-icon btn-xs btn-outline-secondary rounded-circle border-0" href="javascript:;">
+                                                    <small class="fas fa-minus btn-icon__inner"></small>
+                                                </a>
+                                                <a class="js-plus btn btn-icon btn-xs btn-outline-secondary rounded-circle border-0" href="javascript:;">
+                                                    <small class="fas fa-plus btn-icon__inner"></small>
+                                                </a>
                                             </div>
                                         </div>
+                                    </div>
+                                    <!-- End Quantity -->
+                                </div>
+                                <div class="ml-md-3">
+                                    <button type="submit" class="btn px-5 btn-primary-dark transition-3d-hover">
+                                        <i class="ec ec-add-to-cart mr-2 font-size-20"></i> Add to Cart
                                     </button>
-                                    <div class="dropdown-menu " role="combobox">
-                                        <div class="inner show" role="listbox" aria-expanded="false" tabindex="-1">
-                                            <ul class="dropdown-menu inner show"></ul>
-                                        </div>
-                                    </div>
                                 </div>
-                                <!-- End Select -->
-                            </div>
-                        </div>
-                        <div class="d-md-flex align-items-end mb-3">
-                            <div class="max-width-150 mb-4 mb-md-0">
-                                <h6 class="font-size-14">Quantity</h6>
-                                <!-- Quantity -->
-                                <div class="border rounded-pill py-2 px-3 border-color-1">
-                                    <div class="js-quantity row align-items-center">
-                                        <div class="col">
-                                            <input class="js-result form-control h-auto border-0 rounded p-0 shadow-none" type="text" value="1">
-                                        </div>
-                                        <div class="col-auto pr-1">
-                                            <a class="js-minus btn btn-icon btn-xs btn-outline-secondary rounded-circle border-0" href="javascript:;">
-                                                <small class="fas fa-minus btn-icon__inner"></small>
-                                            </a>
-                                            <a class="js-plus btn btn-icon btn-xs btn-outline-secondary rounded-circle border-0" href="javascript:;">
-                                                <small class="fas fa-plus btn-icon__inner"></small>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Quantity -->
-                            </div>
-                            <div class="ml-md-3">
-                                <a href="#" class="btn px-5 btn-primary-dark transition-3d-hover"><i class="ec ec-add-to-cart mr-2 font-size-20"></i> Add to Cart</a>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -249,103 +283,35 @@
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>
-                                            <th class="px-4 px-xl-5 border-top-0">Weight</th>
-                                            <td class="border-top-0">7.25kg</td>
+                                            <th class="px-4 px-xl-5 border-top-0">Fit Type</th>
+                                            <td class="border-top-0">{{ $product->fit_type }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="px-4 px-xl-5">Dimensions</th>
-                                            <td>90 x 60 x 90 cm</td>
+                                            <th class="px-4 px-xl-5">Neck Type</th>
+                                            <td>{{ $product->neck_type }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="px-4 px-xl-5">Size</th>
-                                            <td>One Size Fits all</td>
+                                            <th class="px-4 px-xl-5">Sleeve Type</th>
+                                            <td>{{ $product->sleeve_type }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="px-4 px-xl-5">color</th>
-                                            <td>Black with Red, White with Gold</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Guarantee</th>
-                                            <td>5 years</td>
+                                            <th class="px-4 px-xl-5">Length Type</th>
+                                            <td>{{ $product->length_type }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <h3 class="font-size-18 mb-4">Technical Specifications</h3>
+                            <h3 class="font-size-18 mb-4">Fabric Specifications</h3>
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>
-                                            <th class="px-4 px-xl-5 border-top-0">Brand</th>
-                                            <td class="border-top-0">Apple</td>
+                                            <th class="px-4 px-xl-5 border-top-0">Material</th>
+                                            <td class="border-top-0">{{ $product->fabric_name }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="px-4 px-xl-5">Item Height</th>
-                                            <td>18 Millimeters</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Item Width</th>
-                                            <td>31.4 Centimeters</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Screen Size</th>
-                                            <td>13 Inches</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Item Weight</th>
-                                            <td>1.6 Kg</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Product Dimensions</th>
-                                            <td>21.9 x 31.4 x 1.8 cm</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Item model number</th>
-                                            <td>MF841HN/A</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Processor Brand</th>
-                                            <td>Intel</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Processor Type</th>
-                                            <td>Core i5</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Processor Speed</th>
-                                            <td>2.9 GHz</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">RAM Size</th>
-                                            <td>8 GB</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Hard Drive Size</th>
-                                            <td>512 GB</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Hard Disk Technology</th>
-                                            <td>Solid State Drive</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Graphics Coprocessor</th>
-                                            <td>Intel Integrated Graphics</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Graphics Card Description</th>
-                                            <td>Integrated Graphics Card</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Hardware Platform</th>
-                                            <td>Mac</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Operating System</th>
-                                            <td>Mac OS</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="px-4 px-xl-5">Average Battery Life (in hours)</th>
-                                            <td>9</td>
+                                            <th class="px-4 px-xl-5">Care instructions</th>
+                                            <td>{{ $product->care_instructions }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -661,5 +627,43 @@
     </div>
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
+
+<script>
+    // Size of product variants
+    $(document).ready(function() {
+        function clearSelection() {
+            $('.variant-btn').removeClass('btn-dark');
+        }
+
+        function updateAvailability(stock) {
+            if (stock > 0) {
+                $('#availabilityText').html('<span class="text-green font-weight-bold">In stock</span>');
+            } else {
+                $('#availabilityText').html('<span class="text-red font-weight-bold">Out of Stock</span>');
+            }
+        }
+
+        $('.variant-btn').on('click', function() {
+            const price = $(this).data('price');
+            const mrp = $(this).data('mrp');
+            const variantId = $(this).data('variant-id');
+            const stock = $(this).data('stock');
+
+            $('#sellingPrice').text('₹' + parseFloat(price).toFixed(2));
+            $('#mrp').text('₹' + parseFloat(mrp).toFixed(2));
+            $('#selectedVariantId').val(variantId);
+
+            updateAvailability(stock);
+            clearSelection();
+            $(this).addClass('btn-dark');
+        });
+
+        // Auto-select first available size
+        const $firstAvailable = $('.variant-btn').not('.disabled').first();
+        if ($firstAvailable.length) {
+            $firstAvailable.trigger('click');
+        }
+    });
+</script>
 
 @endsection

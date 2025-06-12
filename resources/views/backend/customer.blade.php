@@ -41,7 +41,7 @@
             </h5>
           </div>
           </h5>
-          <form id="bulkDeleteForm" method="post">
+          <!-- <form id="bulkDeleteForm" method="post"> -->
             <!-- Product table data start -->
             <div class="table-responsive">
               <!-- Table with stripped rows -->
@@ -54,13 +54,8 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Country</th>
-                    <th>Postal Code</th>
                     <th>View</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,12 +67,6 @@
                     <td>{{ $customer->cus_id ?? 'N/A' }}</td>
                     <td>{{ $customer->cus_name ?? 'N/A' }}</td>
                     <td>{{ $customer->email ?? 'N/A' }}</td>
-                    <td>{{ $customer->phone ?? 'N/A' }}</td>
-                    <td>{{ $customer->address ?? 'N/A' }}</td>
-                    <td>{{ $customer->city ?? 'N/A' }}</td>
-                    <td>{{ $customer->state ?? 'N/A' }}</td>
-                    <td>{{ $customer->country ?? 'N/A' }}</td>
-                    <td>{{ $customer->postal_code ?? 'N/A' }}</td>
                     <td>
                       <button type="button" class="btn btn-outline-primary btn-sm rounded-circle shadow-sm view-customer-btn"
                         data-bs-toggle="modal"
@@ -94,6 +83,15 @@
                         <i class="bi bi-eye fs-6"></i> <!-- Font Awesome icon -->
                       </button>
                     </td>
+                    <td>
+                      <form action="{{ route('admin.customer.destroy', $customer->cus_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn p-0 border-0 bg-transparent" style="font-size: 1.8rem;">
+                          <i class="bi bi-trash-fill text-danger"></i>
+                        </button>
+                      </form>
+                    </td>
 
                   </tr>
                   @endforeach
@@ -102,7 +100,7 @@
               </table>
               <!-- End Table with stripped rows -->
             </div>
-          </form>
+          <!-- </form> -->
         </div>
       </div>
 
