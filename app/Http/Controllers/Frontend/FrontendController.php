@@ -35,7 +35,6 @@ class FrontendController extends Controller
 
         $categories = Category::all();   // Get all categories
 
-
         // Fetch similar products (same category, exclude current), with category name
         $similarProducts = Product::join('categories', 'products.category_id', '=', 'categories.cat_id')
             ->where('products.category_id', $product->cat_id)  //Filters products that belong to the same category as the current product
