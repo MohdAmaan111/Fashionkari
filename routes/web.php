@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\CartController;
 // use App\Http\Controllers\Frontend\CustomerController as FrontCustomerController;
 
 use App\Http\Controllers\Backend\DashboardController;
@@ -25,7 +26,7 @@ Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name(
 Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
 
-Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('cart.add');
+Route::post('/customer/cart/', [CartController::class, 'addcart'])->name('cart.add');
 
 
 //Backend Routes

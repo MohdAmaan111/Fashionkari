@@ -15,5 +15,7 @@ class CartController extends Controller
         //
     }
 
-    public function addcart($id) {}
+    public function addcart(Request $request) {
+        dd($request->all());
+    }
 }
