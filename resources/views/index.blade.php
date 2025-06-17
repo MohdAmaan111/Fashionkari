@@ -5,6 +5,17 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
 
+    @if(session('success'))
+    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">{{ session('success') }}</div>
+    <script>
+        $(document).ready(function() {
+            $('#successMessage').fadeIn(200).delay(2000).fadeOut(400, function() {
+                // window.location.href = "{{ route('index') }}";
+            });
+        });
+    </script>
+    @endif
+
     <!-- Success Message -->
     <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
     </div><!-- Success Message End -->
@@ -253,13 +264,13 @@
                                             <a href="#" class="font-size-12 text-gray-5">{{ $latestMenProduct->category->cat_name ?? 'No Category' }}</a>
                                         </div>
                                         <h5 class="mb-1 product-item__title">
-                                            <a href="#" class="text-blue font-weight-bold">{{ $latestMenProduct->product_name }}</a>
+                                            <a href="{{ route('product.show', $latestMenProduct->prod_id) }}" class="text-blue font-weight-bold">{{ $latestMenProduct->product_name }}</a>
                                         </h5>
                                         <div class="mb-2">
                                             @php
                                             $productImages = json_decode($latestMenProduct->images ?? '[]', true);
                                             @endphp
-                                            <a href="" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
+                                            <a href="{{ route('product.show', $latestMenProduct->prod_id) }}" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
                                                 @if (!empty($productImages) && isset($productImages[0]))
                                                 <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $productImages[0]) }}" alt="{{ $latestMenProduct->product_name }}">
                                                 @else
@@ -323,13 +334,13 @@
                                             <a href="#" class="font-size-12 text-gray-5">{{ $latestWomenProduct->category->cat_name ?? 'No Category' }}</a>
                                         </div>
                                         <h5 class="mb-1 product-item__title">
-                                            <a href="#" class="text-blue font-weight-bold">{{ $latestWomenProduct->product_name }}</a>
+                                            <a href="{{ route('product.show', $latestWomenProduct->prod_id) }}" class="text-blue font-weight-bold">{{ $latestWomenProduct->product_name }}</a>
                                         </h5>
                                         <div class="mb-2">
                                             @php
                                             $productImages = json_decode($latestWomenProduct->images ?? '[]', true);
                                             @endphp
-                                            <a href="" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
+                                            <a href="{{ route('product.show', $latestWomenProduct->prod_id) }}" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
                                                 @if (!empty($productImages) && isset($productImages[0]))
                                                 <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $productImages[0]) }}" alt="{{ $latestWomenProduct->product_name }}">
                                                 @else
@@ -399,13 +410,13 @@
                                             <a href="#" class="font-size-12 text-gray-5">{{ $bestSellerProduct->category->cat_name ?? 'No Category' }}</a>
                                         </div>
                                         <h5 class="mb-1 product-item__title">
-                                            <a href="#" class="text-blue font-weight-bold">{{ $bestSellerProduct->product_name }}</a>
+                                            <a href="{{ route('product.show', $bestSellerProduct->prod_id) }}" class="text-blue font-weight-bold">{{ $bestSellerProduct->product_name }}</a>
                                         </h5>
                                         <div class="mb-2">
                                             @php
                                             $productImages = json_decode($bestSellerProduct->images ?? '[]', true);
                                             @endphp
-                                            <a href="" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
+                                            <a href="{{ route('product.show', $bestSellerProduct->prod_id) }}" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
                                                 @if (!empty($productImages) && isset($productImages[0]))
                                                 <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $productImages[0]) }}" alt="{{ $bestSellerProduct->product_name }}">
                                                 @else
@@ -671,14 +682,15 @@
                             <div class="product-item__inner px-wd-4 p-2 p-md-3">
                                 <div class="product-item__body pb-xl-2">
                                     <div class="mb-2"><a href="" class="font-size-12 text-gray-5">{{ $recommendedProduct->category->cat_name ?? 'No Category' }}</a></div>
-                                    <h5 class="mb-1 product-item__title"><a href="" class="text-blue font-weight-bold">{{ $recommendedProduct->product_name }}</a></h5>
-                                    <div class="mb-2">
-
+                                    <h5 class="mb-1 product-item__title">
+                                        <a href="{{ route('product.show', $recommendedProduct->prod_id) }}" class="text-blue font-weight-bold">{{ $recommendedProduct->product_name }}</a>
+                                    </h5>
+                                    <div class="col col-lg-auto col-xl-5 col-wd-auto product-media-left mb-2">
                                         @php
                                         $productImages = json_decode($recommendedProduct->images ?? '[]', true);
                                         @endphp
 
-                                        <a href="" class="d-block text-center">
+                                        <a href="{{ route('product.show', $recommendedProduct->prod_id) }}" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
                                             @if (!empty($productImages) && isset($productImages[0]))
                                             <img class="img-fluid" src="{{ asset('uploads/products/' . $productImages[0]) }}" alt="{{ $latestMenProduct->product_name }}">
                                             @else
@@ -723,23 +735,6 @@
             </div>
         </div>
         <!-- End Recommendation for you -->
-
-        <!-- Banner 2 columns -->
-        <div class="mb-8">
-            <div class="row">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/shop.html">
-                        <img class="img-fluid" src="assets/img/690X150/img1.jpg" alt="Image Description">
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/shop.html">
-                        <img class="img-fluid" src="assets/img/690X150/img2.jpg" alt="Image Description">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- End Banner 2 columns -->
     </div>
 
 </main>

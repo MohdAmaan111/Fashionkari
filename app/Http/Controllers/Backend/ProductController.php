@@ -18,6 +18,8 @@ class ProductController extends Controller
     {
         // Check if the user is not authenticated
         if (!Auth::check()) {
+            // dd('Redirecting to admin.login');
+
             return redirect()->route('admin.login');
         }
 

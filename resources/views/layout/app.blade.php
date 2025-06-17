@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/slick-carousel/slick/slick.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
 
+    <link href="{{asset('backend/assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('backend/assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+
     <!-- CSS Electro Template -->
     <link rel="stylesheet" href="{{asset('assets/css/theme.css')}}">
 
@@ -56,38 +59,9 @@
                                 <li class="list-inline-item mr-0 u-header-topbar__nav-item u-header-topbar__nav-item-border full-bg">
                                     <a href="#" class="u-header-topbar__nav-link"><i class="ec ec-transport mr-1"></i> Track Your Order</a>
                                 </li>
-                                <li class="list-inline-item mr-0 u-header-topbar__nav-item u-header-topbar__nav-item-border full-bg u-header-topbar__nav-item-no-border u-header-topbar__nav-item-border-single">
-                                    <div class="d-flex align-items-center">
-                                        <!-- Language -->
-                                        <div class="position-relative">
-                                            <a id="languageDropdownInvoker" class="dropdown-nav-link dropdown-toggle d-flex align-items-center u-header-topbar__nav-link font-weight-normal" href="javascript:;" role="button"
-                                                aria-controls="languageDropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
-                                                data-unfold-event="hover"
-                                                data-unfold-target="#languageDropdown"
-                                                data-unfold-type="css-animation"
-                                                data-unfold-duration="300"
-                                                data-unfold-delay="300"
-                                                data-unfold-hide-on-scroll="true"
-                                                data-unfold-animation-in="slideInUp"
-                                                data-unfold-animation-out="fadeOut">
-                                                <span class="d-inline-block d-sm-none">US</span>
-                                                <span class="d-none d-sm-inline-flex align-items-center"><i class="ec ec-dollar mr-1"></i> Dollar (US)</span>
-                                            </a>
-
-                                            <div id="languageDropdown" class="dropdown-menu dropdown-unfold" aria-labelledby="languageDropdownInvoker">
-                                                <a class="dropdown-item active" href="#">English</a>
-                                                <a class="dropdown-item" href="#">Deutsch</a>
-                                                <a class="dropdown-item" href="#">Español‎</a>
-                                            </div>
-                                        </div>
-                                        <!-- End Language -->
-                                    </div>
-                                </li>
                                 <li class="list-inline-item mr-0 u-header-topbar__nav-item u-header-topbar__nav-item-border full-bg">
                                     <!-- Account Sidebar Toggle Button -->
-                                    <a id="sidebarNavToggler" href="javascript:;" role="button" class="u-header-topbar__nav-link"
+                                    <!-- <a id="sidebarNavToggler" href="javascript:;" role="button" class="u-header-topbar__nav-link"
                                         aria-controls="sidebarContent"
                                         aria-haspopup="true"
                                         aria-expanded="false"
@@ -99,8 +73,17 @@
                                         data-unfold-animation-out="fadeOutRight"
                                         data-unfold-duration="500">
                                         <i class="ec ec-user mr-1"></i> Register <span class="text-primary-darken-5">or</span> Sign in
-                                    </a>
+                                    </a> -->
                                     <!-- End Account Sidebar Toggle Button -->
+                                    @if(auth('customer')->check())
+                                    <a href="{{ route('customer.profile') }}" class="u-header-topbar__nav-link">
+                                        <i class="ec ec-user mr-1"></i> My Profile
+                                    </a>
+                                    @else
+                                    <a href="{{ route('customer.account') }}" class="u-header-topbar__nav-link">
+                                        <i class="ec ec-user mr-1"></i> Register <span class="text-primary-darken-5">or</span> Sign in
+                                    </a>
+                                    @endif
                                 </li>
                             </ul>
                         </div>
@@ -118,7 +101,7 @@
                             <!-- Nav -->
                             <nav class="navbar navbar-expand u-header__navbar py-0 justify-content-xl-between max-width-270 min-width-270">
                                 <!-- Logo -->
-                                <a class="order-1 order-xl-0 navbar-brand u-header__navbar-brand u-header__navbar-brand-center" href="index.html" aria-label="Electro">
+                                <a class="order-1 order-xl-0 navbar-brand u-header__navbar-brand u-header__navbar-brand-center" href="{{ route('index') }}" aria-label="Electro">
                                     <img src="{{asset('assets/img/fashionkari.png')}}" alt="Fashionkari">
                                 </a>
                                 <!-- End Logo -->
@@ -386,7 +369,7 @@
                                                                     <!-- End Checkout -->
 
                                                                     <!-- My Account -->
-                                                                    <li><a class="u-header-collapse__submenu-nav-link" href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html">My Account</a></li>
+                                                                    <li><a class="u-header-collapse__submenu-nav-link" href="{{ route('customer.account') }}">My Account</a></li>
                                                                     <!-- End My Account -->
 
                                                                     <!-- Track your Order -->
@@ -480,7 +463,7 @@
                             <!-- ========== END HEADER SIDEBAR ========== -->
                         </div>
                         <!-- End Logo-offcanvas-menu -->
-                        <!-- Search Bar -->
+
                         <!-- Search Bar -->
                         <div class="col d-none d-xl-block">
                             <form class="js-focus-state">
@@ -506,6 +489,7 @@
                             </form>
                         </div>
                         <!-- End Search Bar -->
+
                         <!-- Header Icons -->
                         <div class="col col-xl-auto text-right text-xl-left pl-0 pl-xl-3 position-static">
                             <div class="d-inline-flex">
@@ -534,15 +518,18 @@
                                             <form class="js-focus-state input-group px-3">
                                                 <input class="form-control" type="search" placeholder="Search Product">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-primary px-3" type="button"><i class="font-size-18 ec ec-search"></i></button>
+                                                    <button class="btn btn-primary px-3" type="button">
+                                                        <i class="font-size-18 ec ec-search"></i>
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                         <!-- End Input -->
                                     </li>
                                     <!-- End Search -->
-                                    <li class="col d-none d-xl-block"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="Compare"><i class="font-size-22 ec ec-compare"></i></a></li>
+
                                     <li class="col d-none d-xl-block"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="Favorites"><i class="font-size-22 ec ec-favorites"></i></a></li>
+
                                     <li class="col d-xl-none px-2 px-sm-3"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="My Account"><i class="font-size-22 ec ec-user"></i></a></li>
                                     <li class="col pr-xl-0 px-2 px-sm-3">
                                         <a href="https://transvelo.github.io/electro-html/2.0/html/shop/cart.html" class="text-gray-90 position-relative d-flex " data-toggle="tooltip" data-placement="top" title="Cart">
@@ -660,105 +647,15 @@
                                     </li>
                                     <!-- End Home -->
 
-                                    <!-- TV & Audio -->
+                                    <!-- Summer Wear -->
                                     <li class="nav-item hs-has-mega-menu u-header__nav-item"
                                         data-event="hover"
                                         data-animation-in="slideInUp"
                                         data-animation-out="fadeOut">
-                                        <a id="TVMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">TV & Audio</a>
+                                        <a id="SummerWearMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Summer Wear</a>
 
-                                        <!-- TV & Audio - Mega Menu -->
-                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="TVMegaMenu">
-                                            <div class="row u-header__mega-menu-wrapper">
-                                                <div class="col-md-3">
-                                                    <span class="u-header__sub-menu-title">Televisions</span>
-                                                    <ul class="u-header__sub-menu-nav-group mb-3">
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Smart TVs</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">4K TVs</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Full HD TVs</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Large Screen TVs</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">32 inch TVs</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">39-43 inch TV</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">48 &amp; Above</a></li>
-                                                    </ul>
-                                                    <span class="u-header__sub-menu-title">Home Audio/Video</span>
-                                                    <ul class="u-header__sub-menu-nav-group">
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Speakers</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Home Theaters</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Projectors</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Headphones</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Noise Cancelling Headphones</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Soundbars</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Headphones with Mic</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span class="u-header__sub-menu-title">Shop by Brand</span>
-                                                    <ul class="u-header__sub-menu-nav-group mb-3">
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">VU</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Mi LED Smart TVs</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Samsung</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Panasonic</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">TCL</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Sanyo</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Micromax</a></li>
-                                                    </ul>
-                                                    <span class="u-header__sub-menu-title">Shop by Brand</span>
-                                                    <ul class="u-header__sub-menu-nav-group">
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">JBL</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Sony</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Ultimate ears</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Philips</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Protronics</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Saregama</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Harmon Kardon</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <span class="u-header__sub-menu-title">Other Home Entertainment</span>
-                                                    <ul class="u-header__sub-menu-nav-group mb-3">
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Home Theater Systems</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Projectors &amp; Accessoires</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Set top Boxes</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Streaming Media Players</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">DVD &amp; Blu-ray Players</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Cables</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Audio-video Accessories</a></li>
-                                                    </ul>
-                                                    <span class="u-header__sub-menu-title">Shop By Price</span>
-                                                    <ul class="u-header__sub-menu-nav-group">
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Below Rs. 100$</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">101$ - 199$</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">200$ - 299$</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">300$ - 399$</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">400$ - 499$</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">500$ - 599$</a></li>
-                                                        <li><a href="#" class="nav-link u-header__sub-menu-nav-link">600$ and Above</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <a href="#" class="d-block mb-3">
-                                                        <img class="img-fluid" src="assets/img/300X275/img1.jpg" alt="Image Description">
-                                                    </a>
-                                                    <a href="#" class="d-block">
-                                                        <img class="img-fluid" src="assets/img/300X275/img2.jpg" alt="Image Description">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End TV & Audio - Mega Menu -->
-                                    </li>
-                                    <!-- End Pages -->
-
-                                    <!-- Smart Phones -->
-                                    <li class="nav-item hs-has-mega-menu u-header__nav-item"
-                                        data-event="hover"
-                                        data-animation-in="slideInUp"
-                                        data-animation-out="fadeOut">
-                                        <a id="smartphonesMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Smart Phones</a>
-
-                                        <!-- Smart Phones - Mega Menu -->
-                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="smartphonesMegaMenu">
+                                        <!-- Summer Wear - Mega Menu -->
+                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="SummerWearMegaMenu">
                                             <div class="row u-header__mega-menu-wrapper">
                                                 <div class="col-md-8">
                                                     <div class="row">
@@ -836,126 +733,30 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <a href="#" class="d-block">
-                                                        <img class="img-fluid" src="assets/img/1024X1024/img1.jpg" alt="Image Description">
+                                                        <img class="img-fluid" src="{{asset('assets/img/1024X1024/img1.jpg')}}" alt="Image Description">
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- End Smart Phones - Mega Menu -->
                                     </li>
-                                    <!-- End Blog -->
+                                    <!-- End Summer Wear -->
 
-                                    <!-- Laptops & Desktops -->
+                                    <!-- Indian Wear -->
                                     <li class="nav-item hs-has-mega-menu u-header__nav-item"
                                         data-event="hover"
                                         data-animation-in="slideInUp"
                                         data-animation-out="fadeOut">
-                                        <a id="laptopsdesktopsMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Laptops & Desktops</a>
+                                        <a id="IndianWearMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Indian Wear</a>
 
-                                        <!-- Laptops & Desktops - Mega Menu -->
-                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="laptopsdesktopsMegaMenu">
-                                            <div class="row u-header__mega-menu-wrapper">
-                                                <div class="col-md-8">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">Laptops</span>
-                                                            <ul class="u-header__sub-menu-nav-group mb-3">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Thin and Light Laptops</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">2-in-1 Laptops</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Gaming Laptops</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Budget Laptops</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Business Laptops</a></li>
-                                                            </ul>
-                                                            <span class="u-header__sub-menu-title">Shop By Brand</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Apple<br> </a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">HP</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Dell</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Lenovo</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Acer</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">Tablets</span>
-                                                            <ul class="u-header__sub-menu-nav-group mb-3">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Lenovo</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Apple</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Samsung</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Micromax</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">iBall</a></li>
-                                                            </ul>
-                                                            <span class="u-header__sub-menu-title">PC Accessories</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li class="nav-title">PC Accessories</li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Keyboards<br> </a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Mice</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Laptop Bags</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">PC Speakers</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Batteries</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">Processors</span>
-                                                            <ul class="u-header__sub-menu-nav-group mb-3">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Intel</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">AMD</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Qualcomm</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">IBM</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Motorola</a></li>
-                                                            </ul>
-                                                            <span class="u-header__sub-menu-title">Shop By Price</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Below Rs. 500$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">500$ - 699$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">700$ - 799$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">800$ - 899$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">900$ and Above</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">Best Processors</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Intel Core i9-7980XE<br> </a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">AMD Ryzen Threadripper 1950X</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">AMD Ryzen 5 1600X</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Intel Core i7-8700K</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">AMD Ryzen 7 1800X</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Intel Core i5-7600K</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">AMD Ryzen 3 1300X</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Intel Core i7-7820X</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Intel Core i5-7600K</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">AMD Ryzen 4 1100X</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Intel Core i3-7280K</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <a href="#" class="d-block">
-                                                        <img class="img-fluid" src="assets/img/1024X1024/img2.jpg" alt="Image Description">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Laptops & Desktops - Mega Menu -->
-                                    </li>
-                                    <!-- End Laptops & Desktops -->
-
-                                    <!-- Gadgets -->
-                                    <li class="nav-item hs-has-mega-menu u-header__nav-item"
-                                        data-event="hover"
-                                        data-animation-in="slideInUp"
-                                        data-animation-out="fadeOut">
-                                        <a id="GadgetsMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Gadgets</a>
-
-                                        <!-- Gadgets - Mega Menu -->
-                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="GadgetsMegaMenu">
+                                        <!-- Indian Wear - Mega Menu -->
+                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="IndianWearMegaMenu">
                                             <div class="row u-header__mega-menu-wrapper">
                                                 <div class="col-md-4">
                                                     <div class="row">
                                                         <div class="col-md-6 mb-3">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img3.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img3.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
@@ -968,7 +769,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img4.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img4.png')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col-md-6">
@@ -986,7 +787,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6 mb-3">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img5.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img5.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
@@ -1001,7 +802,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img6.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img6.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col-md-6">
@@ -1020,7 +821,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6 mb-3">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img7.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img7.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
@@ -1035,7 +836,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img8.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img8.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col-md-6">
@@ -1054,108 +855,17 @@
                                         </div>
                                         <!-- End Gadgets - Mega Menu -->
                                     </li>
-                                    <!-- End Gadgets -->
+                                    <!-- End Indian Wear -->
 
-                                    <!-- GPS & Car -->
+                                    <!-- Western Wear -->
                                     <li class="nav-item hs-has-mega-menu u-header__nav-item"
                                         data-event="hover"
                                         data-animation-in="slideInUp"
                                         data-animation-out="fadeOut">
-                                        <a id="GPSCarMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">GPS & Car</a>
+                                        <a id="WesternWearMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Western Wear</a>
 
-                                        <!-- GPS & Car - Mega Menu -->
-                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="GPSCarMegaMenu" style="min-width: 330px;">
-                                            <div class="row u-header__mega-menu-wrapper">
-                                                <div class="col-md-8">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">Car Audios</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Music Systems</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Video Systems</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Speakers</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car Monitors</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car Parts</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Monitoring</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Network Jammers</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car Accessories</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car Electronics</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">All Audio Products</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Accessories</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">GPS & Accessories</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Gps Tracking Devices</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Networking Devices</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Tracking Sensors</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Monitoring</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Jammers</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Tracking Sensors</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Monitoring</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Anti-Tracker</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Accessories</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Devices</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Trackers</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">Accessories &amp; Parts</span>
-                                                            <ul class="u-header__sub-menu-nav-group mb-3">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car Accessories</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car Electronics</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car Parts</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Car &amp; Bike Care</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">All Car Products</a></li>
-                                                            </ul>
-                                                            <span class="u-header__sub-menu-title">Shop By Price</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Below Rs. 100$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">101$ - 199$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">200$ - 299$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">300$ - 399$</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">400$ and Above</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <span class="u-header__sub-menu-title">GPS & Accessories</span>
-                                                            <ul class="u-header__sub-menu-nav-group">
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">Gps Tracking Devices</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Networking Devices</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Tracking Sensors</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Monitoring</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Jammers</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Tracking Sensors</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Monitoring</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Anti-Tracker</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Accessories</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Devices</a></li>
-                                                                <li><a href="#" class="nav-link u-header__sub-menu-nav-link">GPS Trackers</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <a href="#" class="d-block">
-                                                        <img class="img-fluid" src="assets/img/1024X1024/img3.jpg" alt="Image Description">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End GPS & Car - Mega Menu -->
-                                    </li>
-                                    <!-- End GPS & Car -->
-
-                                    <!-- Cameras & Accessories -->
-                                    <li class="nav-item hs-has-mega-menu u-header__nav-item"
-                                        data-event="hover"
-                                        data-animation-in="slideInUp"
-                                        data-animation-out="fadeOut">
-                                        <a id="CamerasAccessoriesMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Cameras & Accessories</a>
-
-                                        <!-- Cameras & Accessories - Mega Menu -->
-                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="CamerasAccessoriesMegaMenu">
+                                        <!-- Western Wear - Mega Menu -->
+                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="WesternWearMegaMenu">
                                             <div class="row u-header__mega-menu-wrapper">
                                                 <div class="col-md-8">
                                                     <div class="row">
@@ -1241,23 +951,23 @@
                                         </div>
                                         <!-- End Cameras & Accessories - Mega Menu -->
                                     </li>
-                                    <!-- End Cameras & Accessories -->
+                                    <!-- End Western Wear -->
 
-                                    <!-- Movies & Games -->
+                                    <!-- New Arrivals -->
                                     <li class="nav-item hs-has-mega-menu u-header__nav-item"
                                         data-event="hover"
                                         data-animation-in="slideInUp"
                                         data-animation-out="fadeOut">
-                                        <a id="MoviesGamesMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Movies & Games</a>
+                                        <a id="NewArrivalsMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">New Arrivals</a>
 
-                                        <!-- Movies & Games - Mega Menu -->
-                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="MoviesGamesMegaMenu">
+                                        <!-- New Arrivals - Mega Menu -->
+                                        <div class="hs-mega-menu w-100 u-header__sub-menu" aria-labelledby="NewArrivalsMegaMenu">
                                             <div class="row u-header__mega-menu-wrapper">
                                                 <div class="col-md-4">
                                                     <div class="row">
                                                         <div class="col">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img9.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img9.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col">
@@ -1276,7 +986,7 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img10.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img10.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col">
@@ -1295,7 +1005,7 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <a href="#" class="d-block">
-                                                                <img class="img-fluid" src="assets/img/300X275/img11.jpg" alt="Image Description">
+                                                                <img class="img-fluid" src="{{asset('assets/img/300X275/img11.jpg')}}" alt="Image Description">
                                                             </a>
                                                         </div>
                                                         <div class="col">
@@ -1314,7 +1024,7 @@
                                         </div>
                                         <!-- End Movies & Games - Mega Menu -->
                                     </li>
-                                    <!-- End Movies & Games -->
+                                    <!-- End New Arrivals -->
                                 </ul>
                             </div>
                             <!-- End Navigation -->
@@ -1450,7 +1160,7 @@
                                 <h6 class="mb-3 font-weight-bold">Customer Care</h6>
                                 <!-- List Group -->
                                 <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
-                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html">My Account</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="{{ route('customer.account') }}">My Account</a></li>
                                     <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/track-your-order.html">Order Tracking</a></li>
                                     <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html">Wish List</a></li>
                                     <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Customer Service</a></li>
@@ -1473,19 +1183,19 @@
                     <div class="mb-3 mb-md-0">© <a href="#" class="font-weight-bold text-gray-90">Electro</a> - All rights Reserved</div>
                     <div class="text-md-right">
                         <span class="d-inline-block bg-white border rounded p-1">
-                            <img class="max-width-5" src="assets/img/100X60/img1.jpg" alt="Image Description">
+                            <img class="max-width-5" src="{{asset('assets/img/100X60/img1.jpg')}}" alt="Image Description">
                         </span>
                         <span class="d-inline-block bg-white border rounded p-1">
-                            <img class="max-width-5" src="assets/img/100X60/img2.jpg" alt="Image Description">
+                            <img class="max-width-5" src="{{asset('assets/img/100X60/img2.jpg')}}" alt="Image Description">
                         </span>
                         <span class="d-inline-block bg-white border rounded p-1">
-                            <img class="max-width-5" src="assets/img/100X60/img3.jpg" alt="Image Description">
+                            <img class="max-width-5" src="{{asset('assets/img/100X60/img3.jpg')}}" alt="Image Description">
                         </span>
                         <span class="d-inline-block bg-white border rounded p-1">
-                            <img class="max-width-5" src="assets/img/100X60/img4.jpg" alt="Image Description">
+                            <img class="max-width-5" src="{{asset('assets/img/100X60/img4.jpg')}}" alt="Image Description">
                         </span>
                         <span class="d-inline-block bg-white border rounded p-1">
-                            <img class="max-width-5" src="assets/img/100X60/img5.jpg" alt="Image Description">
+                            <img class="max-width-5" src="{{asset('assets/img/100X60/img5.jpg')}}" alt="Image Description">
                         </span>
                     </div>
                 </div>
@@ -1496,299 +1206,9 @@
     <!-- ========== END FOOTER ========== -->
 
     <!-- ========== SECONDARY CONTENTS ========== -->
+
     <!-- Account Sidebar Navigation -->
-    <aside id="sidebarContent" class="u-sidebar u-sidebar__lg" aria-labelledby="sidebarNavToggler">
-        <div class="u-sidebar__scroller">
-            <div class="u-sidebar__container">
-                <div class="js-scrollbar u-header-sidebar__footer-offset pb-3">
-                    <!-- Toggle Button -->
-                    <div class="d-flex align-items-center pt-4 px-7">
-                        <button type="button" class="close ml-auto"
-                            aria-controls="sidebarContent"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            data-unfold-event="click"
-                            data-unfold-hide-on-scroll="false"
-                            data-unfold-target="#sidebarContent"
-                            data-unfold-type="css-animation"
-                            data-unfold-animation-in="fadeInRight"
-                            data-unfold-animation-out="fadeOutRight"
-                            data-unfold-duration="500">
-                            <i class="ec ec-close-remove"></i>
-                        </button>
-                    </div>
-                    <!-- End Toggle Button -->
 
-                    <!-- Content -->
-                    <div class="js-scrollbar u-sidebar__body">
-                        <div class="u-sidebar__content u-header-sidebar__content">
-                            <!-- <form class="js-validate"> -->
-
-                            <!-- Login -->
-                            <div id="login" data-target-group="idForm">
-                                <!-- Title -->
-                                <header class="text-center mb-7">
-                                    <h2 class="h4 mb-0">Welcome Back!</h2>
-                                    <p>Login to manage your account.</p>
-                                </header>
-                                <!-- End Title -->
-
-                                <form action="{{route('customer.login')}}" method="post">
-
-                                    <!-- Form Email -->
-                                    <div class="form-group">
-                                        <div class="js-form-message js-focus-state">
-                                            <label class="sr-only" for="signinEmail">Email</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="signinEmailLabel">
-                                                        <span class="fas fa-user"></span>
-                                                    </span>
-                                                </div>
-                                                <input type="email" class="form-control" name="email" id="signinEmail" placeholder="Email" aria-label="Email" aria-describedby="signinEmailLabel" required
-                                                    data-msg="Please enter a valid email address."
-                                                    data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Form Email -->
-
-                                    <!-- Form Password -->
-                                    <div class="form-group">
-                                        <div class="js-form-message js-focus-state">
-                                            <label class="sr-only" for="signinPassword">Password</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="signinPasswordLabel">
-                                                        <span class="fas fa-lock"></span>
-                                                    </span>
-                                                </div>
-                                                <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPasswordLabel" required
-                                                    data-msg="Your password is invalid. Please try again."
-                                                    data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Form Password -->
-
-                                    <div class="d-flex justify-content-end mb-4">
-                                        <a class="js-animation-link small link-muted" href="javascript:;"
-                                            data-target="#forgotPassword"
-                                            data-link-group="idForm"
-                                            data-animation-in="slideInUp">Forgot Password?</a>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Login</button>
-                                    </div>
-                                </form>
-
-                                <div class="text-center mb-4">
-                                    <span class="small text-muted">Do not have an account?</span>
-                                    <a class="js-animation-link small text-dark" href="javascript:;"
-                                        data-target="#signup"
-                                        data-link-group="idForm"
-                                        data-animation-in="slideInUp">Signup
-                                    </a>
-                                </div>
-
-                                <div class="text-center">
-                                    <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
-                                </div>
-
-                                <!-- Login Buttons -->
-                                <div class="d-flex">
-                                    <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
-                                        <span class="fab fa-facebook-square mr-1"></span>
-                                        Facebook
-                                    </a>
-                                    <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
-                                        <span class="fab fa-google mr-1"></span>
-                                        Google
-                                    </a>
-                                </div>
-                                <!-- End Login Buttons -->
-                            </div><!-- End Login -->
-
-                            <!-- Signup -->
-                            <div id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
-                                <!-- Title -->
-                                <header class="text-center mb-7">
-                                    <h2 class="h4 mb-0">Welcome to Fashionkari.</h2>
-                                    <p>Fill out the form to get started.</p>
-                                </header>
-                                <!-- End Title -->
-
-                                <form id="customerRegisterForm">
-                                    @csrf
-                                    <!-- Name -->
-                                    <div class="form-group">
-                                        <div class="js-form-message js-focus-state">
-                                            <label class="sr-only" for="signupName">Name</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="signupNameLabel">
-                                                        <span class="fas fa-user"></span>
-                                                    </span>
-                                                </div>
-                                                <input type="text" class="form-control" name="customer_name" id="signupName" placeholder="Name" aria-label="Name" aria-describedby="signupNameLabel" required
-                                                    data-msg="Please enter a valid name."
-                                                    data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
-                                            </div>
-                                            <!-- name error -->
-                                            <div id="error_customer_name" class="text-danger"></div>
-                                        </div>
-                                    </div>
-                                    <!-- End Input -->
-
-                                    <!-- Email -->
-                                    <div class="form-group">
-                                        <div class="js-form-message js-focus-state">
-                                            <label class="sr-only" for="signupEmail">Email</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="signupEmailLabel">
-                                                        <span class="fas fa-envelope"></span>
-                                                    </span>
-                                                </div>
-                                                <input type="email" class="form-control" name="email" id="signupEmail" placeholder="Email" aria-label="Email" aria-describedby="signupEmailLabel" required
-                                                    data-msg="Please enter a valid email address."
-                                                    data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
-                                            </div>
-                                            <!-- email error -->
-                                            <div id="error_email" class="text-danger"></div>
-                                        </div>
-                                    </div>
-                                    <!-- End Input -->
-
-                                    <!-- Password -->
-                                    <div class="form-group">
-                                        <div class="js-form-message js-focus-state">
-                                            <label class="sr-only" for="signupPassword">Password</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="signupPasswordLabel">
-                                                        <span class="fas fa-lock"></span>
-                                                    </span>
-                                                </div>
-                                                <input type="password" class="form-control" name="password" id="signupPassword" placeholder="Password" aria-label="Password" aria-describedby="signupPasswordLabel" required
-                                                    data-msg="Your password is invalid. Please try again."
-                                                    data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
-                                            </div>
-                                            <!-- password error -->
-                                            <div id="error_password" class="text-danger"></div>
-                                        </div>
-                                    </div>
-                                    <!-- End Input -->
-
-                                    <!-- Confirm Password -->
-                                    <div class="form-group">
-                                        <div class="js-form-message js-focus-state">
-                                            <label class="sr-only" for="signupConfirmPassword">Confirm Password</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="signupConfirmPasswordLabel">
-                                                        <span class="fas fa-key"></span>
-                                                    </span>
-                                                </div>
-                                                <input type="password" class="form-control" name="password_confirmation" id="signupConfirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="signupConfirmPasswordLabel" required
-                                                    data-msg="Password does not match the confirm password."
-                                                    data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Input -->
-
-                                    <div class="mb-2">
-                                        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Register</button>
-                                    </div>
-                                </form>
-
-                                <div class="text-center mb-4">
-                                    <span class="small text-muted">Already have an account?</span>
-                                    <a class="js-animation-link small text-dark" href="javascript:;"
-                                        data-target="#login"
-                                        data-link-group="idForm"
-                                        data-animation-in="slideInUp">Login
-                                    </a>
-                                </div>
-
-                                <div class="text-center">
-                                    <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
-                                </div>
-
-                                <!-- Login Buttons -->
-                                <div class="d-flex">
-                                    <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
-                                        <span class="fab fa-facebook-square mr-1"></span>
-                                        Facebook
-                                    </a>
-                                    <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
-                                        <span class="fab fa-google mr-1"></span>
-                                        Google
-                                    </a>
-                                </div>
-                                <!-- End Login Buttons -->
-                            </div>
-                            <!-- End Signup -->
-
-                            <!-- Forgot Password -->
-                            <div id="forgotPassword" style="display: none; opacity: 0;" data-target-group="idForm">
-                                <!-- Title -->
-                                <header class="text-center mb-7">
-                                    <h2 class="h4 mb-0">Recover Password.</h2>
-                                    <p>Enter your email address and an email with instructions will be sent to you.</p>
-                                </header>
-                                <!-- End Title -->
-
-                                <!-- Form Group -->
-                                <div class="form-group">
-                                    <div class="js-form-message js-focus-state">
-                                        <label class="sr-only" for="recoverEmail">Your email</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="recoverEmailLabel">
-                                                    <span class="fas fa-user"></span>
-                                                </span>
-                                            </div>
-                                            <input type="email" class="form-control" name="email" id="recoverEmail" placeholder="Your email" aria-label="Your email" aria-describedby="recoverEmailLabel" required
-                                                data-msg="Please enter a valid email address."
-                                                data-error-class="u-has-error"
-                                                data-success-class="u-has-success">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Form Group -->
-
-                                <div class="mb-2">
-                                    <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Recover Password</button>
-                                </div>
-
-                                <div class="text-center mb-4">
-                                    <span class="small text-muted">Remember your password?</span>
-                                    <a class="js-animation-link small" href="javascript:;"
-                                        data-target="#login"
-                                        data-link-group="idForm"
-                                        data-animation-in="slideInUp">Login
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Forgot Password -->
-                            <!-- </form> -->
-                        </div>
-                    </div>
-                    <!-- End Content -->
-                </div>
-            </div>
-        </div>
-    </aside>
-    <!-- End Account Sidebar Navigation -->
     <!-- ========== END SECONDARY CONTENTS ========== -->
 
     <!-- Go to Top -->
@@ -1842,49 +1262,6 @@
     <script>
         $(document).ready(function() {
             // alert("jQuery is working!")
-        });
-
-        // To register customer with ajax
-        $('#customerRegisterForm').on('submit', function(e) {
-            e.preventDefault(); // prevent page reload
-
-            console.log("working");
-
-            // Clear old errors
-            $('#error_customer_name, #error_email, #error_password').text('');
-
-            $.ajax({
-                url: "{{ route('customer.register') }}", // Your controller route
-                method: "POST",
-                data: $(this).serialize(),
-                success: function(response) {
-                    // ✅ Show success toast
-                    $('#successMessage')
-                        .text(response.message)
-                        .fadeIn(200)
-                        .delay(1500)
-                        .fadeOut(400);
-
-                    // ✅ Reload after 2 seconds
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
-                        if (errors.customer_name) {
-                            $('#error_customer_name').text(errors.customer_name[0]);
-                        }
-                        if (errors.email) {
-                            $('#error_email').text(errors.email[0]);
-                        }
-                        if (errors.password) {
-                            $('#error_password').text(errors.password[0]);
-                        }
-                    }
-                }
-            });
         });
 
         $(window).on('load', function() {

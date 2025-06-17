@@ -48,7 +48,35 @@
                     </div>
 
                     {{-- Thumbnail Slider --}}
-                    <div id="thumbSlider" class="js-slick-carousel mt-3" data-slides-show="5" data-is-thumbs="true" data-focus-on-select="true" data-nav-for="#mainSlider">
+                    <div id="thumbSlider" class="js-slick-carousel mt-3"
+                        data-slides-show="5"
+                        data-is-thumbs="true"
+                        data-focus-on-select="true"
+                        data-nav-for="#mainSlider"
+                        data-slick='{
+                            "slidesToShow": 5,
+                            "responsive": [
+                                {
+                                    "breakpoint": 768,
+                                    "settings": {
+                                        "slidesToShow": 4
+                                    }
+                                },
+                                {
+                                    "breakpoint": 576,
+                                    "settings": {
+                                        "slidesToShow": 3
+                                    }
+                                },
+                                {
+                                    "breakpoint": 450,
+                                    "settings": {
+                                        "slidesToShow": 2
+                                    }
+                                }
+                            ]
+                        }'>
+
                         @foreach ($images as $image)
                         <div class="thumb-image-container">
                             <img src="{{ asset('uploads/products/' . $image) }}" alt="{{ $product->product_name }}" class="thumb-image">
@@ -56,7 +84,6 @@
                         @endforeach
                     </div>
                 </div>
-
 
                 <!-- Product detail body -->
                 <div class="col-md-7 mb-md-6 mb-lg-0">
@@ -90,14 +117,14 @@
                         </div>
                         <div class="mb-2">
                             <ul class="font-size-14 pl-3 ml-1 text-gray-110">
-                                <li><strong>Neck Type: </strong>{{ $product->neck_type }}</li>
-                                <li><strong>Fit Type: </strong>{{ $product->fit_type }}</li>
-                                <li><strong>Sleeve Type: </strong>{{ $product->sleeve_type }}</li>
-                                <li><strong>Length Type: </strong>{{ $product->length_type }}</li>
+                                <li><strong>Neck Type: </strong>{{ $product->neck_type ?? 'Not specified' }}</li>
+                                <li><strong>Fit Type: </strong>{{ $product->fit_type ?? 'Not specified' }}</li>
+                                <li><strong>Sleeve Type: </strong>{{ $product->sleeve_type ?? 'Not specified' }}</li>
+                                <li><strong>Length Type: </strong>{{ $product->length_type ?? 'Not specified' }}</li>
                             </ul>
                         </div>
                         <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p> -->
-                        <p><strong>Fabric</strong>: {{ $product->fabric_name }}</p>
+                        <p><strong>Fabric</strong>: {{ $product->fabric_name ?? 'Not specified' }}</p>
                         <!-- Product Price -->
                         <div class="mb-4">
                             @php
@@ -222,9 +249,10 @@
                     {{ $product->meta_description }}
 
                     <ul class="nav flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
-                        <li class="nav-item text-gray-111 flex-shrink-0 flex-xl-shrink-1"><strong>Category:</strong> <a href="#" class="text-blue">{{ $product->cat_name }}</a></li>
-                        <li class="nav-item text-gray-111 mx-3 flex-shrink-0 flex-xl-shrink-1">/</li>
-                        <li class="nav-item text-gray-111 flex-shrink-0 flex-xl-shrink-1"><strong>Tags:</strong> <a href="#" class="text-blue">Fast</a>, <a href="#" class="text-blue">Gaming</a>, <a href="#" class="text-blue">Strong</a></li>
+                        <li class="nav-item text-gray-111 flex-shrink-0 flex-xl-shrink-1">
+                            <strong>Category:</strong>
+                            <a href="#" class="text-blue">{{ $product->cat_name }}</a>
+                        </li>
                     </ul>
                 </div> <!-- Description tab end -->
 
@@ -236,19 +264,19 @@
                                 <tbody>
                                     <tr>
                                         <th class="px-4 px-xl-5 border-top-0">Fit Type</th>
-                                        <td class="border-top-0">{{ $product->fit_type }}</td>
+                                        <td class="border-top-0">{{ $product->fit_type ?? 'Not specified' }}</td>
                                     </tr>
                                     <tr>
                                         <th class="px-4 px-xl-5">Neck Type</th>
-                                        <td>{{ $product->neck_type }}</td>
+                                        <td>{{ $product->neck_type ?? 'Not specified' }}</td>
                                     </tr>
                                     <tr>
                                         <th class="px-4 px-xl-5">Sleeve Type</th>
-                                        <td>{{ $product->sleeve_type }}</td>
+                                        <td>{{ $product->sleeve_type ?? 'Not specified' }}</td>
                                     </tr>
                                     <tr>
                                         <th class="px-4 px-xl-5">Length Type</th>
-                                        <td>{{ $product->length_type }}</td>
+                                        <td>{{ $product->length_type ?? 'Not specified' }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -259,11 +287,11 @@
                                 <tbody>
                                     <tr>
                                         <th class="px-4 px-xl-5 border-top-0">Material</th>
-                                        <td class="border-top-0">{{ $product->fabric_name }}</td>
+                                        <td class="border-top-0">{{ $product->fabric_name ?? 'Not specified' }}</td>
                                     </tr>
                                     <tr>
                                         <th class="px-4 px-xl-5">Care instructions</th>
-                                        <td>{{ $product->care_instructions }}</td>
+                                        <td>{{ $product->care_instructions ?? 'Not specified' }}</td>
                                     </tr>
                                 </tbody>
                             </table>

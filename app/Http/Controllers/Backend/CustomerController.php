@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class CustomerController extends Controller
@@ -19,36 +21,28 @@ class CustomerController extends Controller
     // Login
     public function login(Request $request)
     {
+        // dd($request->all());
+
         if ($request->isMethod('post')) {
+            $request->validate([
+                'email' => 'required|email|exists:customers,email',
+                'password' => 'required|string',
+            ]);
 
-            // Find user by email or username
-            $cust = Customer::where('email', $request->username)
-                ->first();
+            $cust = Customer::where('email', $request->email)->first();
 
-            // Check if user exists and password matches
             if ($cust && Hash::check($request->password, $cust->password)) {
-                // Log in user by ID
-                Auth::loginUsingId($cust->id);
+                Auth::guard('customer')->loginUsingId($cust->cus_id); // use customer guard if you have separate one
 
                 $request->session()->regenerate();
 
-                $sessionId = $request->session()->getId();
-                // Log login time
-                // Userlog::create([
-                //     'user_id' => $user->id,
-                //     'session_id' => $sessionId,
-                //     'login_time' => now(),
-                // ]);
-
-                return redirect()->route('index')->with('success', 'Login successfully');
+                return redirect()->route('index')->with('success', 'Login successfully!');
             }
 
             return back()->with('login_error', 'Invalid email or password')->onlyInput('email');
         }
-        if (Auth::check()) {
-            return redirect()->route('index');
-        }
-        return view('backend.login');
+
+        return view('my-account');
     }
 
     //Register
@@ -66,21 +60,25 @@ class CustomerController extends Controller
             'password' => 'required|min:3|confirmed',
         ]);
 
-        Customer::create([
+        $customer = Customer::create([
             'cus_name' => $request->customer_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // return redirect()->back()->with('success', 'Account created successfully!');
-        return response()->json(['message' => 'Account created successfully!']);
+        Auth::guard('customer')->login($customer);
+
+        return response()->json([
+            'message' => 'Account created successfully!',
+            'redirect' => route('index') // send redirect URL
+        ]);
     }
 
     //Destroy
     public function destroy($id)
     {
         // dd($id);
-        
+
         $customer = Customer::findOrFail($id);
 
         $customer->delete();

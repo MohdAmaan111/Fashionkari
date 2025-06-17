@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
 // use App\Http\Controllers\Frontend\CustomerController as FrontCustomerController;
 
@@ -23,8 +24,18 @@ Route::get('/welcome', function () {
 //Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('product.show');
+
+Route::get('/customer/account', [AccountController::class, 'index'])->name('customer.account');
+Route::get('/customer/profile', [AccountController::class, 'profile'])->name('customer.profile');
+
+Route::get('/profile/orders', [AccountController::class, 'orders'])->name('customer.orders');
+Route::get('/profile/wishlist', [AccountController::class, 'wishlist'])->name('customer.wishlist');
+Route::get('/profile/payments', [AccountController::class, 'payments'])->name('customer.payments');
+
+
 Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
+Route::get('/customer/logout', [AccountController::class, 'logout'])->name('customer.logout');
 
 Route::post('/customer/cart/', [CartController::class, 'addcart'])->name('cart.add');
 
@@ -35,15 +46,13 @@ Route::post('/customer/cart/', [CartController::class, 'addcart'])->name('cart.a
 Route::match(['get', 'post'], '/admin/login', [AuthManager::class, 'login'])->name('admin.login');
 Route::match(['get', 'post'], '/admin/register', [AuthManager::class, 'register'])->name('admin.register');
 
-Route::get('/admin/logout', [AuthManager::class, 'logout'])->name('admin.logout');
-
 // Routes protected by auth middleware
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/profile', [DashboardController::class, 'profile'])->name('admin.profile');
 
-    // Route::get('/logout', [AuthManager::class, 'logout'])->name('admin.logout');
+    Route::get('/logout', [AuthManager::class, 'logout'])->name('admin.logout');
 
     Route::get('/user', [AuthManager::class, 'index'])->name('admin.user');
 
