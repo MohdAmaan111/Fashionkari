@@ -22,9 +22,22 @@ class AccountController extends Controller
 
     public function profile()
     {
+        // Check if the customer is not authenticated
+        if (!Auth::guard('customer')->check()) {
+            // Customer is NOT logged in
+            return redirect()->route('customer.account');
+        }
+
         $categories = Category::all();
 
         return view('profile', compact('categories'));
+    }
+
+    public function orders()
+    {
+        // $wishlist = Wishlist::with('product')->where('user_id', auth()->id())->get();
+        // return view('customer.partials.wishlist', compact('wishlist'));
+        return view('customer.partials.orders');
     }
 
     public function wishlist()
@@ -32,6 +45,23 @@ class AccountController extends Controller
         // $wishlist = Wishlist::with('product')->where('user_id', auth()->id())->get();
         // return view('customer.partials.wishlist', compact('wishlist'));
         return view('customer.partials.wishlist');
+    }
+
+    public function payment()
+    {
+        // $wishlist = Wishlist::with('product')->where('user_id', auth()->id())->get();
+        // return view('customer.partials.wishlist', compact('wishlist'));
+        return view('customer.partials.payment');
+    }
+
+    public function address()
+    {
+        return view('customer.partials.address');
+    }
+
+    public function setting()
+    {
+        return view('customer.partials.setting');
     }
 
     public function logout()

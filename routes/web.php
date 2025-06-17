@@ -30,7 +30,9 @@ Route::get('/customer/profile', [AccountController::class, 'profile'])->name('cu
 
 Route::get('/profile/orders', [AccountController::class, 'orders'])->name('customer.orders');
 Route::get('/profile/wishlist', [AccountController::class, 'wishlist'])->name('customer.wishlist');
-Route::get('/profile/payments', [AccountController::class, 'payments'])->name('customer.payments');
+Route::get('/profile/payment', [AccountController::class, 'payment'])->name('customer.payment');
+Route::get('/profile/address', [AccountController::class, 'address'])->name('customer.address');
+Route::get('/profile/setting', [AccountController::class, 'setting'])->name('customer.setting');
 
 
 Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login');

@@ -33,26 +33,34 @@
                 <!-- Sidebar -->
                 <div class="col-lg-3 mb-4">
                     <div class="text-center mb-4">
-                        <h5 class="fw-bold text-warning mb-1">Sarah Anderson</h5>
+                        <h5 class="fw-bold text-warning mb-1">
+                            @auth
+                            {{ Auth::guard('customer')->name }}
+                            @endauth
+                        </h5>
                     </div>
 
                     <div class="list-group orders-sidebar">
-                        <a href="" class="list-group-item list-group-item-action sidebar-link active">
+                        <a href="" class="list-group-item list-group-item-action sidebar-link active"
+                            data-url="{{ route('customer.orders') }}">
                             <i class="bi bi-box"></i> My Orders
-                            <span class="order-pills badge bg-light text-dark ms-auto">3</span>
+                            <span class="order-status-pill badge ms-auto">4</span>
                         </a>
                         <a href="" class="list-group-item list-group-item-action sidebar-link"
                             data-url="{{ route('customer.wishlist') }}">
-                            <i class="bi bi-heart"></i> Wishlist
-                            <span class="order-pills badge ms-auto">12</span>
+                            <i class="bi bi-heart"></i> Wishlists
+                            <span class="order-status-pill badge ms-auto">12</span>
                         </a>
-                        <a href="" class="list-group-item list-group-item-action sidebar-link">
+                        <a href="" class="list-group-item list-group-item-action sidebar-link"
+                            data-url="{{ route('customer.payment') }}">
                             <i class="bi bi-wallet2"></i> Payment Methods
                         </a>
-                        <a href="" class="list-group-item list-group-item-action sidebar-link">
+                        <a href="" class="list-group-item list-group-item-action sidebar-link"
+                            data-url="{{ route('customer.address') }}">
                             <i class="bi bi-geo-alt"></i> Addresses
                         </a>
-                        <a href="" class="list-group-item list-group-item-action sidebar-link">
+                        <a href="" class="list-group-item list-group-item-action sidebar-link"
+                            data-url="{{ route('customer.setting') }}">
                             <i class="bi bi-gear"></i> Account Settings
                         </a>
 
@@ -69,7 +77,7 @@
                 <div class="col-lg-9">
                     <div id="profileContent">
                         <!-- Default content like orders or welcome message -->
-                        @include('customer.partials.order') {{-- default on load --}}
+                        @include('customer.partials.orders') {{-- default on load --}}
                     </div>
                 </div>
 
