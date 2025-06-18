@@ -35,23 +35,32 @@
 
                   @csrf
                   <div class="col-12">
-                    <label for="yourUsername" class="form-label">Username</label>
+                    <label for="loginInput" class="form-label">Username or Email</label>
                     <div class="input-group has-validation">
                       <span class="input-group-text" id="inputGroupPrepend">@</span>
-                      <input type="text" name="username" class="form-control" id="yourUsername" required>
-                      <div class="invalid-feedback">Please enter your username.</div>
+                      <input type="text" name="login" class="form-control" id="loginInput" required value="{{ old('login') }}">
+                      <div class="invalid-feedback">Please enter your username or email.</div>
                     </div>
+                    <!-- login error -->
+                    @error('login')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
 
                   <div class="col-12">
                     <label for="yourPassword" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control" id="yourPassword" required>
                     <div class="invalid-feedback">Please enter your password!</div>
+                    <!-- password error -->
+                    @error('password')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
+
 
                   <div class="col-12">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                      <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe" required>
                       <label class="form-check-label" for="rememberMe">Remember me</label>
                     </div>
                   </div>

@@ -23,36 +23,53 @@ class AuthManager extends Controller
     public function login(Request $request)
     {
         if ($request->isMethod('post')) {
+            // Validate input
+            $request->validate([
+                'login' => 'required|string', // could be username or email
+                'password' => 'required|string',
+            ]);
 
-            // Find user by email or username
-            $user = User::where('username', $request->username)
-                ->orWhere('email', $request->username)
+            // Attempt to find user by username OR email
+            $user = User::where('username', $request->login)
+                ->orWhere('email', $request->login)
                 ->first();
 
-            // Check if user exists and password matches
-            if ($user && Hash::check($request->password, $user->password)) {
-                // Log in user by ID
-                Auth::loginUsingId($user->id);
-                
-                $request->session()->regenerate();
-                $sessionId = $request->session()->getId();
-                // Log login time
-                // Userlog::create([
-                //     'user_id' => $user->id,
-                //     'session_id' => $sessionId,
-                //     'login_time' => now(),
-                // ]);
-
-                return redirect()->route('admin.dashboard')->with('success', 'Login successfully');
+            if (!$user) {
+                // If no user found, show only login error
+                return back()->withErrors([
+                    'login' => 'Invalid username or email.',
+                ])->withInput();
             }
 
-            return back()->with('login_error', 'Invalid email or password')->onlyInput('email');
+            // Check credentials
+            if ($user && Hash::check($request->password, $user->password)) {
+                Auth::loginUsingId($user->id);
+
+                $request->session()->regenerate();
+
+                return redirect()->route('admin.dashboard')->with('success', 'Login successful!');
+            } else {
+                // Display if password is correct
+                return back()->withErrors([
+                    'password' => 'Invalid password.',
+                ])->withInput();
+            }
+
+            // If login fails
+            // return back()->withErrors([
+            //     'login' => 'Invalid username or email.',
+            //     'password' => 'Invalid password.',
+            // ])->withInput();
         }
+
+        // Redirect to dashboard if already logged in
         if (Auth::check()) {
             return redirect()->route('admin.dashboard');
         }
+
         return view('backend.login');
     }
+
 
     //Register
     public function register(Request $request)
@@ -71,8 +88,14 @@ class AuthManager extends Controller
                     'max:255',
                     'regex:/^[a-zA-Z\s]+$/'
                 ],
+                'username' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    'unique:users,username',
+                    'regex:/^[a-zA-Z0-9_]+$/'
+                ],
                 'email' => 'required|email|unique:users,email',
-                'username' => 'required|string|max:255|unique:users,username',
                 'password' => 'required|min:3|confirmed',
             ]);
 
