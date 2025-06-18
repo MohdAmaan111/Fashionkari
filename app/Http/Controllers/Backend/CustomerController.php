@@ -37,6 +37,8 @@ class CustomerController extends Controller
                 $request->session()->regenerate();
 
                 return redirect()->route('index')->with('success', 'Login successfully!');
+            } else {
+                return back()->withErrors(['password' => 'Invalid password'])->withInput();
             }
 
             return back()->with('login_error', 'Invalid email or password')->onlyInput('email');

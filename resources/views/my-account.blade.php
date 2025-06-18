@@ -59,7 +59,9 @@
                                         data-success-class="u-has-success">
                                 </div>
                                 <!-- email error -->
-                                <div id="login_error_email" class="text-danger"></div>
+                                @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <!-- End Form Email -->
@@ -80,7 +82,9 @@
                                         data-success-class="u-has-success">
                                 </div>
                                 <!-- password error -->
-                                <div id="login_error_password" class="text-danger"></div>
+                                @error('password')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <!-- End Form Password -->

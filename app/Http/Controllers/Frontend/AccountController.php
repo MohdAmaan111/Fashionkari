@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Product;
+use App\Models\Customer;
 use App\Models\Category;
 
 use Illuminate\Support\Facades\Auth;
@@ -29,8 +30,9 @@ class AccountController extends Controller
         }
 
         $categories = Category::all();
-
-        return view('profile', compact('categories'));
+        $customer = Auth::guard('customer')->user();
+        
+        return view('profile', compact('categories', 'customer'));
     }
 
     public function orders()

@@ -34,9 +34,12 @@
                 <div class="col-lg-3 mb-4">
                     <div class="text-center mb-4">
                         <h5 class="fw-bold text-warning mb-1">
-                            @auth
-                            {{ Auth::guard('customer')->name }}
-                            @endauth
+                            <!-- {{$customer->cus_name}} -->
+                            @if(Auth::guard('customer')->check())
+                            {{$customer->cus_name}}
+                            @else
+                            Guest
+                            @endif
                         </h5>
                     </div>
 
