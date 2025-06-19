@@ -40216,3 +40216,51 @@ blockquote:not(.blockquote) p {
 /*------------------------------------
   File for your custom SCSS style
 ------------------------------------*/
+
+.message-toast {
+  background-color: #ffffff !important;
+  color: #333 !important;
+  border-left: 5px solid #28a745;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  padding: 12px 16px;
+  min-width: 280px;
+  max-width: 350px;
+}
+
+.message-toast .icon-circle {
+  font-size: 22px;
+  color: #28a745;
+}
+
+.message-toast .message-text {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.progress-bar-bottom {
+  height: 4px;
+  background-color: #28a745;
+  width: 100%;
+  animation: shrinkBar 2.5s linear forwards;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+@keyframes shrinkBar {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* Error Toast */
+.message-toast.text-bg-danger {
+  border-left-color: #dc3545;
+}
+
+.message-toast.text-bg-danger .icon-circle {
+  color: #dc3545;
+}
+
+.message-toast.text-bg-danger .progress-bar-bottom {
+  background-color: #dc3545;
+}

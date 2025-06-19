@@ -21,6 +21,10 @@ Route::get('/welcome', function () {
     // return view('welcome');
 });
 
+Route::post('/test-ajax', function () {
+    dd('AJAX working!');
+});
+
 //Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('product.show');

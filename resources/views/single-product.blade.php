@@ -5,9 +5,35 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
 
-    <!-- Success Message -->
-    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
+    <!-- Toast Message -->
+    <div class="custom-toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+        <div id="toastMessage" class="toast message-toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex align-items-center">
+                <div class="icon-circle me-2">
+                    <i id="toastIcon" class="bi bi-check2-circle"></i> <!-- Bootstrap icon -->
+                </div>
+                <div class="toast-body flex-grow-1 message-text">
+                    Product Added
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="progress-bar-bottom"></div>
+        </div>
     </div>
+
+
+    @if(session('success'))
+    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
+        {{ session('success') }}
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#successMessage').fadeIn(200).delay(2000).fadeOut(400, function() {
+                // window.location.href = "{{ route('index') }}";
+            });
+        });
+    </script>
+    @endif
 
     <!-- breadcrumb -->
     <div class="bg-gray-13 bg-md-transparent">
@@ -115,6 +141,7 @@
                         <div class="flex-horizontal-center flex-wrap mb-4">
                             <a href="#" class="text-gray-6 font-size-13 mr-2"><i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
                         </div>
+                        <!-- Product Attributes -->
                         <div class="mb-2">
                             <ul class="font-size-14 pl-3 ml-1 text-gray-110">
                                 <li><strong>Neck Type: </strong>{{ $product->neck_type ?? 'Not specified' }}</li>
@@ -123,7 +150,6 @@
                                 <li><strong>Length Type: </strong>{{ $product->length_type ?? 'Not specified' }}</li>
                             </ul>
                         </div>
-                        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p> -->
                         <p><strong>Fabric</strong>: {{ $product->fabric_name ?? 'Not specified' }}</p>
                         <!-- Product Price -->
                         <div class="mb-4">
@@ -152,7 +178,7 @@
                                 <!-- <span class="ms-2" style="width: 20px; height: 20px; border-radius: 50%; background-color: {{ $colorCode }}; display: inline-block; border: 1px solid #000;"></span> -->
                             </div>
                         </div>
-                        <!-- {{-- Size Selection --}} -->
+                        <!-- Product Size Selection -->
                         <div class="border-top border-bottom py-3 mb-4">
                             <div class="d-flex align-items-center justify-content-between">
                                 <h6 class="font-size-14 mb-0">Select Size</h6>
@@ -186,8 +212,15 @@
 
                         </div>
 
+                        @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+
                         <!-- Product Quantity -->
-                        <form action="{{ route('cart.add') }}" method="POST">
+                        <!-- <form action="{{ route('cart.add') }}" method="POST"> -->
+                        <form id="addToCartForm">
                             @csrf
                             <input type="hidden" name="selected_variant_id" id="selectedVariantId" value="{{ $firstVariant->variant_id }}">
 
@@ -198,7 +231,7 @@
                                     <div class="border rounded-pill py-2 px-3 border-color-1">
                                         <div class="js-quantity row align-items-center">
                                             <div class="col">
-                                                <input class="js-result form-control h-auto border-0 rounded p-0 shadow-none" type="number" name="quantity" value="1" min="1">
+                                                <input id="quantityInput" class="js-result form-control h-auto border-0 rounded p-0 shadow-none" type="number" name="quantity" value="1" min="1">
                                             </div>
                                             <div class="col-auto pr-1">
                                                 <button type="button" class="js-minus btn btn-icon btn-xs btn-outline-secondary rounded-circle border-0">
@@ -246,7 +279,7 @@
             <div class="tab-content" id="Jpills-tabContent">
                 <!-- Description tab -->
                 <div class="tab-pane fade active show" id="Jpills-two-example1" role="tabpanel" aria-labelledby="Jpills-two-example1-tab">
-                    {{ $product->meta_description }}
+                    {{ $product->prod_description }}
 
                     <ul class="nav flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
                         <li class="nav-item text-gray-111 flex-shrink-0 flex-xl-shrink-1">
@@ -611,6 +644,7 @@
 <script>
     // Size of product variants
     $(document).ready(function() {
+        // Product Variants code
         function clearSelection() {
             $('.variant-btn').removeClass('btn-dark');
         }
@@ -669,7 +703,77 @@
                 input.val(currentVal - 1);
             }
         });
+        // End Product Variants code
     });
+
+    $('#addToCartForm').on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "{{ route('cart.add') }}",
+            method: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                selected_variant_id: $('#selectedVariantId').val(),
+                quantity: $('#quantityInput').val()
+            },
+            success: function(response) {
+                $('#successMessage')
+                    .text(response.message)
+                    .css('background', response.status === 'success' ? '#28a745' : '#dc3545')
+                    .fadeIn();
+
+                setTimeout(function() {
+                    $('#successMessage').fadeOut();
+                }, 3000);
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', xhr.responseText);
+                if (xhr.status === 401) {
+                    showToast("Please login to continue.", "danger");
+                } else {
+                    // Handle other errors
+                    showToast("Something went wrong. Please try again.", "danger");
+                }
+            }
+        });
+    });
+
+    // Toast Message script
+    function showToast(message = "Product Added", type = "success") {
+        const $toastEl = $('#toastMessage');
+        const $toastBody = $toastEl.find('.toast-body');
+        const $progressBar = $toastEl.find('.progress-bar-bottom'); // ✅ fixed selector
+        const $toastIcon = $('#toastIcon');
+
+        $toastBody.text(message);
+
+        $toastEl.removeClass('text-bg-success text-bg-danger');
+        $progressBar.removeClass('bg-success bg-danger');
+
+        // Set styles & icons based on type
+        if (type === 'success') {
+            $toastEl.addClass('text-bg-success');
+            $progressBar.addClass('bg-success');
+            $toastIcon.removeClass().addClass('bi bi-check2-circle').css('color', '#28a745');
+        } else {
+            $toastEl.addClass('text-bg-danger');
+            $progressBar.addClass('bg-danger');
+            $toastIcon.removeClass().addClass('bi bi-exclamation-circle').css('color', '#dc3545');
+        }
+
+        // ✅ Reset animation safely
+        $progressBar.removeClass('animate');
+        void $progressBar[0].offsetWidth; // force reflow
+        $progressBar.addClass('animate');
+
+        const toast = new bootstrap.Toast($toastEl[0], {
+            delay: 2500, // milliseconds
+            autohide: true
+        });
+        toast.show();
+    }
+    // End Toast Message script
 </script>
 
 @endsection

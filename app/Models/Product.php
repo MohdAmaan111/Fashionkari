@@ -33,6 +33,7 @@ class Product extends Model
         'images'
     ];
 
+    // Relationships
     public function category()
     {
         // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
@@ -52,6 +53,7 @@ class Product extends Model
         });
     }
 
+    // Relationships
     public function variants()
     {
         // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
