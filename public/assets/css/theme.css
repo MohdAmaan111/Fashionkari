@@ -40267,3 +40267,83 @@ blockquote:not(.blockquote) p {
 /*------------------------------------
   File for your custom SCSS style
 ------------------------------------*/
+
+    .cart-items{
+        background-color: var(--surface-color);
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cart-items::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0.25rem;
+        background: linear-gradient(90deg, var(--bs-warning),
+        color-mix(in srgb, var(--bs-warning), transparent 50%));
+        border-radius: 0.25rem 0.25rem 0 0;
+    }
+
+    .cart-summary {
+        background-color: var(--surface-color);
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        position: sticky;
+        top: 6.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cart-summary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 0.25rem;
+        background: linear-gradient(90deg, color-mix(in srgb, var(--bs-warning), 
+        transparent 50%), var(--bs-warning));
+        border-radius: 0.25rem 0.25rem 0 0;
+    }
+
+    .product-card {
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .product-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .btn-qty {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 14px;
+    }
+
+    .coupon-input {
+      border-radius: 50px;
+    }
+
+    .text-muted-old-price {
+      text-decoration: line-through;
+      font-size: 14px;
+    }
+
+    .price-total {
+      font-weight: 600;
+      font-size: 1.2rem;
+    }

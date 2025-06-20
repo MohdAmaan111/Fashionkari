@@ -362,7 +362,7 @@
                                                                     <!-- End Shop -->
 
                                                                     <!-- Cart -->
-                                                                    <li><a class="u-header-collapse__submenu-nav-link" href="https://transvelo.github.io/electro-html/2.0/html/shop/cart.html">Cart</a></li>
+                                                                    <li><a class="u-header-collapse__submenu-nav-link" href="{{ route('cart') }}">Cart</a></li>
                                                                     <!-- End Cart -->
 
                                                                     <!-- Checkout -->
@@ -533,7 +533,7 @@
 
                                     <li class="col d-xl-none px-2 px-sm-3"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="My Account"><i class="font-size-22 ec ec-user"></i></a></li>
                                     <li class="col pr-xl-0 px-2 px-sm-3">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/cart.html" class="text-gray-90 position-relative d-flex " data-toggle="tooltip" data-placement="top" title="Cart">
+                                        <a href="{{ route('cart') }}" class="text-gray-90 position-relative d-flex " data-toggle="tooltip" data-placement="top" title="Cart">
                                             <i class="font-size-22 ec ec-shopping-bag"></i>
                                             <span class="width-22 height-22 bg-dark position-absolute d-flex align-items-center justify-content-center rounded-circle left-12 top-8 font-weight-bold font-size-12 text-white">2</span>
                                             <span class="d-none d-xl-block font-weight-bold font-size-16 text-gray-90 ml-3">$1785.00</span>

@@ -43,7 +43,9 @@ Route::post('/customer/login', [CustomerController::class, 'login'])->name('cust
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
 Route::get('/customer/logout', [AccountController::class, 'logout'])->name('customer.logout');
 
-Route::post('/customer/cart/', [CartController::class, 'addcart'])->name('cart.add');
+Route::get('/customer/cart/', [CartController::class, 'index'])->name('cart');
+Route::post('/customer/cart/add', [CartController::class, 'addcart'])->name('cart.add');
+Route::get('/customer/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 
 
 //Backend Routes

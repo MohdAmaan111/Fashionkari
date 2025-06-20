@@ -35,7 +35,7 @@
     </script>
     @endif
 
-    <!-- breadcrumb -->
+    <!-- Breadcrumb -->
     <div class="bg-gray-13 bg-md-transparent">
         <div class="container">
             <!-- breadcrumb -->
@@ -51,7 +51,7 @@
             <!-- End breadcrumb -->
         </div>
     </div>
-    <!-- End breadcrumb -->
+    <!-- End Breadcrumb -->
 
     <!-- Single Product Body -->
     <div class="container">
@@ -617,7 +617,9 @@
                             </div>
                             <div class="flex-center-between mb-1">
                                 <div class="prodcut-price">
-                                    <div class="text-gray-100">₹{{ number_format($similar->selling_price, 2) }}</div>
+                                    <div class="text-gray-100">
+                                        ₹{{ number_format($similar->selling_price, 2) }}
+                                    </div>
                                 </div>
                                 <div class="d-none d-xl-block prodcut-add-cart">
                                     <a href="#" class="btn-add-cart btn-primary transition-3d-hover">
@@ -640,7 +642,7 @@
             </div> @endforelse
         </ul>
     </div>
-    <!-- End Related products -->
+    <!-- End Similar products -->
     </div>
 </main>
 <!-- ========== END MAIN CONTENT ========== -->

@@ -22,16 +22,19 @@ class CartItem extends Model
     // Relationships
     public function variant()
     {
+        // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
         return $this->belongsTo(ProductVariant::class, 'variant_id');
     }
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
+        return $this->belongsTo(Product::class, 'prod_id', 'product_id');
     }
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id');
+        // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
+        return $this->belongsTo(Customer::class, 'cus_id', 'customer_id');
     }
 }

@@ -17,7 +17,17 @@ class CartController extends Controller
 {
     public function index()
     {
-        //
+        $categories = Category::all();   // Get all categories
+
+        $products = Product::with(['category', 'variants'])->get();
+
+        $customerId = Auth::guard('customer')->id();
+
+        // Eager load variant and its related product
+        $cartItems = CartItem::with(['variant.product'])
+            ->where('customer_id', $customerId)
+            ->get();
+        return view('cart', compact('cartItems', 'products', 'categories'));
     }
 
     public function addcart(Request $request)
@@ -83,5 +93,8 @@ class CartController extends Controller
             'status' => 'success',
             'message' => 'Product added to cart!'
         ]);
+    }
+    public function remove($id) {
+        dd("Remove this project");
     }
 }
