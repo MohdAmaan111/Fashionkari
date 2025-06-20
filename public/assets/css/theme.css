@@ -40212,9 +40212,8 @@ blockquote:not(.blockquote) p {
     /* border: 1px solid #e6e6e6; */
 }
 
-
 /*------------------------------------
-  File for your custom SCSS style
+  Custom Toast SCSS style
 ------------------------------------*/
 
 .message-toast {
@@ -40264,3 +40263,7 @@ blockquote:not(.blockquote) p {
 .message-toast.text-bg-danger .progress-bar-bottom {
   background-color: #dc3545;
 }
+
+/*------------------------------------
+  File for your custom SCSS style
+------------------------------------*/

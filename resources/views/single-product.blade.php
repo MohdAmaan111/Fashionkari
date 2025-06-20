@@ -19,7 +19,7 @@
             </div>
             <div class="progress-bar-bottom"></div>
         </div>
-    </div>
+    </div><!-- End Toast Message -->
 
 
     @if(session('success'))
@@ -250,8 +250,12 @@
                                         <i class="ec ec-add-to-cart mr-2 font-size-20"></i> Add to Cart
                                     </button>
                                 </div>
+                                <br>
+
                         </form>
                     </div>
+                    <!-- Error message placeholder -->
+                    <div id="quantityError" class="text-danger mt-2 small" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -718,62 +722,49 @@
                 quantity: $('#quantityInput').val()
             },
             success: function(response) {
-                $('#successMessage')
-                    .text(response.message)
-                    .css('background', response.status === 'success' ? '#28a745' : '#dc3545')
-                    .fadeIn();
+                showToast(response.message, "success");
 
                 setTimeout(function() {
-                    $('#successMessage').fadeOut();
-                }, 3000);
+                    location.reload();
+                }, 2500);
             },
             error: function(xhr, status, error) {
                 console.log('Error:', xhr.responseText);
-                if (xhr.status === 401) {
-                    showToast("Please login to continue.", "danger");
-                } else {
-                    // Handle other errors
-                    showToast("Something went wrong. Please try again.", "danger");
+
+                // Parse the error message from JSON
+                let errorMessage = "Something went wrong!";
+
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    let errors = xhr.responseJSON.errors;
+
+                    if (xhr.status === 401) {
+                        // User not logged in (unauthorized)
+                        let errorMessage = xhr.responseJSON?.message || "Please login to continue.";
+                        showToast(errorMessage, "danger");
+                    }
+                    if (xhr.status === 404) {
+                        // Product Variant not found
+                        let errorMessage = xhr.responseJSON?.message;
+                        showToast(errorMessage, "danger");
+                    }
+                    if (xhr.status === 409) {
+                        // Product is already in your cart
+                        let errorMessage = xhr.responseJSON?.message;
+                        showToast(errorMessage, "danger");
+                    }
+                    if (errors.quantity) {
+                        // User enters quantity more than stock
+                        $('#quantityError').text(errors.quantity[0]).show();
+                    }
+
+                    // errorMessage = xhr.responseJSON.message;
                 }
+
+                //showToast(errorMessage, "danger"); // ❌ Show red toast
             }
         });
     });
 
-    // Toast Message script
-    function showToast(message = "Product Added", type = "success") {
-        const $toastEl = $('#toastMessage');
-        const $toastBody = $toastEl.find('.toast-body');
-        const $progressBar = $toastEl.find('.progress-bar-bottom'); // ✅ fixed selector
-        const $toastIcon = $('#toastIcon');
-
-        $toastBody.text(message);
-
-        $toastEl.removeClass('text-bg-success text-bg-danger');
-        $progressBar.removeClass('bg-success bg-danger');
-
-        // Set styles & icons based on type
-        if (type === 'success') {
-            $toastEl.addClass('text-bg-success');
-            $progressBar.addClass('bg-success');
-            $toastIcon.removeClass().addClass('bi bi-check2-circle').css('color', '#28a745');
-        } else {
-            $toastEl.addClass('text-bg-danger');
-            $progressBar.addClass('bg-danger');
-            $toastIcon.removeClass().addClass('bi bi-exclamation-circle').css('color', '#dc3545');
-        }
-
-        // ✅ Reset animation safely
-        $progressBar.removeClass('animate');
-        void $progressBar[0].offsetWidth; // force reflow
-        $progressBar.addClass('animate');
-
-        const toast = new bootstrap.Toast($toastEl[0], {
-            delay: 2500, // milliseconds
-            autohide: true
-        });
-        toast.show();
-    }
-    // End Toast Message script
 </script>
 
 @endsection

@@ -1265,6 +1265,42 @@
             // alert("jQuery is working!")
         });
 
+        // Toast Message script
+        function showToast(message = "Product Added", type = "success") {
+            const $toastEl = $('#toastMessage');
+            const $toastBody = $toastEl.find('.toast-body');
+            const $progressBar = $toastEl.find('.progress-bar-bottom'); // ✅ fixed selector
+            const $toastIcon = $('#toastIcon');
+
+            $toastBody.text(message);
+
+            $toastEl.removeClass('text-bg-success text-bg-danger');
+            $progressBar.removeClass('bg-success bg-danger');
+
+            // Set styles & icons based on type
+            if (type === 'success') {
+                $toastEl.addClass('text-bg-success');
+                $progressBar.addClass('bg-success');
+                $toastIcon.removeClass().addClass('bi bi-check2-circle').css('color', '#28a745');
+            } else {
+                $toastEl.addClass('text-bg-danger');
+                $progressBar.addClass('bg-danger');
+                $toastIcon.removeClass().addClass('bi bi-exclamation-circle').css('color', '#dc3545');
+            }
+
+            // ✅ Reset animation safely
+            $progressBar.removeClass('animate');
+            void $progressBar[0].offsetWidth; // force reflow
+            $progressBar.addClass('animate');
+
+            const toast = new bootstrap.Toast($toastEl[0], {
+                delay: 2500, // milliseconds
+                autohide: true
+            });
+            toast.show();
+        }
+        // End Toast Message script
+
         $(window).on('load', function() {
             // initialization of HSMegaMenu component
             $('.js-mega-menu').HSMegaMenu({
