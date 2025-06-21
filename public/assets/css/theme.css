@@ -40241,7 +40241,7 @@ blockquote:not(.blockquote) p {
   height: 4px;
   background-color: #28a745;
   width: 100%;
-  animation: shrinkBar 2.5s linear forwards;
+  animation: shrinkBar 1.2s linear forwards;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -40265,7 +40265,7 @@ blockquote:not(.blockquote) p {
 }
 
 /*------------------------------------
-  File for your custom SCSS style
+  Cart Items custom SCSS style
 ------------------------------------*/
 
     .cart-items{
@@ -40347,3 +40347,7 @@ blockquote:not(.blockquote) p {
       font-weight: 600;
       font-size: 1.2rem;
     }
+    
+/*------------------------------------
+  File for your custom SCSS style
+------------------------------------*/

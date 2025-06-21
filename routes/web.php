@@ -38,14 +38,14 @@ Route::get('/profile/payment', [AccountController::class, 'payment'])->name('cus
 Route::get('/profile/address', [AccountController::class, 'address'])->name('customer.address');
 Route::get('/profile/setting', [AccountController::class, 'setting'])->name('customer.setting');
 
-
 Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
 Route::get('/customer/logout', [AccountController::class, 'logout'])->name('customer.logout');
 
 Route::get('/customer/cart/', [CartController::class, 'index'])->name('cart');
 Route::post('/customer/cart/add', [CartController::class, 'addcart'])->name('cart.add');
-Route::get('/customer/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/customer/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/customer/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove');
 
 
 //Backend Routes

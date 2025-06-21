@@ -27,7 +27,13 @@ class CartController extends Controller
         $cartItems = CartItem::with(['variant.product'])
             ->where('customer_id', $customerId)
             ->get();
-        return view('cart', compact('cartItems', 'products', 'categories'));
+
+        $subtotal = 0;
+        foreach ($cartItems as $item) {
+            $subtotal += $item->quantity * $item->variant->selling_price;
+        }
+
+        return view('cart', compact('cartItems', 'products', 'categories', 'subtotal'));
     }
 
     public function addcart(Request $request)
@@ -94,7 +100,45 @@ class CartController extends Controller
             'message' => 'Product added to cart!'
         ]);
     }
-    public function remove($id) {
-        dd("Remove this project");
+
+    public function update(Request $request)
+    {
+        // Log the whole request data to Laravel log file
+        // \Log::info('Cart Update Request', $request->all());
+
+        $quantities = $request->input('quantities'); // key = cart_id, value = quantity
+
+        $updated = false;
+
+        foreach ($quantities as $cartId => $qty) {
+            $cartItem = CartItem::find($cartId);
+
+            if ($cartItem) {
+                $newQty = max(1, (int)$qty); // Avoid 0 or negative
+
+                if ($cartItem->quantity !== $newQty) {
+                    $cartItem->quantity = $newQty;
+                    $cartItem->save();
+                    $updated = true;
+                }
+            }
+        }
+
+        // When Quantity Is Same - Nothing will be updated
+        return response()->json([
+            'status' => 'success',
+            'message' => $updated ? 'Cart updated successfully!' : 'No changes detected.'
+        ]);
+    }
+
+    public function remove($cartId)
+    {
+        $cartItem = CartItem::findOrFail($cartId);
+        $cartItem->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product deleted successfully.'
+        ]);
     }
 }

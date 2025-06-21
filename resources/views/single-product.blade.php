@@ -648,8 +648,9 @@
 <!-- ========== END MAIN CONTENT ========== -->
 
 <script>
-    // Size of product variants
     $(document).ready(function() {
+        // Size of product variants
+
         // Product Variants code
         function clearSelection() {
             $('.variant-btn').removeClass('btn-dark');
@@ -728,7 +729,7 @@
 
                 setTimeout(function() {
                     location.reload();
-                }, 2500);
+                }, 1200);
             },
             error: function(xhr, status, error) {
                 console.log('Error:', xhr.responseText);
@@ -766,7 +767,6 @@
             }
         });
     });
-
 </script>
 
 @endsection
