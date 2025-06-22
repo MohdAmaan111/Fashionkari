@@ -11,7 +11,7 @@
 
     <!-- Favicons -->
     <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
-    <link href="{{asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    <link href="{{asset('assets/img/favicon.png')}}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -44,8 +44,8 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">NiceAdmin</span>
+                <img src="{{asset('assets/img/fashionkari.png')}}" alt="Fashionkari">
+                <!-- <span class="d-none d-lg-block">Fashionkari</span> -->
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->

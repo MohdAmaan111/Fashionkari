@@ -14,7 +14,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/img/fashionkari.png')}}">
+    <link rel="shortcut icon" href="{{asset('assets/img/favicon.png')}}">
+    <link href="{{asset('assets/img/favicon.png')}}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;display=swap" rel="stylesheet">
@@ -1294,7 +1295,7 @@
             $progressBar.addClass('animate');
 
             const toast = new bootstrap.Toast($toastEl[0], {
-                delay: 2500, // milliseconds
+                delay: 1500, // milliseconds
                 autohide: true
             });
             toast.show();

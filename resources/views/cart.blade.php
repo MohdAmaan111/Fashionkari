@@ -77,15 +77,14 @@
                             <div class="text-center col-2">₹{{ number_format($price, 2) }}</div>
 
                             <!-- Quantity -->
-                            <div class="col-2 border rounded-pill py-2 px-3 border-color-1 d-flex align-items-center justify-content-center">
+                            <div class="col-2 position-relative border rounded-pill py-2 px-3 border-color-1 d-flex align-items-center justify-content-center">
                                 <div class="js-quantity row align-items-center">
                                     <div class="col">
-
                                         <input
-                                            type="number"
                                             class="quantity-input js-result form-control h-auto border-0 rounded p-0 shadow-none"
                                             name="quantity[{{ $item->cart_id }}]"
                                             value="{{ $item->quantity }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                             min="1">
                                     </div>
                                     <div class="col-auto pr-1">
@@ -97,7 +96,13 @@
                                         </button>
                                     </div>
                                 </div>
+                                <!-- Error message placeholder -->
+                                <div id="quantityError-{{ $item->cart_id }}"
+                                    class="quantity-error bg-light border border-danger text-danger small rounded px-2 py-1 shadow-sm"
+                                    style="display: none; position: absolute; top: 100%; left: 0; width: max-content; min-width: 100%; margin-top: 4px; z-index: 10;">
+                                </div>
                             </div>
+
                             <!-- End Quantity -->
 
                             <div class="text-end col-2 price-total">₹{{ number_format($total, 2) }}</div>
@@ -187,6 +192,24 @@
 <!-- ========== END MAIN CONTENT ========== -->
 
 <script>
+    $(document).ready(function() {
+        // Plus button
+        $('.js-plus').on('click', function() {
+            let $input = $(this).closest('.js-quantity').find('.quantity-input');
+            let currentVal = parseInt($input.val()) || 1;
+            $input.val(currentVal + 1);
+        });
+
+        // Minus button
+        $('.js-minus').on('click', function() {
+            let $input = $(this).closest('.js-quantity').find('.quantity-input');
+            let currentVal = parseInt($input.val()) || 1;
+            if (currentVal > 1) {
+                $input.val(currentVal - 1);
+            }
+        });
+    });
+
     $('input[name="shipping"]').on('change', function() {
         let shippingCost = parseFloat($(this).val());
         let subtotal = parseFloat("{{ $subtotal }}");
@@ -224,12 +247,13 @@
 
     $('#updateCartBtn').on('click', function(e) {
         e.preventDefault();
+        $('.quantity-error').hide(); // clear all previous errors
 
         let data = {};
         $('.quantity-input').each(function() {
             let cartId = $(this).closest('.cart-item').data('id');
             let quantity = $(this).val();
-            console.log(quantity);
+            // console.log(quantity);
 
             data[cartId] = quantity;
         });
@@ -244,12 +268,20 @@
             success: function(response) {
                 showToast(response.message, "success");
 
-                // setTimeout(function() {
-                //     location.reload();
-                // }, 1200);
+                setTimeout(function() {
+                    location.reload();
+                }, 1200);
             },
             error: function(xhr) {
-                alert('Failed to update cart.');
+                if (xhr.status === 409) {
+                    const errors = xhr.responseJSON.messages;
+
+                    // Show error messages only for cart items that have errors
+                    for (let cartId in errors) {
+                        $('#quantityError-' + cartId).text(errors[cartId]).show();
+                    }
+                }
+                // alert('Failed to update cart.');
                 console.log(xhr.responseText);
             }
         });

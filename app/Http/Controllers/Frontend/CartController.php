@@ -110,8 +110,20 @@ class CartController extends Controller
 
         $updated = false;
 
+        $errors = [];
+
         foreach ($quantities as $cartId => $qty) {
             $cartItem = CartItem::find($cartId);
+
+            // Get stock from related variant
+            $stock = $cartItem->variant->stock ?? 0;
+            // \Log::info('Cart Item stock', ['stock' => $stock]);
+            // \Log::info('Customer Item quantity', ['quantity' => $qty]);
+
+            // Prevent setting quantity greater than stock
+            if ($qty > $stock) {
+                $errors[$cartId] = "Only $stock item(s) available in stock.";
+            }
 
             if ($cartItem) {
                 $newQty = max(1, (int)$qty); // Avoid 0 or negative
@@ -122,6 +134,14 @@ class CartController extends Controller
                     $updated = true;
                 }
             }
+        }
+
+        // If there are errors, return them
+        if (!empty($errors)) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $errors, // send all errors
+            ], 409);
         }
 
         // When Quantity Is Same - Nothing will be updated

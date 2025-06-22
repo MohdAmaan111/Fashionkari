@@ -29,7 +29,7 @@ class CartItem extends Model
     public function product()
     {
         // hasMany(RelatedModel::class, 'foreign_key', 'local_key')
-        return $this->belongsTo(Product::class, 'prod_id', 'product_id');
+        return $this->belongsTo(Product::class, 'product_id', 'prod_id');
     }
 
     public function customer()

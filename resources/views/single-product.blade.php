@@ -231,7 +231,13 @@
                                     <div class="border rounded-pill py-2 px-3 border-color-1">
                                         <div class="js-quantity row align-items-center">
                                             <div class="col">
-                                                <input id="quantityInput" class="js-result form-control h-auto border-0 rounded p-0 shadow-none" type="number" name="quantity" value="1" min="1">
+                                                <input
+                                                    id="quantityInput"
+                                                    class="js-result form-control h-auto border-0 rounded p-0 shadow-none"
+                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                    name="quantity"
+                                                    value="1"
+                                                    min="1">
                                             </div>
                                             <div class="col-auto pr-1">
                                                 <button type="button" class="js-minus btn btn-icon btn-xs btn-outline-secondary rounded-circle border-0">
@@ -251,7 +257,6 @@
                                     </button>
                                 </div>
                                 <br>
-
                         </form>
                     </div>
                     <!-- Error message placeholder -->
@@ -715,6 +720,14 @@
 
     $('#addToCartForm').on('submit', function(e) {
         e.preventDefault();
+
+        // Validate and sanitize quantity input
+        let quantity = parseInt($('#quantityInput').val());
+
+        if (isNaN(quantity) || quantity < 1) {
+            quantity = 1;
+            $('#quantityInput').val(quantity); // set back to 1 visually
+        }
 
         $.ajax({
             url: "{{ route('cart.add') }}",
