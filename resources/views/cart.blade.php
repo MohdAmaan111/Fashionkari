@@ -74,7 +74,9 @@
                                     <i class="bi bi-trash"></i> Remove
                                 </a>
                             </div>
-                            <div class="text-center col-2">₹{{ number_format($price, 2) }}</div>
+                            <div class="price-per-unit text-center col-2" data-price="{{ $price }}">
+                                ₹{{ number_format($price, 2) }}
+                            </div>
 
                             <!-- Quantity -->
                             <div class="col-2 position-relative border rounded-pill py-2 px-3 border-color-1 d-flex align-items-center justify-content-center">
@@ -102,7 +104,6 @@
                                     style="display: none; position: absolute; top: 100%; left: 0; width: max-content; min-width: 100%; margin-top: 4px; z-index: 10;">
                                 </div>
                             </div>
-
                             <!-- End Quantity -->
 
                             <div class="text-end col-2 price-total">₹{{ number_format($total, 2) }}</div>
@@ -134,35 +135,39 @@
             <div class="col-lg-4 mt-4 mt-lg-0">
                 <div class="cart-summary">
                     <h5 class="mb-3">Order Summary</h5>
+
                     <div class="d-flex justify-content-between mb-2">
                         <span>Subtotal</span>
-                        <span>₹{{ number_format($subtotal, 2) }}</span>
+                        <span id="sub-total"></span>
                     </div>
                     <div class="mb-2">
-                        @if ($subtotal >= 2000)
+                        @if ($subtotal >= $freeShipping )
                         {{-- Only show free shipping --}}
                         <label class="form-check">
                             <input type="radio" name="shipping" class="form-check-input" value="0" checked />
-                            <span class="form-check-label text-success fw-bold">Free Shipping (Orders over ₹2000)</span>
+                            <span class="form-check-label text-success fw-bold">
+                                Free Shipping (Orders over ₹{{ $freeShipping }})
+                            </span>
                         </label>
                         @else
                         {{-- Show all shipping options --}}
                         <label class="form-check">
-                            <input type="radio" name="shipping" class="form-check-input" value="30" checked />
-                            <span class="form-check-label">Standard Delivery - ₹30</span>
+                            <input type="radio" name="shipping" class="form-check-input" value="{{ $standardCharge }}" checked />
+                            <span class="form-check-label">Standard Delivery - ₹{{ $standardCharge }}</span>
                         </label>
                         <label class="form-check">
-                            <input type="radio" name="shipping" class="form-check-input" value="100" />
-                            <span class="form-check-label">Express Delivery - ₹100</span>
+                            <input type="radio" name="shipping" class="form-check-input" value="{{ $expressCharge }}" />
+                            <span class="form-check-label">Express Delivery - ₹{{ $expressCharge }}</span>
                         </label>
                         <div class="mt-2" style="font-size: 13px; color: #6c757d;">
-                            Free Shipping (Orders over ₹2000)
+                            Free Shipping (Orders over ₹{{ $freeShipping }})
                         </div>
                         @endif
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <span>Tax 10%</span>
-                        <span>₹{{ number_format($subtotal * 0.1, 2) }}</span> {{-- Example 10% tax --}}
+                        <span>Tax ({{ $taxPercent }}%)</span>
+                        <span class="order-tax"></span>
+                        <input type="hidden" id="taxPercent" value="{{ $taxPercent }}">
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>Discount</span>
@@ -171,15 +176,9 @@
 
                     <hr>
 
-                    @php
-                    $shipping = 30; // Default, can make dynamic with JS
-                    $tax = $subtotal * 0.1;
-                    $total = $subtotal + $tax + $shipping;
-                    @endphp
-
                     <div class="d-flex justify-content-between fw-bold fs-5">
                         <span>Total</span>
-                        <span class="order-total">${{ number_format($total, 2) }}</span>
+                        <span class="order-total">₹{{ number_format($total, 2) }}</span>
                     </div>
                     <button class="btn btn-primary-dark transition-3d-hover w-100 mt-3">Proceed to Checkout <i class="bi bi-arrow-right ms-1"></i></button>
                     <a href="{{ route('index') }}" class="btn btn-light w-100 mt-2" style="background-color: rgba(119, 131, 143, 0.1);"><i class="bi bi-arrow-left"></i> Continue Shopping</a>
@@ -193,6 +192,8 @@
 
 <script>
     $(document).ready(function() {
+        calculateTotals();
+
         // Plus button
         $('.js-plus').on('click', function() {
             let $input = $(this).closest('.js-quantity').find('.quantity-input');
@@ -210,13 +211,38 @@
         });
     });
 
-    $('input[name="shipping"]').on('change', function() {
-        let shippingCost = parseFloat($(this).val());
-        let subtotal = parseFloat("{{ $subtotal }}");
-        let tax = subtotal * 0.1;
-        let total = subtotal + tax + shippingCost;
+    // To calculate order summary table
+    function calculateTotals() {
+        let subtotal = 0;
 
-        $('.order-total').text(`$${total.toFixed(2)}`);
+        $('.product-card').each(function() {
+            let price = parseFloat($(this).find('.price-per-unit').data('price'));
+            let qty = parseInt($(this).find('.quantity-input').val()) || 1;
+
+            let itemTotal = price * qty;
+            subtotal += itemTotal;
+
+            $(this).find('.price-total').text(`₹${itemTotal.toFixed(2)}`);
+        });
+
+        $('#sub-total').text(`₹${subtotal.toFixed(2)}`); // ✅ Update subtotal display
+
+        let shipping = parseFloat($('input[name="shipping"]:checked').val()) || 0;
+        let taxPercent = parseFloat($('#taxPercent').val()) || 0;
+        let tax = subtotal * (taxPercent / 100);
+
+        let total = subtotal + tax + shipping;
+        console.log(total);
+
+
+        $('.order-subtotal').text(`₹${subtotal.toFixed(2)}`);
+        $('.order-tax').text(`₹${tax.toFixed(2)}`);
+        $('.order-total').text(`₹${total.toFixed(2)}`);
+    }
+
+    // Shipping change
+    $('input[name="shipping"]').on('change', function() {
+        calculateTotals();
     });
 
     $(document).on('click', '.remove-from-cart', function() {

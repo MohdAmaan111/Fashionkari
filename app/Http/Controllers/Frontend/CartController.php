@@ -17,10 +17,6 @@ class CartController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();   // Get all categories
-
-        $products = Product::with(['category', 'variants'])->get();
-
         $customerId = Auth::guard('customer')->id();
 
         // Eager load variant and its related product
@@ -28,12 +24,32 @@ class CartController extends Controller
             ->where('customer_id', $customerId)
             ->get();
 
-        $subtotal = 0;
-        foreach ($cartItems as $item) {
-            $subtotal += $item->quantity * $item->variant->selling_price;
-        }
+        $subtotal = $cartItems->sum(function ($item) {
+            return $item->quantity * $item->variant->selling_price;
+        });
 
-        return view('cart', compact('cartItems', 'products', 'categories', 'subtotal'));
+        $taxPercent = 10; // Tax 10%
+
+        // Free delivery over given price
+        $freeShipping = 2000;
+
+        // Custom delivery charges
+        $standardCharge = 100;
+        $expressCharge = 500;
+
+        $categories = Category::all();   // Get all categories
+        $products = Product::with(['category', 'variants'])->get();  // Get all products
+
+        return view('cart', compact(
+            'cartItems',
+            'subtotal',
+            'freeShipping',
+            'standardCharge',
+            'expressCharge',
+            'taxPercent',
+            'products',
+            'categories',
+        ));
     }
 
     public function addcart(Request $request)
