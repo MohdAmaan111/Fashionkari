@@ -14,7 +14,9 @@ class FrontendController extends Controller
     {
         $categories = Category::all();   // Get all categories
 
-        $products = Product::with(['category', 'variants'])->get();
+        $products = Product::with(['category', 'variants'])
+            ->whereHas('variants') // Only include products that have variants
+            ->get();
 
         return view('index', compact('products', 'categories'));
     }
@@ -37,8 +39,9 @@ class FrontendController extends Controller
 
         // Fetch similar products (same category, exclude current), with category name
         $similarProducts = Product::join('categories', 'products.category_id', '=', 'categories.cat_id')
-            ->where('products.category_id', $product->cat_id)  //Filters products that belong to the same category as the current product
-            ->where('products.prod_id', '!=', $product->prod_id)  //Excludes the current product from the results (you don’t want the current product to show up as a similar one)
+            ->where('products.category_id', $product->cat_id)  // Include category and variants data
+            ->where('products.prod_id', '!=', $product->prod_id)  // Exclude current product
+            ->whereHas('variants')  // Only include products that have variants
             ->select('products.*', 'categories.cat_name')  //Selects all product fields plus the category name from the categories table.
             ->limit(6)
             ->get();

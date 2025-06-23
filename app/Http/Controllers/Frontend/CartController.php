@@ -37,7 +37,6 @@ class CartController extends Controller
         $standardCharge = 100;
         $expressCharge = 500;
 
-        $categories = Category::all();   // Get all categories
         $products = Product::with(['category', 'variants'])->get();  // Get all products
 
         return view('cart', compact(
@@ -48,7 +47,6 @@ class CartController extends Controller
             'expressCharge',
             'taxPercent',
             'products',
-            'categories',
         ));
     }
 
@@ -122,7 +120,23 @@ class CartController extends Controller
         // Log the whole request data to Laravel log file
         // \Log::info('Cart Update Request', $request->all());
 
+        $customerId = Auth::guard('customer')->id();
+
+        if (!$customerId) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You must be logged in to update the cart.',
+            ], 401);
+        }
+
         $quantities = $request->input('quantities'); // key = cart_id, value = quantity
+
+        if (empty($quantities)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your cart is empty. Please add items to update.',
+            ], 422); // Use 422 Unprocessable Entity for user input error
+        }
 
         $updated = false;
 
@@ -175,6 +189,34 @@ class CartController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Product deleted successfully.'
+        ]);
+    }
+
+    public function clear(Request $request)
+    {
+        $customerId = Auth::guard('customer')->id();
+
+        if (!$customerId) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You must be logged in to clear the cart.',
+            ], 401);
+        }
+
+        $cartItems = CartItem::where('customer_id', $customerId);
+
+        if (!$cartItems->exists()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your cart is already empty.',
+            ], 422);
+        }
+
+        $cartItems->delete();
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cart cleared successfully.',
         ]);
     }
 }

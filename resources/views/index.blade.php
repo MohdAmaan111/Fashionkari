@@ -5,6 +5,22 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
 
+    <!-- Toast Message -->
+    <div class="custom-toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+        <div id="toastMessage" class="toast message-toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex align-items-center">
+                <div class="icon-circle me-2">
+                    <i id="toastIcon" class="bi bi-check2-circle"></i> <!-- Bootstrap icon -->
+                </div>
+                <div class="toast-body flex-grow-1 message-text">
+                    Product Added
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="progress-bar-bottom"></div>
+        </div>
+    </div><!-- End Toast Message -->
+
     @if(session('success'))
     <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">{{ session('success') }}</div>
     <script>
@@ -280,7 +296,8 @@
                                         </div>
                                         @php
                                         // Show lowest price among variants
-                                        $variant = $latestMenProduct->variants->sortBy('selling_price')->first();
+                                        $variant = $latestMenProduct->variants->sortBy('selling_price')
+                                        ->first();
                                         @endphp
                                         <div class="flex-center-between mb-1">
                                             <div class="prodcut-price">
@@ -291,7 +308,14 @@
                                                 @endif
                                             </div>
                                             <div class="d-none d-xl-block prodcut-add-cart">
-                                                <a href="" class="btn-add-cart btn-primary transition-3d-hover"><i class="ec ec-add-to-cart"></i></a>
+                                                @if($variant)
+                                                <a href="javascript:void(0);"
+                                                    class="btn-add-cart btn-primary transition-3d-hover addToCartIndexBtn"
+                                                    data-variant-id="{{ $variant->variant_id }}"
+                                                    data-quantity="1">
+                                                    <i class="ec ec-add-to-cart"></i>
+                                                </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -361,7 +385,14 @@
                                                 @endif
                                             </div>
                                             <div class="d-none d-xl-block prodcut-add-cart">
-                                                <a href="" class="btn-add-cart btn-primary transition-3d-hover"><i class="ec ec-add-to-cart"></i></a>
+                                                @if($variant)
+                                                <a href="javascript:void(0);"
+                                                    class="btn-add-cart btn-primary transition-3d-hover addToCartIndexBtn"
+                                                    data-variant-id="{{ $variant->variant_id }}"
+                                                    data-quantity="1">
+                                                    <i class="ec ec-add-to-cart"></i>
+                                                </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -437,7 +468,14 @@
                                                 @endif
                                             </div>
                                             <div class="d-none d-xl-block prodcut-add-cart">
-                                                <a href="" class="btn-add-cart btn-primary transition-3d-hover"><i class="ec ec-add-to-cart"></i></a>
+                                                @if($variant)
+                                                <a href="javascript:void(0);"
+                                                    class="btn-add-cart btn-primary transition-3d-hover addToCartIndexBtn"
+                                                    data-variant-id="{{ $variant->variant_id }}"
+                                                    data-quantity="1">
+                                                    <i class="ec ec-add-to-cart"></i>
+                                                </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -603,9 +641,14 @@
                                                     @endif
                                             </div>
                                             <div class="d-none d-xl-block prodcut-add-cart">
-                                                <a href="#" class="btn-add-cart btn-primary transition-3d-hover">
+                                                @if($firstVariant)
+                                                <a href="javascript:void(0);"
+                                                    class="btn-add-cart btn-primary transition-3d-hover addToCartIndexBtn"
+                                                    data-variant-id="{{ $firstVariant->variant_id }}"
+                                                    data-quantity="1">
                                                     <i class="ec ec-add-to-cart"></i>
                                                 </a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="product-item__footer">
@@ -710,7 +753,14 @@
                                             @endif
                                         </div>
                                         <div class="d-none d-xl-block prodcut-add-cart">
-                                            <a href="" class="btn-add-cart btn-primary transition-3d-hover"><i class="ec ec-add-to-cart"></i></a>
+                                            @if($variant)
+                                            <a href="javascript:void(0);"
+                                                class="btn-add-cart btn-primary transition-3d-hover addToCartIndexBtn"
+                                                data-variant-id="{{ $variant->variant_id }}"
+                                                data-quantity="1">
+                                                <i class="ec ec-add-to-cart"></i>
+                                            </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

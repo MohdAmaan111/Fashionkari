@@ -477,7 +477,7 @@
                                         <select class="js-select selectpicker dropdown-select custom-search-categories-select bg-white"
                                             data-style="btn height-42 text-gray-60 font-weight-normal border-top border-bottom border-left-0 rounded-0 border-primary border-width-0 pl-0 pr-5 py-2">
                                             <option value="" selected>All Categories</option>
-                                            @foreach($categories as $category)
+                                            @foreach($globalCategories as $category)
                                             <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
                                             @endforeach
                                         </select>
@@ -530,14 +530,23 @@
                                     </li>
                                     <!-- End Search -->
 
-                                    <li class="col d-none d-xl-block"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="Favorites"><i class="font-size-22 ec ec-favorites"></i></a></li>
-
-                                    <li class="col d-xl-none px-2 px-sm-3"><a href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="My Account"><i class="font-size-22 ec ec-user"></i></a></li>
+                                    <li class="col d-none d-xl-block">
+                                        <a href="{{ route('customer.profile') }}" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="Favorites"><i class="font-size-22 ec ec-favorites"></i></a>
+                                    </li>
+                                    <li class="col d-xl-none px-2 px-sm-3">
+                                        <a href="{{ route('customer.profile') }}" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="My Account"><i class="font-size-22 ec ec-user"></i></a>
+                                    </li>
                                     <li class="col pr-xl-0 px-2 px-sm-3">
                                         <a href="{{ route('cart') }}" class="text-gray-90 position-relative d-flex " data-toggle="tooltip" data-placement="top" title="Cart">
                                             <i class="font-size-22 ec ec-shopping-bag"></i>
-                                            <span class="width-22 height-22 bg-dark position-absolute d-flex align-items-center justify-content-center rounded-circle left-12 top-8 font-weight-bold font-size-12 text-white">2</span>
-                                            <span class="d-none d-xl-block font-weight-bold font-size-16 text-gray-90 ml-3">$1785.00</span>
+                                            <!-- Number of cart items -->
+                                            <span class="width-22 height-22 bg-dark position-absolute d-flex align-items-center justify-content-center rounded-circle left-12 top-8 font-weight-bold font-size-12 text-white">{{ $cartItemCount }}</span>
+                                            <!-- Total price added in cart -->
+                                            @if ($cartSubtotal > 0)
+                                            <span class="d-none d-xl-block font-weight-bold font-size-16 text-gray-90 ml-3">
+                                                ₹{{ number_format($cartSubtotal, 2) }}
+                                            </span>
+                                            @endif
                                         </a>
                                     </li>
                                 </ul>
@@ -1397,6 +1406,70 @@
 
             // initialization of select picker
             $.HSCore.components.HSSelectPicker.init('.js-select');
+
+
+            $('.addToCartIndexBtn').on('click', function(e) {
+                e.preventDefault();
+
+                console.log("Working");
+
+                // Validate and sanitize quantity input
+                const variantId = $(this).data('variant-id');
+                const quantity = $(this).data('quantity');
+
+                console.log("variantId => " + variantId);
+
+                $.ajax({
+                    url: "{{ route('cart.add') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        selected_variant_id: variantId,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        showToast(response.message, "success");
+
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1200);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', xhr.responseText);
+
+                        // Parse the error message from JSON
+                        let errorMessage = "Something went wrong!";
+
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            let errors = xhr.responseJSON.errors;
+
+                            if (xhr.status === 401) {
+                                // User not logged in (unauthorized)
+                                let errorMessage = xhr.responseJSON?.message || "Please login to continue.";
+                                showToast(errorMessage, "danger");
+                            }
+                            if (xhr.status === 404) {
+                                // Product Variant not found
+                                let errorMessage = xhr.responseJSON?.message;
+                                showToast(errorMessage, "danger");
+                            }
+                            if (xhr.status === 409) {
+                                // Product is already in your cart
+                                let errorMessage = xhr.responseJSON?.message;
+                                showToast(errorMessage, "danger");
+                            }
+                            if (errors.quantity) {
+                                // User enters quantity more than stock
+                                $('#quantityError').text(errors.quantity[0]).show();
+                            }
+
+                            // errorMessage = xhr.responseJSON.message;
+                        }
+
+                        //showToast(errorMessage, "danger"); // ❌ Show red toast
+                    }
+                });
+            });
         });
     </script>
 </body>

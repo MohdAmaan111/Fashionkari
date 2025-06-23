@@ -64,16 +64,21 @@
                 @endphp
                 <!-- Product image body -->
                 <div class="col-md-5">
-                    {{-- Main Image Slider --}}
+                    <!-- {{-- Main Image Slider --}} -->
                     <div id="mainSlider" class="js-slick-carousel" data-nav-for="#thumbSlider">
                         @foreach ($images as $image)
                         <div class="main-image-container">
                             <img src="{{ asset('uploads/products/' . $image) }}" alt="{{ $product->product_name }}" class="main-image">
                         </div>
                         @endforeach
+                        @if (empty($images))
+                        <div class="thumb-image-container">
+                            <img src="" alt="Image not available" class="thumb-image">
+                        </div>
+                        @endif
                     </div>
 
-                    {{-- Thumbnail Slider --}}
+                    <!-- {{-- Thumbnail Slider --}} -->
                     <div id="thumbSlider" class="js-slick-carousel mt-3"
                         data-slides-show="5"
                         data-is-thumbs="true"
@@ -139,7 +144,9 @@
                             </div>
                         </div>
                         <div class="flex-horizontal-center flex-wrap mb-4">
-                            <a href="#" class="text-gray-6 font-size-13 mr-2"><i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
+                            <a href="#" class="text-gray-6 font-size-13 mr-2">
+                                <i class="bi bi-heart mr-1 font-size-15"></i> Wishlist
+                            </a>
                         </div>
                         <!-- Product Attributes -->
                         <div class="mb-2">
@@ -208,8 +215,6 @@
                                 </div>
                                 @endforeach
                             </div>
-                            <!-- <input type="hidden" name="selected_variant_id2" id="selectedVariantId2" value="{{ $firstVariant->variant_id }}"> -->
-
                         </div>
 
                         @if(session('error'))
@@ -256,7 +261,6 @@
                                         <i class="ec ec-add-to-cart mr-2 font-size-20"></i> Add to Cart
                                     </button>
                                 </div>
-                                <br>
                         </form>
                     </div>
                     <!-- Error message placeholder -->

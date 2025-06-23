@@ -125,7 +125,9 @@
                             <button class="btn btn-outline-primary" id="updateCartBtn">
                                 <i class="bi bi-arrow-repeat"></i> Update
                             </button>
-                            <button class="btn btn-outline-danger"><i class="bi bi-trash"></i> Clear</button>
+                            <button class="btn btn-outline-danger" id="clearCartBtn">
+                                <i class="bi bi-trash"></i> Clear
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -178,7 +180,7 @@
 
                     <div class="d-flex justify-content-between fw-bold fs-5">
                         <span>Total</span>
-                        <span class="order-total">₹{{ number_format($total, 2) }}</span>
+                        <span class="order-total"></span>
                     </div>
                     <button class="btn btn-primary-dark transition-3d-hover w-100 mt-3">Proceed to Checkout <i class="bi bi-arrow-right ms-1"></i></button>
                     <a href="{{ route('index') }}" class="btn btn-light w-100 mt-2" style="background-color: rgba(119, 131, 143, 0.1);"><i class="bi bi-arrow-left"></i> Continue Shopping</a>
@@ -232,8 +234,6 @@
         let tax = subtotal * (taxPercent / 100);
 
         let total = subtotal + tax + shipping;
-        console.log(total);
-
 
         $('.order-subtotal').text(`₹${subtotal.toFixed(2)}`);
         $('.order-tax').text(`₹${tax.toFixed(2)}`);
@@ -299,6 +299,14 @@
                 }, 1200);
             },
             error: function(xhr) {
+                if (xhr.status === 401) {
+                    const errorMessage = xhr.responseJSON?.message || "Unauthorized access.";
+                    showToast(errorMessage, 'danger');
+                }
+                if (xhr.status === 422) {
+                    const errorMessage = xhr.responseJSON?.message || "Cart is empty.";
+                    showToast(errorMessage, 'danger');
+                }
                 if (xhr.status === 409) {
                     const errors = xhr.responseJSON.messages;
 
@@ -308,6 +316,37 @@
                     }
                 }
                 // alert('Failed to update cart.');
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    $('#clearCartBtn').on('click', function(e) {
+        e.preventDefault();
+
+        if (!confirm('Are you sure you want to clear your cart?')) return;
+
+        $.ajax({
+            url: "{{ route('cart.clear') }}",
+            method: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    showToast(response.message, 'success');
+                    setTimeout(() => location.reload(), 1200);
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    const errorMessage = xhr.responseJSON?.message || "Unauthorized access.";
+                    showToast(errorMessage, 'danger');
+                }
+                if (xhr.status === 422) {
+                    const errorMessage = xhr.responseJSON?.message || "Cart is empty.";
+                    showToast(errorMessage, 'danger');
+                }
                 console.log(xhr.responseText);
             }
         });
