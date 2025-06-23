@@ -144,7 +144,10 @@
                             </div>
                         </div>
                         <div class="flex-horizontal-center flex-wrap mb-4">
-                            <a href="#" class="text-gray-6 font-size-13 mr-2">
+                            <a href="javascript:void(0);"
+                                class="text-gray-6 font-size-13 mr-2 add-to-wishlist"
+                                data-product-id="{{ $product->id }}"
+                                data-variant-id="{{ $selectedVariant->id }}">
                                 <i class="bi bi-heart mr-1 font-size-15"></i> Wishlist
                             </a>
                         </div>
@@ -783,6 +786,17 @@
                 //showToast(errorMessage, "danger"); // ❌ Show red toast
             }
         });
+    });
+
+    $(document).on('click', '.add-to-wishlist', function(e) {
+        e.preventDefault();
+
+        var productId = $(this).data('product-id');
+        var variantId = $(this).data('variant-id');
+
+        console.log("Product ID : " + productId);
+        console.log("Variant ID : " + variantId);
+        
     });
 </script>
 

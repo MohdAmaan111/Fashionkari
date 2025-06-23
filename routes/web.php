@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\WishlistController;
 // use App\Http\Controllers\Frontend\CustomerController as FrontCustomerController;
 
 use App\Http\Controllers\Backend\DashboardController;
@@ -48,6 +49,8 @@ Route::post('/customer/cart/update', [CartController::class, 'update'])->name('c
 Route::delete('/customer/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
+Route::get('/customer/wishlist/', [CartController::class, 'index'])->name('wishlist');
+Route::post('/customer/wishlist/add', [WishlistController::class, 'addwishlist'])->name('wishlist.add');
 
 
 //Backend Routes
