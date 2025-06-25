@@ -43,14 +43,17 @@ Route::post('/customer/login', [CustomerController::class, 'login'])->name('cust
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
 Route::get('/customer/logout', [AccountController::class, 'logout'])->name('customer.logout');
 
+// Cart
 Route::get('/customer/cart/', [CartController::class, 'index'])->name('cart');
 Route::post('/customer/cart/add', [CartController::class, 'addcart'])->name('cart.add');
 Route::post('/customer/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/customer/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
-Route::get('/customer/wishlist/', [CartController::class, 'index'])->name('wishlist');
+// Wishlist
+Route::get('/customer/wishlist/', [WishlistController::class, 'index'])->name('wishlist');
 Route::post('/customer/wishlist/add', [WishlistController::class, 'addwishlist'])->name('wishlist.add');
+Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
 
 //Backend Routes

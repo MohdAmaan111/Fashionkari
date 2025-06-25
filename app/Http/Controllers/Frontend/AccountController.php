@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Category;
+use App\Models\Wishlist;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -29,10 +30,16 @@ class AccountController extends Controller
             return redirect()->route('customer.account');
         }
 
-        $categories = Category::all();
         $customer = Auth::guard('customer')->user();
-        
-        return view('profile', compact('categories', 'customer'));
+        // dd($customer);
+        $customerId = Auth::guard('customer')->id();
+
+        $ordersCount = 0;
+
+        $wishlistCount = 0;
+        $wishlistCount = Wishlist::where('customer_id', $customerId)->count();
+
+        return view('profile', compact('customer', 'wishlistCount', 'ordersCount'));
     }
 
     public function orders()
@@ -44,9 +51,19 @@ class AccountController extends Controller
 
     public function wishlist()
     {
-        // $wishlist = Wishlist::with('product')->where('user_id', auth()->id())->get();
-        // return view('customer.partials.wishlist', compact('wishlist'));
-        return view('customer.partials.wishlist');
+        $customerId = Auth::guard('customer')->id();
+
+        // Check if the customer is not authenticated
+        if (!Auth::guard('customer')->check()) {
+            // Customer is NOT logged in
+            return redirect()->route('customer.account');
+        }
+
+        $wishlists = Wishlist::where('customer_id', $customerId)
+            ->with(['product', 'variant']) // eager load product + variant
+            ->get();
+        // dd($wishlists);
+        return view('customer.partials.wishlist', compact('wishlists'));
     }
 
     public function payment()

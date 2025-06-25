@@ -21,20 +21,6 @@
         </div>
     </div><!-- End Toast Message -->
 
-
-    @if(session('success'))
-    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
-        {{ session('success') }}
-    </div>
-    <script>
-        $(document).ready(function() {
-            $('#successMessage').fadeIn(200).delay(2000).fadeOut(400, function() {
-                // window.location.href = "{{ route('index') }}";
-            });
-        });
-    </script>
-    @endif
-
     <!-- Breadcrumb -->
     <div class="bg-gray-13 bg-md-transparent">
         <div class="container">
@@ -61,6 +47,9 @@
                 $images = json_decode($product->images, true);
 
                 $sortedVariants = $product->variants->sortBy('selling_price');
+                $variantFavID = $sortedVariants->first()->variant_id;
+                
+                $isWishlisted = in_array($variantFavID, $wishlistVariantIds ?? []);
                 @endphp
                 <!-- Product image body -->
                 <div class="col-md-5">
@@ -145,10 +134,13 @@
                         </div>
                         <div class="flex-horizontal-center flex-wrap mb-4">
                             <a href="javascript:void(0);"
-                                class="text-gray-6 font-size-13 mr-2 add-to-wishlist"
-                                data-product-id="{{ $product->id }}"
-                                data-variant-id="{{ $selectedVariant->id }}">
-                                <i class="bi bi-heart mr-1 font-size-15"></i> Wishlist
+                                class="add-to-wishlist text-gray-6 font-size-13 mr-2"
+                                data-product-id="{{ $product->prod_id }}"
+                                data-variant-id="{{ $sortedVariants->first()->variant_id }}">
+                                <i class="bi wishlist-icon mr-1 font-size-18 
+                                    {{ $isWishlisted ? 'bi-heart-fill active' : 'bi-heart' }}">
+                                </i>
+                                <span class="wishlist-label">Wishlist</span>
                             </a>
                         </div>
                         <!-- Product Attributes -->
@@ -786,17 +778,6 @@
                 //showToast(errorMessage, "danger"); // ❌ Show red toast
             }
         });
-    });
-
-    $(document).on('click', '.add-to-wishlist', function(e) {
-        e.preventDefault();
-
-        var productId = $(this).data('product-id');
-        var variantId = $(this).data('variant-id');
-
-        console.log("Product ID : " + productId);
-        console.log("Variant ID : " + variantId);
-        
     });
 </script>
 

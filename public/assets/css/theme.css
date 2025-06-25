@@ -40349,5 +40349,64 @@ blockquote:not(.blockquote) p {
     }
     
 /*------------------------------------
+  CSS for Heart Animation
+------------------------------------*/
+
+.wishlist-icon {
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.wishlist-icon.active {
+    color: #e63946;
+    animation: pop 0.4s ease forwards;
+}
+
+@keyframes pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+
+/*------------------------------------
+  Profile wishlist SCSS style
+------------------------------------*/
+
+.profile-wishlist {
+    position: relative;
+}
+
+.profile-wishlist .wishlist-image {
+    height: 280px;
+    overflow: hidden;
+}
+
+.profile-wishlist .wishlist-image img {
+    /* width: 100%; */
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.profile-wishlist .wishlist-image img:hover {
+    transform: scale(1.05);
+}
+
+.profile-wishlist .sale-badge {
+    position: absolute;
+    top: 12px;
+    left: 0px;
+}
+
+.profile-wishlist .sale-badge .discount {
+    background-color: #fef2f2;
+    color: #ef4444;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/*------------------------------------
   File for your custom SCSS style
 ------------------------------------*/

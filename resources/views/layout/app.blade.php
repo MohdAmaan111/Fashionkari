@@ -378,12 +378,8 @@
                                                                     <li><a class="u-header-collapse__submenu-nav-link" href="https://transvelo.github.io/electro-html/2.0/html/shop/track-your-order.html">Track your Order</a></li>
                                                                     <!-- End Track your Order -->
 
-                                                                    <!-- Compare -->
-                                                                    <li><a class="u-header-collapse__submenu-nav-link" href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html">Compare</a></li>
-                                                                    <!-- End Compare -->
-
                                                                     <!-- wishlist -->
-                                                                    <li><a class="u-header-collapse__submenu-nav-link" href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html">wishlist</a></li>
+                                                                    <li><a class="u-header-collapse__submenu-nav-link" href="{{ route('wishlist') }}">wishlist</a></li>
                                                                     <!-- End wishlist -->
                                                                 </ul>
                                                             </div>
@@ -531,10 +527,10 @@
                                     <!-- End Search -->
 
                                     <li class="col d-none d-xl-block">
-                                        <a href="{{ route('customer.profile') }}" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="Favorites"><i class="font-size-22 ec ec-favorites"></i></a>
+                                        <a href="{{ route('wishlist') }}" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="Favorites"><i class="font-size-22 ec ec-favorites"></i></a>
                                     </li>
                                     <li class="col d-xl-none px-2 px-sm-3">
-                                        <a href="{{ route('customer.profile') }}" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="My Account"><i class="font-size-22 ec ec-user"></i></a>
+                                        <a href="{{ route('customer.profile') }}" class="text-gray-90" data-toggle="tooltip" data-placement="top" title="My Profile"><i class="font-size-22 ec ec-user"></i></a>
                                     </li>
                                     <li class="col pr-xl-0 px-2 px-sm-3">
                                         <a href="{{ route('cart') }}" class="text-gray-90 position-relative d-flex " data-toggle="tooltip" data-placement="top" title="Cart">
@@ -627,9 +623,9 @@
                                                     <span class="u-header__sub-menu-title">Ecommerce Pages</span>
                                                     <ul class="u-header__sub-menu-nav-group">
                                                         <li><a href="https://transvelo.github.io/electro-html/2.0/html/shop/shop.html" class="nav-link u-header__sub-menu-nav-link">Shop</a></li>
-                                                        <li><a href="https://transvelo.github.io/electro-html/2.0/html/shop/cart.html" class="nav-link u-header__sub-menu-nav-link">Cart</a></li>
+                                                        <li><a href="{{ route('cart') }}" class="nav-link u-header__sub-menu-nav-link">Cart</a></li>
                                                         <li><a href="https://transvelo.github.io/electro-html/2.0/html/shop/checkout.html" class="nav-link u-header__sub-menu-nav-link">Checkout</a></li>
-                                                        <li><a href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html" class="nav-link u-header__sub-menu-nav-link">My Account</a></li>
+                                                        <li><a href="{{ route('customer.account') }}" class="nav-link u-header__sub-menu-nav-link">My Account</a></li>
                                                         <li><a href="https://transvelo.github.io/electro-html/2.0/html/shop/track-your-order.html" class="nav-link u-header__sub-menu-nav-link">Track your Order</a></li>
                                                         <li><a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html" class="nav-link u-header__sub-menu-nav-link">Compare</a></li>
                                                     </ul>
@@ -1173,7 +1169,7 @@
                                 <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
                                     <li><a class="list-group-item list-group-item-action" href="{{ route('customer.account') }}">My Account</a></li>
                                     <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/track-your-order.html">Order Tracking</a></li>
-                                    <li><a class="list-group-item list-group-item-action" href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html">Wish List</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="{{ route('wishlist') }}">Wish List</a></li>
                                     <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Customer Service</a></li>
                                     <li><a class="list-group-item list-group-item-action" href="terms-and-conditions.html">Returns / Exchange</a></li>
                                     <li><a class="list-group-item list-group-item-action" href="faq.html">FAQs</a></li>
@@ -1271,10 +1267,6 @@
 
     <!-- JS Plugins Init. -->
     <script>
-        $(document).ready(function() {
-            // alert("jQuery is working!")
-        });
-
         // Toast Message script
         function showToast(message = "Product Added", type = "success") {
             const $toastEl = $('#toastMessage');
@@ -1323,6 +1315,8 @@
         });
 
         $(document).on('ready', function() {
+            // alert("jQuery is working!")
+
             // initialization of header
             $.HSCore.components.HSHeader.init($('#header'));
 
@@ -1470,6 +1464,70 @@
                     }
                 });
             });
+        });
+
+        $(document).on('click', '.add-to-wishlist', function(e) {
+            e.preventDefault();
+
+            var productId = $(this).data('product-id');
+            var variantId = $(this).data('variant-id');
+
+            // console.log("Product ID : " + productId);
+            // console.log("Variant ID : " + variantId);
+
+            let $icon = $(this).find('.wishlist-icon');
+            const isWishlisted = $icon.hasClass('bi-heart-fill');
+
+            if (isWishlisted) {
+                // Already in wishlist — ask before removing
+                if (confirm("Do you really want to remove this item from your wishlist?")) {
+                    $.ajax({
+                        url: '{{ route("wishlist.remove") }}', // route we'll define below
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            variant_id: variantId
+                        },
+                        success: function(response) {
+                            $icon.removeClass('bi-heart-fill active').addClass('bi-heart');
+                            showToast("Removed from wishlist", "success");
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1200);
+                        },
+                        error: function() {
+                            showToast("Error removing from wishlist", "danger");
+                        }
+                    });
+                }
+            } else {
+                // Not in wishlist — add it
+                $.ajax({
+                    url: '{{ route("wishlist.add") }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: productId,
+                        variant_id: variantId
+                    },
+                    success: function(response) {
+                        $icon.addClass('active bi-heart-fill').removeClass('bi-heart');
+                        showToast(response.message, "success");
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1200);
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 401) {
+                            // User not logged in (unauthorized)
+                            let errorMessage = xhr.responseJSON?.message || "Please login to continue.";
+                            showToast(errorMessage, "danger");
+                        } else {
+                            alert('Error adding to wishlist.');
+                        }
+                    }
+                });
+            }
         });
     </script>
 </body>

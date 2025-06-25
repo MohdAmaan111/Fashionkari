@@ -298,6 +298,8 @@
                                         // Show lowest price among variants
                                         $variant = $latestMenProduct->variants->sortBy('selling_price')
                                         ->first();
+
+                                        $isWishlisted = in_array($variant->variant_id, $wishlistVariantIds ?? []);
                                         @endphp
                                         <div class="flex-center-between mb-1">
                                             <div class="prodcut-price">
@@ -321,7 +323,15 @@
                                     </div>
                                     <div class="product-item__footer">
                                         <div class="border-top pt-2 flex-center-between flex-wrap">
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html" class="text-gray-6 font-size-13"><i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
+                                            <a href="javascript:void(0);"
+                                                class="add-to-wishlist text-gray-6 font-size-13 mr-2"
+                                                data-product-id="{{ $latestMenProduct->prod_id }}"
+                                                data-variant-id="{{ $variant->variant_id }}">
+                                                <i class="bi wishlist-icon mr-1 font-size-18 
+                                                {{ $isWishlisted ? 'bi-heart-fill active' : 'bi-heart' }}">
+                                                </i>
+                                                <span class="wishlist-label">Wishlist</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -375,6 +385,8 @@
                                         @php
                                         // Show lowest price among variants
                                         $variant = $latestWomenProduct->variants->sortBy('selling_price')->first();
+
+                                        $isWishlisted = in_array($variant->variant_id, $wishlistVariantIds ?? []);
                                         @endphp
                                         <div class="flex-center-between mb-1">
                                             <div class="prodcut-price">
@@ -398,7 +410,15 @@
                                     </div>
                                     <div class="product-item__footer">
                                         <div class="border-top pt-2 flex-center-between flex-wrap">
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html" class="text-gray-6 font-size-13"><i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
+                                            <a href="javascript:void(0);"
+                                                class="add-to-wishlist text-gray-6 font-size-13 mr-2"
+                                                data-product-id="{{ $latestWomenProduct->prod_id }}"
+                                                data-variant-id="{{ $variant->variant_id }}">
+                                                <i class="bi wishlist-icon mr-1 font-size-18 
+                                                {{ $isWishlisted ? 'bi-heart-fill active' : 'bi-heart' }}">
+                                                </i>
+                                                <span class="wishlist-label">Wishlist</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -458,6 +478,8 @@
                                         @php
                                         // Show lowest price among variants
                                         $variant = $bestSellerProduct->variants->sortBy('selling_price')->first();
+
+                                        $isWishlisted = in_array($variant->variant_id, $wishlistVariantIds ?? []);
                                         @endphp
                                         <div class="flex-center-between mb-1">
                                             <div class="prodcut-price">
@@ -481,7 +503,15 @@
                                     </div>
                                     <div class="product-item__footer">
                                         <div class="border-top pt-2 flex-center-between flex-wrap">
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html" class="text-gray-6 font-size-13"><i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
+                                            <a href="javascript:void(0);"
+                                                class="add-to-wishlist text-gray-6 font-size-13 mr-2"
+                                                data-product-id="{{ $bestSellerProduct->prod_id }}"
+                                                data-variant-id="{{ $variant->variant_id }}">
+                                                <i class="bi wishlist-icon mr-1 font-size-18 
+                                                {{ $isWishlisted ? 'bi-heart-fill active' : 'bi-heart' }}">
+                                                </i>
+                                                <span class="wishlist-label">Wishlist</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -621,6 +651,8 @@
                                         <div class="flex-center-between mb-3">
                                             @php
                                             $firstVariant = $product->variants->first();
+
+                                            $isWishlisted = in_array($firstVariant->variant_id, $wishlistVariantIds ?? []);
                                             @endphp
                                             <div class="prodcut-price">
                                                 @if ($firstVariant && $firstVariant->selling_price < $firstVariant->mrp)
@@ -654,7 +686,15 @@
                                         <div class="product-item__footer">
                                             <div class="border-top pt-2 flex-center-between flex-wrap">
                                                 <a href="#" class="text-gray-6 font-size-13">
-                                                    <i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist
+                                                    <a href="javascript:void(0);"
+                                                        class="add-to-wishlist text-gray-6 font-size-13 mr-2"
+                                                        data-product-id="{{ $product->prod_id }}"
+                                                        data-variant-id="{{ $firstVariant->variant_id }}">
+                                                        <i class="bi wishlist-icon mr-1 font-size-18 
+                                                        {{ $isWishlisted ? 'bi-heart-fill active' : 'bi-heart' }}">
+                                                        </i>
+                                                        <span class="wishlist-label">Wishlist</span>
+                                                    </a>
                                                 </a>
                                             </div>
                                         </div>
@@ -745,6 +785,8 @@
                                         @php
                                         // Show lowest price among variants
                                         $variant = $recommendedProduct->variants->sortBy('selling_price')->first();
+
+                                        $isWishlisted = in_array($variant->variant_id, $wishlistVariantIds ?? []);
                                         @endphp
                                         <div class="prodcut-price">
                                             @if($variant)
@@ -766,7 +808,15 @@
                                 </div>
                                 <div class="product-item__footer">
                                     <div class="border-top pt-2 flex-center-between flex-wrap">
-                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html" class="text-gray-6 font-size-13"><i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
+                                        <a href="javascript:void(0);"
+                                            class="add-to-wishlist text-gray-6 font-size-13 mr-2"
+                                            data-product-id="{{ $recommendedProduct->prod_id }}"
+                                            data-variant-id="{{ $variant->variant_id }}">
+                                            <i class="bi wishlist-icon mr-1 font-size-18 
+                                                        {{ $isWishlisted ? 'bi-heart-fill active' : 'bi-heart' }}">
+                                            </i>
+                                            <span class="wishlist-label">Wishlist</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

@@ -47,12 +47,12 @@
                         <a href="" class="list-group-item list-group-item-action sidebar-link active"
                             data-url="{{ route('customer.orders') }}">
                             <i class="bi bi-box"></i> My Orders
-                            <span class="order-status-pill badge ms-auto">4</span>
+                            <span class="order-status-pill badge ms-auto">{{ $ordersCount }}</span>
                         </a>
                         <a href="" class="list-group-item list-group-item-action sidebar-link"
                             data-url="{{ route('customer.wishlist') }}">
                             <i class="bi bi-heart"></i> Wishlists
-                            <span class="order-status-pill badge ms-auto">12</span>
+                            <span class="order-status-pill badge ms-auto">{{ $wishlistCount }}</span>
                         </a>
                         <a href="" class="list-group-item list-group-item-action sidebar-link"
                             data-url="{{ route('customer.payment') }}">

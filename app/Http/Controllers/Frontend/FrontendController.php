@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Wishlist;
+use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
@@ -18,7 +20,15 @@ class FrontendController extends Controller
             ->whereHas('variants') // Only include products that have variants
             ->get();
 
-        return view('index', compact('products', 'categories'));
+        $wishlistVariantIds = [];
+
+        if (Auth::guard('customer')->check()) {
+            $wishlistVariantIds = Wishlist::where('customer_id', Auth::guard('customer')->id())
+                ->pluck('variant_id')
+                ->toArray();
+        }
+
+        return view('index', compact('products', 'categories', 'wishlistVariantIds'));
     }
 
     public function singleProduct($id)
@@ -64,6 +74,17 @@ class FrontendController extends Controller
             $product->setRelation('variants', $sortedVariants);
         }
 
-        return view('single-product', compact('product', 'categories', 'similarProducts', 'meta'));
+        $wishlistVariantIds = [];
+
+        if (Auth::guard('customer')->check()) {
+            $wishlistVariantIds = Wishlist::where('customer_id', Auth::guard('customer')->id())
+                ->pluck('variant_id')
+                ->toArray();
+        }
+
+        return view(
+            'single-product',
+            compact('product', 'categories', 'similarProducts', 'meta', 'wishlistVariantIds')
+        );
     }
 }

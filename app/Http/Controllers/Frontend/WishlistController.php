@@ -16,27 +16,53 @@ use Illuminate\Support\Facades\Log;
 
 class WishlistController extends Controller
 {
-    public function index() {}
+    public function index()
+    {
+        $customerId = Auth::guard('customer')->id();
+
+        // Ensure user is logged in
+        if (!Auth::guard('customer')->check()) {
+            // dd("Customer not logged in");
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Please login to continue.'
+            ], 401); // 401 = Unauthorized
+        }
+
+        $wishlists = Wishlist::where('customer_id', $customerId)
+            ->with(['product', 'variant']) // eager load product + variant
+            ->get();
+
+        return view('wishlist', compact('wishlists'));
+    }
 
     public function addwishlist(Request $request)
     {
         $customerId = Auth::guard('customer')->id();
+
+        // Ensure user is logged in
+        if (!Auth::guard('customer')->check()) {
+            // dd("Customer not logged in");
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Please login to continue.'
+            ], 401); // 401 = Unauthorized
+        }
 
         $exists = Wishlist::where('customer_id', $customerId)
             ->where('variant_id', $request->variant_id)
             ->exists();
 
         if (!$exists) {
-            // Wishlist::create([
-            //     'customer_id' => $customerId,
-            //     'product_id' => $request->product_id,
-            //     'variant_id' => $request->variant_id,
-            // ]);
+            Wishlist::create([
+                'customer_id' => $customerId,
+                'product_id' => $request->product_id,
+                'variant_id' => $request->variant_id,
+            ]);
         }
 
-        return response()->json(['message' => 'Added to wishlist']);
+        return response()->json(['message' => 'Product added to wishlist!']);
     }
-
 
     public function update(Request $request)
     {
@@ -104,15 +130,15 @@ class WishlistController extends Controller
         ]);
     }
 
-    public function remove($cartId)
+    public function remove(Request $request)
     {
-        $cartItem = CartItem::findOrFail($cartId);
-        $cartItem->delete();
+        $customerId = Auth::guard('customer')->id();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Product deleted successfully.'
-        ]);
+        Wishlist::where('customer_id', $customerId)
+            ->where('variant_id', $request->variant_id)
+            ->delete();
+
+        return response()->json(['message' => 'Removed from wishlist']);
     }
 
     public function clear(Request $request)

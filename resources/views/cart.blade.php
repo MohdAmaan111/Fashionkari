@@ -70,7 +70,9 @@
                             <div class="flex-grow-1">
                                 <div class="fw-semibold">{{ $product->name }}</div>
                                 <div class="text-muted small">Color: {{ $color }} &nbsp;|&nbsp; Size: {{ $size }}</div>
-                                <a href="javascript:void(0);" class="remove-from-cart text-danger small" data-id="{{ $item->cart_id }}">
+                                <a href="javascript:void(0);"
+                                    class="remove-from-cart text-danger small"
+                                    data-id="{{ $item->cart_id }}">
                                     <i class="bi bi-trash"></i> Remove
                                 </a>
                             </div>
