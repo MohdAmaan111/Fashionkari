@@ -5,9 +5,21 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
 
-    <!-- Success Message -->
-    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
-    </div><!-- Success Message End -->
+    <!-- Toast Message -->
+    <div class="custom-toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+        <div id="toastMessage" class="toast message-toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex align-items-center">
+                <div class="icon-circle me-2">
+                    <i id="toastIcon" class="bi bi-check2-circle"></i> <!-- Bootstrap icon -->
+                </div>
+                <div class="toast-body flex-grow-1 message-text">
+                    Product Added
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="progress-bar-bottom"></div>
+        </div>
+    </div><!-- End Toast Message -->
 
     <!-- breadcrumb -->
     <div class="bg-gray-13 bg-md-transparent">
@@ -67,10 +79,13 @@
                             <i class="bi bi-gear"></i> Account Settings
                         </a>
 
-                        <hr style="  border-top: 1px solid;">
+                        <hr style="border-top: 1px solid;">
 
-                        <a href="{{ route('customer.logout') }}" class="list-group-item list-group-item-action text-danger text-bold">
-                            <i class="bi bi-box-arrow-left"></i> Log Out
+                        <a href=""
+                            id="logoutCustomerBtn"
+                            class="list-group-item list-group-item-action text-danger text-bold"
+                            data-url="{{ route('customer.logout') }}">
+                            <i class=" bi bi-box-arrow-left"></i> Log Out
                         </a>
                     </div>
 
@@ -128,10 +143,149 @@
                 success: function(response) {
                     $('#profileContent').html(response);
                 },
-                error: function() {
+                error: function(xhr) {
+                    console.error("AJAX Error: ", xhr.responseText);
+
                     $('#profileContent').html('<div class="alert alert-danger">Failed to load content.</div>');
                 }
             });
+        });
+    });
+
+    $(document).on('submit', '#updatePersonalInfo', function(e) {
+        e.preventDefault();
+
+        console.log("updating PersonalInfo");
+
+        // Clear previous errors
+        $('.text-danger').text('');
+
+        $.ajax({
+            url: "{{ route('customer.detail.update') }}", // Your controller route
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                showToast(response.message, "success");
+            },
+            error: function(xhr) {
+                // console.error(xhr.responseText);
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        $('.error-' + key).text(value[0]);
+                    });
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+            }
+        });
+    });
+
+    $(document).on('submit', '#updateAddress', function(e) {
+        e.preventDefault();
+
+        // Clear previous errors
+        $('.text-danger').text('');
+
+        $.ajax({
+            url: "{{ route('customer.address.update') }}", // Your controller route
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                showToast(response.message, "success");
+            },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        $('.error-' + key).text(value[0]);
+                    });
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+            }
+        });
+    });
+
+    $(document).on('submit', '#updateSecurity', function(e) {
+        e.preventDefault();
+
+        // Clear previous errors
+        $('.text-danger').text('');
+
+        $.ajax({
+            url: "{{ route('customer.security.update') }}", // Your controller route
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                showToast(response.message, "success");
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        $('.error-' + key).text(value[0]);
+                    });
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '#deleteAccountBtn', function(e) {
+        e.preventDefault();
+
+        if (!confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('customer.account.delete') }}",
+            type: 'DELETE',
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                showToast(response.message, "success");
+
+                setTimeout(function() {
+                    location.reload();
+                }, 1200);
+            },
+            error: function(xhr) {
+                alert("Something went wrong. Please try again.");
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+    $(document).on('click', '#logoutCustomerBtn', function(e) {
+        e.preventDefault();
+
+        const logoutUrl = $(this).data('url');
+
+        $.ajax({
+            url: logoutUrl,
+            type: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                showToast(response.message, "success");
+
+                setTimeout(function() {
+                    window.location.href = "{{ route('index') }}";
+                }, 1200);
+            },
+            error: function(xhr) {
+                alert("Logout failed. Please try again.");
+
+                console.log("xhr object:", xhr);
+                console.log("xhr.status:", xhr.status);
+                console.log("xhr.responseText:", xhr.responseText);
+            }
         });
     });
 </script>

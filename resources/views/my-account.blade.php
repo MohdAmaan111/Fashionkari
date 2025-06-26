@@ -5,11 +5,23 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
 
-    <!-- Success Message -->
-    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
-    </div><!-- Success Message End -->
+    <!-- Toast Message -->
+    <div class="custom-toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+        <div id="toastMessage" class="toast message-toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex align-items-center">
+                <div class="icon-circle me-2">
+                    <i id="toastIcon" class="bi bi-check2-circle"></i> <!-- Bootstrap icon -->
+                </div>
+                <div class="toast-body flex-grow-1 message-text">
+                    Product Added
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="progress-bar-bottom"></div>
+        </div>
+    </div><!-- End Toast Message -->
 
-    <!-- breadcrumb -->
+    <!-- Breadcrumb -->
     <div class="bg-gray-13 bg-md-transparent">
         <div class="container">
             <!-- breadcrumb -->
@@ -24,7 +36,7 @@
             <!-- End breadcrumb -->
         </div>
     </div>
-    <!-- End breadcrumb -->
+    <!-- End Breadcrumb -->
 
     <div class="container">
         <div class="mb-4">
@@ -294,17 +306,12 @@
             method: "POST",
             data: $(this).serialize(),
             success: function(response) {
-                // ✅ Show success toast
-                $('#successMessage')
-                    .text(response.message)
-                    .fadeIn(200)
-                    .delay(1500)
-                    .fadeOut(400);
+                showToast(response.message, "success");
 
-                // ✅ Reload after 2 seconds
+                // ✅ Reload after 1.2 seconds
                 setTimeout(function() {
                     window.location.href = response.redirect;
-                }, 2000);
+                }, 1200);
             },
             error: function(xhr) {
                 if (xhr.status === 422) {

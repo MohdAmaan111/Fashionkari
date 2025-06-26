@@ -78,7 +78,6 @@ class ProductController extends Controller
             }
         }
 
-
         if ($request->filled('product_id')) {
             // dd("Update Product");
 

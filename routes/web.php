@@ -33,15 +33,22 @@ Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name(
 Route::get('/customer/account', [AccountController::class, 'index'])->name('customer.account');
 Route::get('/customer/profile', [AccountController::class, 'profile'])->name('customer.profile');
 
+// Profile
 Route::get('/profile/orders', [AccountController::class, 'orders'])->name('customer.orders');
 Route::get('/profile/wishlist', [AccountController::class, 'wishlist'])->name('customer.wishlist');
 Route::get('/profile/payment', [AccountController::class, 'payment'])->name('customer.payment');
 Route::get('/profile/address', [AccountController::class, 'address'])->name('customer.address');
 Route::get('/profile/setting', [AccountController::class, 'setting'])->name('customer.setting');
 
+// Profile update
+Route::post('/profile/detail/update', [AccountController::class, 'updatePersonalInfo'])->name('customer.detail.update');
+Route::post('/profile/address/update', [AccountController::class, 'updateAddress'])->name('customer.address.update');
+Route::post('/profile/security/update', [AccountController::class, 'updateSecurity'])->name('customer.security.update');
+Route::delete('/profile/delete-account', [AccountController::class, 'deleteAccount'])->name('customer.account.delete');
+
 Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register');
-Route::get('/customer/logout', [AccountController::class, 'logout'])->name('customer.logout');
+Route::post('/customer/logout', [AccountController::class, 'logout'])->name('customer.logout');
 
 // Cart
 Route::get('/customer/cart/', [CartController::class, 'index'])->name('cart');
