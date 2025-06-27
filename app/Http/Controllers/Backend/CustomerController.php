@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,34 @@ class CustomerController extends Controller
 
     // Login
     public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:customers,email',
+            'password' => 'required|string',
+        ]);
+
+        $cust = Customer::where('email', $request->email)->first();
+
+        if (!Hash::check($request->password, $cust->password)) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => ['password' => ['The password is incorrect.']] 
+            ], 422);
+        } else {
+            Auth::guard('customer')->loginUsingId($cust->cus_id); // use customer guard if you have separate one
+
+            $request->session()->regenerate();
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Login successfully!',
+                ]);
+            }
+        }
+    }
+
+    public function registerCustomer(Request $request)
     {
         // dd($request->all());
 

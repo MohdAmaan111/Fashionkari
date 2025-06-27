@@ -281,10 +281,6 @@
             },
             error: function(xhr) {
                 alert("Logout failed. Please try again.");
-
-                console.log("xhr object:", xhr);
-                console.log("xhr.status:", xhr.status);
-                console.log("xhr.responseText:", xhr.responseText);
             }
         });
     });

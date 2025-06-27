@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\Frontend\OrderController;
 // use App\Http\Controllers\Frontend\CustomerController as FrontCustomerController;
 
 use App\Http\Controllers\Backend\DashboardController;
@@ -61,6 +62,9 @@ Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear')
 Route::get('/customer/wishlist/', [WishlistController::class, 'index'])->name('wishlist');
 Route::post('/customer/wishlist/add', [WishlistController::class, 'addwishlist'])->name('wishlist.add');
 Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
+
+// Orders
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
 
 //Backend Routes

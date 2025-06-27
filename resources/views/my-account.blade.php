@@ -53,7 +53,8 @@
                     <p class="text-gray-90 mb-4">Welcome back! Sign in to your account.</p>
                     <!-- End Title -->
 
-                    <form action="{{route('customer.login')}}" method="POST">
+                    <!-- <form action="{{route('customer.login')}}" method="POST"> -->
+                    <form id="customerLoginForm">
                         @csrf
                         <!-- Form Email -->
                         <div class="form-group">
@@ -71,9 +72,7 @@
                                         data-success-class="u-has-success">
                                 </div>
                                 <!-- email error -->
-                                @error('email')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                                <small class="text-danger" id="login_error_email"></small>
                             </div>
                         </div>
                         <!-- End Form Email -->
@@ -94,9 +93,7 @@
                                         data-success-class="u-has-success">
                                 </div>
                                 <!-- password error -->
-                                @error('password')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                                <small class="text-danger" id="login_error_password"></small>
                             </div>
                         </div>
                         <!-- End Form Password -->
@@ -282,11 +279,24 @@
             method: "POST",
             data: form.serialize(),
             success: function(response) {
-                // ✅ Show success toast
-                console.log("Data submit Successfully");
+                showToast(response.message, "success");
+
+                // ✅ Reload after 1.2 seconds
+                setTimeout(function() {
+                    window.location.href = "{{ route('index') }}";
+                }, 1200);
             },
             error: function(xhr) {
-                console.log("AJAX Error", xhr);
+                let errors = xhr.responseJSON.errors;
+
+                // console.log("AJAX Error", xhr.message);
+                if (errors.email) {
+                    $('#login_error_email').text(errors.email[0]);
+                }
+                if (errors.password) {
+                    console.log("password error");
+                    $('#login_error_password').text(errors.password[0]);
+                }
             }
 
         });
@@ -310,7 +320,7 @@
 
                 // ✅ Reload after 1.2 seconds
                 setTimeout(function() {
-                    window.location.href = response.redirect;
+                    window.location.href = "{{ route('index') }}";
                 }, 1200);
             },
             error: function(xhr) {
