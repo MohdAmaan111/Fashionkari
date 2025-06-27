@@ -40410,3 +40410,69 @@ blockquote:not(.blockquote) p {
 /*------------------------------------
   File for your custom SCSS style
 ------------------------------------*/
+
+    .checkout-step {
+        background: #fff;
+        padding: 30px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .step-number {
+        background-color: #fed700;
+        color: white;
+        border-radius: 50%;
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 28px;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 8px;
+    }
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+.payment-option.active {
+    border-color: #fed700;
+    background-color: #fff9da;
+}
+.payment-option:hover {
+    border-color: #fed700;
+}
+.payment-option input[type="radio"] {
+    display: none;
+}
+.card-icons img {
+    height: 32px;
+    margin-right: 8px;
+}
+.card-field input {
+    background: #f1f5f9;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+}
+.card-field input:focus {
+    background: #e2e8f0;
+    outline: none;
+    box-shadow: none;
+}

@@ -30,6 +30,7 @@
                     <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a></li>
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Cart</li>
+                        <li id="checkoutBreadcrumb" class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page" style="display: none;">Checkout</li>
                     </ol>
                 </nav>
             </div>
@@ -42,7 +43,7 @@
         <div class="row">
             <!-- Cart Items -->
             <div class="col-lg-8">
-                <div class="cart-items">
+                <div class="cart-items cart-products">
                     <div class="row fw-bold border-bottom pb-2 mb-3">
                         <div class="col-6">PRODUCT</div>
                         <div class="col-2 text-center">PRICE</div>
@@ -135,6 +136,10 @@
                 </div>
             </div>
 
+            <div class="col-lg-8" id="checkoutContent" style="display: none;">
+                @include('checkout.form')
+            </div>
+
             <!-- Order Summary -->
             <div class="col-lg-4 mt-4 mt-lg-0">
                 <div class="cart-summary">
@@ -184,8 +189,18 @@
                         <span>Total</span>
                         <span class="order-total"></span>
                     </div>
-                    <button class="btn btn-primary-dark transition-3d-hover w-100 mt-3">Proceed to Checkout <i class="bi bi-arrow-right ms-1"></i></button>
-                    <a href="{{ route('index') }}" class="btn btn-light w-100 mt-2" style="background-color: rgba(119, 131, 143, 0.1);"><i class="bi bi-arrow-left"></i> Continue Shopping</a>
+                    <!-- Checkout Button -->
+                    <button id="checkoutBtn" class="btn btn-primary-dark transition-3d-hover w-100 mt-3">Proceed to Checkout <i class="bi bi-arrow-right ms-1"></i></button>
+                    <!-- Place Order Button -->
+                    <button class="btn btn-primary-dark transition-3d-hover w-100 mt-3" id="placeOrderBtn" style="display: none;">
+                        Place Order <i class="bi bi-bag-check ms-1"></i>
+                    </button>
+                    <!-- Back To Cart Button -->
+                    <button class="btn btn-light w-100 mt-2" id="backToCartBtn" style="display: none; background-color: rgba(119, 131, 143, 0.1);">
+                        <i class="bi bi-arrow-left"></i> Back To Cart
+                    </button>
+
+                    <a href="{{ route('index') }}" id="backToShop" class="btn btn-light w-100 mt-2" style="background-color: rgba(119, 131, 143, 0.1);"><i class="bi bi-arrow-left"></i> Continue Shopping</a>
                 </div>
             </div>
         </div>
@@ -213,6 +228,24 @@
                 $input.val(currentVal - 1);
             }
         });
+
+        // Payment method card script
+        $('#card-expiry').on('input', function() {
+            let value = $(this).val().replace(/[^0-9]/g, '');
+
+            if (value.length >= 3) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+
+            $(this).val(value);
+        });
+        // Optional: prevent deleting "/"
+        $('#card-expiry').on('keydown', function(e) {
+            if (e.key === 'Backspace' && this.selectionStart === 3 && this.value[2] === '/') {
+                e.preventDefault(); // Prevent deleting the "/"
+            }
+        });
+        // End Payment method card script
     });
 
     // To calculate order summary table
@@ -353,6 +386,99 @@
             }
         });
     });
+
+    $(document).ready(function() {
+        $('#checkoutBtn').click(function(e) {
+            e.preventDefault();
+
+            // Show checkout Breadcrumb
+            $('#checkoutBreadcrumb').show();
+
+            // Hide cart section
+            $('.cart-products').hide();
+
+            // Show checkout form
+            $('#checkoutContent').fadeIn();
+
+            // Hide "Proceed to Checkout" button
+            $(this).hide();
+            // Hide "Continue Shopping" button
+            $('#backToShop').hide();
+
+            // Show "Place Order" button instead
+            $('#placeOrderBtn').show();
+            // Show "Back To Cart" button instead
+            $('#backToCartBtn').show();
+
+            // Set selected shipping method value in hidden input
+            const shippingMethod = $('input[name="shipping"]:checked').val();
+            $('#shippingMethodInput').val(shippingMethod);
+        });
+        $('#backToCartBtn').click(function(e) {
+            e.preventDefault();
+
+            // Hide checkout Breadcrumb
+            $('#checkoutBreadcrumb').hide();
+
+            // Show cart section
+            $('.cart-products').fadeIn();
+
+            // Hide checkout form
+            $('#checkoutContent').hide();
+
+            // Show "Proceed to Checkout" button
+            $('#checkoutBtn').show();
+            // Show "Continue Shopping" button
+            $('#backToShop').show();
+
+            // Hide "Place Order" button instead
+            $('#placeOrderBtn').hide();
+            // Hide "Back To Cart" button instead
+            $(this).hide();
+        });
+        $('input[name="payment_method"]').on('change', function() {
+            $('.payment-option').removeClass('active');
+            $(this).closest('.payment-option').addClass('active');
+
+            const method = $(this).val();
+            $('#card-info, #upi-info').addClass('d-none');
+
+            if (method === 'card') {
+                $('#card-info').removeClass('d-none');
+            } else if (method === 'upi') {
+                $('#upi-info').removeClass('d-none');
+            }
+        });
+
+        // Submit the checkout form when "Place Order" is clicked
+        $('#placeOrderBtn').click(function(e) {
+            e.preventDefault();
+
+            // Submit form via AJAX
+            $.ajax({
+                url: '{{ route("customer.orders") }}', // Create this route
+                type: 'POST',
+                data: $('#checkoutForm').serialize(),
+                success: function(response) {
+                    alert("Order placed successfully!");
+                    window.location.href = '/thank-you'; // Or order success page
+                },
+                error: function(xhr) {
+                    alert("Failed to place order. Please check your input.");
+                }
+            });
+        });
+    });
+
+
+    function nextStep(step) {
+        document.querySelectorAll('.checkout-step').forEach(div => div.classList.add('d-none'));
+        document.getElementById('step' + step).classList.remove('d-none');
+    }
+
+    function prevStep(step) {
+        nextStep(step);
+    }
 </script>
 
 
