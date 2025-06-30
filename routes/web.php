@@ -32,9 +32,9 @@ Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('product.show');
 
 Route::get('/customer/account', [AccountController::class, 'index'])->name('customer.account');
-Route::get('/customer/profile', [AccountController::class, 'profile'])->name('customer.profile');
 
 // Profile
+Route::get('/customer/profile', [AccountController::class, 'profile'])->name('customer.profile');
 Route::get('/profile/orders', [AccountController::class, 'orders'])->name('customer.orders');
 Route::get('/profile/wishlist', [AccountController::class, 'wishlist'])->name('customer.wishlist');
 Route::get('/profile/payment', [AccountController::class, 'payment'])->name('customer.payment');

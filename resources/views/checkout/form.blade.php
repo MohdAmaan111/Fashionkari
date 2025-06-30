@@ -122,7 +122,7 @@
                     <div class="d-grid gap-3" id="payment-method-wrapper">
                         <!-- Card -->
                         <label class="payment-option" id="option-card">
-                            <input type="radio" name="payment_method" value="card">
+                            <input type="radio" name="payment_method" value="Card">
                             <i class="bi bi-credit-card fs-4"></i>
                             <div>
                                 <div class="fw-bold">Pay via Card</div>
@@ -132,7 +132,7 @@
 
                         <!-- UPI -->
                         <label class="payment-option" id="option-upi">
-                            <input type="radio" name="payment_method" value="upi">
+                            <input type="radio" name="payment_method" value="UPI">
                             <i class="bi bi-upc-scan fs-4"></i>
                             <div>
                                 <div class="fw-bold">UPI</div>
@@ -142,7 +142,7 @@
 
                         <!-- Cash on Delivery -->
                         <label class="payment-option" id="option-cod">
-                            <input type="radio" name="payment_method" value="cod">
+                            <input type="radio" name="payment_method" value="COD">
                             <i class="bi bi-wallet2 fs-4"></i>
                             <div>
                                 <div class="fw-bold">Cash on Delivery</div>

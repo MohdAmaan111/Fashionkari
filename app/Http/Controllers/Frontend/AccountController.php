@@ -43,7 +43,9 @@ class AccountController extends Controller
             ->latest()
             ->get();
 
-        $wishlistCount = 0;
+        // dd($orders);
+
+        // $wishlistCount = 0;
         $wishlistCount = Wishlist::where('customer_id', $customerId)->count();
 
         return view('profile', compact('customer', 'wishlistCount', 'ordersCount', 'orders'));

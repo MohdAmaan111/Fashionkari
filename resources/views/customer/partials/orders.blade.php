@@ -10,43 +10,68 @@
 </div>
 
 <!-- Order Card -->
-@foreach ($orders as $order)
+@forelse ($orders as $order)
 <div class="order-card mb-4">
     <div class="d-flex justify-content-between mb-2">
-        <span><strong>Order ID:</strong> #{{ $order->order_number }}</span>
-        <span class="text-muted">{{ $order->created_at->format('M d, Y') }}</span>
+        <span class="text-secondary">Order ID: <strong class="text-warning">#{{ $order->order_number }}</strong></span>
+        <span class="text-secondary">{{ $order->created_at->format('M d, Y') }}</span>
     </div>
 
     <div class="order-content">
+        <!-- Show image of items ordered -->
         <div class="d-flex gap-3 mb-3">
             @foreach ($order->items->take(3) as $item)
+
             @php
             $product = $item->product;
+
             $productImages = json_decode($product->images ?? '[]', true);
             @endphp
+
             @if (!empty($productImages))
-            <img src="{{ asset('storage/products/' . $productImages[0]) }}" width="60">
+            <img src="{{ asset('uploads/products/' . $productImages[0]) }}" width="60">
             @endif
             @endforeach
         </div>
 
         <div class="order-info row align-items-center mb-3">
             <div class="col-md-12 d-flex justify-content-between">
-                <div class="text-muted mb-2">Status</div>
+                <div class="mb-2">Status</div>
                 <div class="mb-2">
-                    <span class="badge order-status-pill" style="color: #fe700d; background-color: #fff0de;">
+                    @php
+                    switch ($order->order_status) {
+                    case 'pending':
+                    $statusColor = ['#f4c430', '#fff9e6']; // text, background
+                    break;
+                    case 'processing':
+                    $statusColor = ['#fe700d', '#fff0de'];
+                    break;
+                    case 'shipped':
+                    $statusColor = ['#0d6efd', '#e7f1ff'];
+                    break;
+                    case 'delivered':
+                    $statusColor = ['#198754', '#e6f4ea'];
+                    break;
+                    case 'canceled':
+                    $statusColor = ['#dc3545', '#fdecea'];
+                    break;
+                    default:
+                    $statusColor = ['#6c757d', '#f8f9fa']; // fallback
+                    }
+                    @endphp
+                    <span class="badge order-status-pill" style="color: {{ $statusColor[0] }}; background-color: {{ $statusColor[1] }}; font-weight:500; font-size: 14px;">
                         {{ ucfirst($order->order_status) }}
                     </span>
                 </div>
             </div>
             <div class="col-md-12 d-flex justify-content-between">
-                <div class="text-muted mb-2">Items</div>
+                <div class="mb-2">Items</div>
                 <div class="mb-2" style="font-weight: 500;">
                     {{ $order->items->sum('quantity') }} items
                 </div>
             </div>
             <div class="col-md-12 d-flex justify-content-between">
-                <div class="text-muted">Total</div>
+                <div class="mb-1">Total</div>
                 <div style="font-weight: 600; color: #1c2b36;">
                     ₹{{ number_format($order->total_amount, 2) }}
                 </div>
@@ -56,14 +81,121 @@
 
     <div class="row mt-3">
         <div class="col-md-6">
-            <a href="{{ route('track.order', $order->id) }}" class="order-tracking btn order-btn-hover w-100 py-2 fw-semibold">
+            <a href="" class="order-tracking btn order-btn-hover w-100 py-2 fw-semibold">
                 Track Order
             </a>
         </div>
         <div class="col-md-6">
-            <a href="{{ route('order.details', $order->id) }}" class="view-details btn btn-primary-dark w-100 py-2 fw-semibold">
+            <a href="" class="view-details btn btn-primary-dark w-100 py-2 fw-semibold">
                 View Details
             </a>
+        </div>
+    </div>
+
+
+    <!-- Hidden tracking details section -->
+    <div class="tracking-details mt-3" style="display: none;">
+        <div class="p-3 rounded bg-light tracking-timeline">
+
+            <!-- Order Confirmed status -->
+            <div class="d-flex align-items-start mb-3 ms-5">
+                <div class="me-3 text-success timeline-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div>
+                    <div class="fw-semibold">Order Confirmed</div>
+                    <small class="text-muted">Your order has been received and confirmed<br>Feb 20, 2025 - 10:30 AM</small>
+                </div>
+            </div>
+
+            <!-- Order Processing status -->
+            <div class="d-flex align-items-start mb-3 ms-5">
+                <div class="me-3 text-warning timeline-icon">
+                    <i class="bi bi-box-seam-fill"></i>
+                </div>
+                <div>
+                    <div class="fw-semibold text-warning">Processing</div>
+                    <small class="text-muted">Preparing for shipment<br>Feb 20, 2025 - 2:45 PM</small>
+                </div>
+            </div>
+
+            <!-- Order Shipping status -->
+            <div class="d-flex align-items-start mb-3 ms-5">
+                <div class="me-3 text-warning timeline-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+                <div>
+                    <div class="fw-semibold text-warning">Shipping</div>
+                    <small class="text-muted">Your items have been packaged for shipping<br>Expected to ship within 24 hours
+                    </small>
+                </div>
+            </div>
+
+            <!-- Order Delivery status -->
+            <div class="d-flex align-items-start mb-3 ms-5">
+                <div class="me-3 text-warning timeline-icon">
+                    <i class="bi bi-house"></i>
+                </div>
+                <div>
+                    <div class="fw-semibold text-warning">Delivery</div>
+                    <small class="text-muted">Your items have been packaged for shipping<br>Estimated delivery: Feb 22, 2025
+                    </small>
+                </div>
+            </div>
+
+            <!-- Add more steps here as needed -->
+        </div>
+    </div>
+
+    <!-- Hidden order details section -->
+    <div class="order-details p-4 mt-3 rounded shadow-sm" style="display: none;">
+        <h5 class="mb-3 fw-semibold border-bottom pb-2">Order Information</h5>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="text-secondary">Payment Method</div>
+                <div class="fw-semibold">{{ $order->payment_method ?? 'N/A' }}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-secondary">Shipping Method</div>
+                <div class="fw-semibold"> {{ $order->shipping_method ?? 'Standard Shipping' }}</div>
+            </div>
+        </div>
+
+        <h6 class="mb-3 fw-semibold">Items ({{ $order->items->sum('quantity') }})</h6>
+
+        @foreach ($order->items as $item)
+        @php
+        $product = $item->product;
+        $images = json_decode($product->images ?? '[]', true);
+        $image = $images[0] ?? 'default.jpg';
+        @endphp
+        <div class="mb-3 d-flex align-items-center gap-3 p-3 rounded bg-white shadow-sm">
+            <img src="{{ asset('uploads/products/' . $image) }}" alt="Product" width="60">
+            <div>
+                <div class="fw-semibold">{{ $product->product_name }}</div>
+                <small class="text-secondary">
+                    SKU: PRD-00{{ $product->prod_id ?? 'N/A' }} &nbsp; Qty: {{ $item->quantity }}
+                </small>
+            </div>
+            <div class="ms-auto fw-semibold">
+                ₹{{ number_format($item->price * $item->quantity, 2) }}
+            </div>
+        </div>
+        @endforeach
+
+        <h6 class="fw-semibold mb-2">Shipping Address</h6>
+        <div class="p-3 rounded bg-white shadow-sm">
+            <div>{{ $order->name }}</div>
+            <div>{{ $order->address_line }}</div>
+            @if($order->area)
+            <div>{{ $order->area }}</div>
+            @endif
+            <div>{{ $order->city }}, {{ $order->state }}, {{ $order->pincode }}</div>
+            <div>{{ $order->country }}</div>
+            <div class="mt-2 text-secondary small"> <i class="bi bi-telephone me-1"></i>
+                +91 {{ $order->phone }}
+            </div>
         </div>
     </div>
 </div>
@@ -167,7 +299,7 @@
                 </div>
                 <div>
                     <div class="fw-semibold text-warning">Delivery</div>
-                    <small class="text-muted">Your items have been packaged for shipping<br>Estimated delivery: Feb 22, 2025
+                    <small class="text-muted">Delivered to your doorstep <br>At: Feb 22, 2025
                     </small>
                 </div>
             </div>
