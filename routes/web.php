@@ -53,6 +53,7 @@ Route::post('/customer/logout', [AccountController::class, 'logout'])->name('cus
 
 // Cart
 Route::get('/customer/cart/', [CartController::class, 'index'])->name('cart');
+Route::post('/customer/cart/checkout/', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/customer/cart/add', [CartController::class, 'addcart'])->name('cart.add');
 Route::post('/customer/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/customer/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove');

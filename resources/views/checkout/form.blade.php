@@ -1,11 +1,8 @@
 <div class="cart-items checkout-form-container">
     <h4 class="fw-bold border-bottom pb-2 mb-3">Shipping Details</h4>
 
-    <form method="POST" action="{{ route('customer.orders') }}" id="checkoutForm">
+    <form method="POST" id="checkoutForm">
         @csrf
-        @php
-        $cartTotal = 1000;
-        @endphp
         <!-- {{-- Step 1: Customer Information --}} -->
         <div class="checkout-step" id="step1">
             <div class="mb-4">
@@ -15,17 +12,20 @@
             </div>
 
             <div class="row g-3 mb-3">
+                <!-- Full name form input -->
                 <div class="col-md-12">
                     <label class="form-label">Full name*</label>
-                    <input type="text" name="full_name" class="form-control" placeholder="Captain" required>
+                    <input type="text" name="full_name" class="form-control" placeholder="Enter full name" value="{{ old('fullname', $customer->cus_name) }}" required>
                 </div>
+                <!-- Email form input -->
                 <div class="col-6">
                     <label class="form-label">Email address*</label>
-                    <input type="email" name="email" class="form-control" placeholder="anyname@email.com" required>
+                    <input type="email" name="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email', $customer->email) }}" required>
                 </div>
+                <!-- Phone number form input -->
                 <div class="col-md-6">
                     <label class="form-label">Phone number*</label>
-                    <input type="text" name="phone" class="form-control" placeholder="12514463453" required>
+                    <input type="text" name="phone" class="form-control" placeholder="+91" value="{{ old('phone', $customer->phone) }}" required>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Pincode*</label>
-                    <input type="text" name="pincode" class="form-control" required>
+                    <input type="text" name="pincode" class="form-control" value="{{ old('postal_code', $customer->postal_code) }}" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">State*</label>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">City*</label>
-                    <input type="text" name="city" class="form-control" required>
+                    <input type="text" name="city" class="form-control" value="{{ old('city', $customer->city) }}" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Area</label>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-12">
                     <label class="form-label">Address line*</label>
-                    <textarea name="address_line" class="form-control" rows="2" required></textarea>
+                    <textarea name="address_line" class="form-control" rows="2" required>{{ old('address_line', $customer->address) }}</textarea>
                 </div>
             </div>
 
@@ -119,7 +119,7 @@
                 <div class="col-md-12">
                     <label class="form-label fw-bold">Choose Payment Method*</label>
 
-                    <div class="d-grid gap-3">
+                    <div class="d-grid gap-3" id="payment-method-wrapper">
                         <!-- Card -->
                         <label class="payment-option" id="option-card">
                             <input type="radio" name="payment_method" value="card">
@@ -176,7 +176,6 @@
                             <input type="text" class="form-control" name="card_cvv" placeholder="CVC">
                         </div>
 
-                        <input type="hidden" name="total_amount" value="{{ $cartTotal }}">
                     </div>
                 </div>
 

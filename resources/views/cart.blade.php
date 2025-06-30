@@ -140,6 +140,10 @@
                 @include('checkout.form')
             </div>
 
+            <div class="col-lg-8" id="successOrder" style="display: none;">
+                @include('checkout.success')
+            </div>
+
             <!-- Order Summary -->
             <div class="col-lg-4 mt-4 mt-lg-0">
                 <div class="cart-summary">
@@ -153,7 +157,7 @@
                         @if ($subtotal >= $freeShipping )
                         {{-- Only show free shipping --}}
                         <label class="form-check">
-                            <input type="radio" name="shipping" class="form-check-input" value="0" checked />
+                            <input type="radio" name="shipping" class="form-check-input" value="0" data-method="Free Shipping" checked />
                             <span class="form-check-label text-success fw-bold">
                                 Free Shipping (Orders over ₹{{ $freeShipping }})
                             </span>
@@ -161,11 +165,11 @@
                         @else
                         {{-- Show all shipping options --}}
                         <label class="form-check">
-                            <input type="radio" name="shipping" class="form-check-input" value="{{ $standardCharge }}" checked />
+                            <input type="radio" name="shipping" class="form-check-input" value="{{ $standardCharge }}" data-method="Standard Delivery" checked />
                             <span class="form-check-label">Standard Delivery - ₹{{ $standardCharge }}</span>
                         </label>
                         <label class="form-check">
-                            <input type="radio" name="shipping" class="form-check-input" value="{{ $expressCharge }}" />
+                            <input type="radio" name="shipping" class="form-check-input" value="{{ $expressCharge }}" data-method="Express Delivery" />
                             <span class="form-check-label">Express Delivery - ₹{{ $expressCharge }}</span>
                         </label>
                         <div class="mt-2" style="font-size: 13px; color: #6c757d;">
@@ -275,7 +279,7 @@
         $('.order-total').text(`₹${total.toFixed(2)}`);
     }
 
-    // Shipping change
+    // On shipping change
     $('input[name="shipping"]').on('change', function() {
         calculateTotals();
     });
@@ -387,6 +391,7 @@
         });
     });
 
+    // Checkout logics
     $(document).ready(function() {
         $('#checkoutBtn').click(function(e) {
             e.preventDefault();
@@ -449,35 +454,124 @@
                 $('#upi-info').removeClass('d-none');
             }
         });
-
         // Submit the checkout form when "Place Order" is clicked
         $('#placeOrderBtn').click(function(e) {
             e.preventDefault();
 
+            // Use serializeArray to get an array of name-value pairs
+            const formData = $('#checkoutForm').serializeArray();
+
+            // Add shipping method manually (since it's outside the form)
+            const selectedShipping = $('input[name="shipping"]:checked');
+            formData.push({
+                name: 'shipping_method',
+                value: selectedShipping.data('method')
+            });
+
+            // Get total amount text, strip ₹ symbol if needed
+            let totalText = $('.order-total').text().trim();
+            let totalAmount = totalText.replace(/[^\d.]/g, ''); // remove ₹ and keep only numbers
+            totalAmount = parseInt(totalAmount); // Remove decimal
+
+            formData.push({
+                name: 'total_amount',
+                value: totalAmount
+            });
+
+            console.log('Form Data (serializeArray):', formData);
+
+            // Clear previous errors
+            $('.is-invalid').removeClass('is-invalid');
+            $('.invalid-feedback').remove();
+
             // Submit form via AJAX
             $.ajax({
-                url: '{{ route("customer.orders") }}', // Create this route
+                url: '{{ route("cart.checkout") }}', // Create this route
                 type: 'POST',
-                data: $('#checkoutForm').serialize(),
+                data: $.param(formData), // this includes total_amount & shipping_method
                 success: function(response) {
-                    alert("Order placed successfully!");
-                    window.location.href = '/thank-you'; // Or order success page
+                    // console.log(response);
+                    showToast(response.message, 'success');
+                    // Show success order section
+                    $('#successOrder').fadeIn();
+
+                    // Hide checkout form
+                    $('#checkoutContent').hide();
                 },
                 error: function(xhr) {
-                    alert("Failed to place order. Please check your input.");
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+
+                        let firstErrorShown = false;
+                        for (let field in errors) {
+                            if (!firstErrorShown) {
+                                showToast(errors[field][0], 'danger');
+                                firstErrorShown = true;
+                            }
+
+                            const message = errors[field][0];
+
+                            if (field === 'payment_method') {
+                                // Only show one error below the whole group
+                                const wrapper = $('#payment-method-wrapper');
+
+                                // Avoid duplicates
+                                if (!wrapper.find('.invalid-feedback').length) {
+                                    const errorDiv = $('<div class="invalid-feedback d-block mt-1 text-danger">' + message + '</div>');
+                                    wrapper.append(errorDiv);
+                                }
+
+                            } else {
+                                const input = $('[name="' + field + '"]');
+                                if (input.length) {
+                                    input.addClass('is-invalid');
+                                    const errorDiv = $('<div class="invalid-feedback">' + message + '</div>');
+                                    input.parent().append(errorDiv);
+                                }
+                            }
+                        }
+                    } else {
+                        alert("Failed to place order. Please check your input.");
+                    }
                 }
             });
         });
     });
+    // End Checkout logics
 
-
+    // Checkout form for continue to next step 
     function nextStep(step) {
+        const currentStepDiv = document.querySelector('.checkout-step:not(.d-none)');
+        const inputs = currentStepDiv.querySelectorAll('input, select, textarea');
+        let isValid = true;
+
+        inputs.forEach(input => {
+            input.classList.remove('is-invalid');
+            const error = input.nextElementSibling;
+            if (error && error.classList.contains('invalid-feedback')) {
+                error.remove();
+            }
+
+            if (input.hasAttribute('required') && !input.value.trim()) {
+                isValid = false;
+                input.classList.add('is-invalid');
+
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'invalid-feedback';
+                errorDiv.innerText = 'This field is required.';
+                input.parentNode.appendChild(errorDiv);
+            }
+        });
+
+        if (isValid) {
+            document.querySelectorAll('.checkout-step').forEach(div => div.classList.add('d-none'));
+            document.getElementById('step' + step).classList.remove('d-none');
+        }
+    }
+    // Checkout form for go back to previous step 
+    function prevStep(step) {
         document.querySelectorAll('.checkout-step').forEach(div => div.classList.add('d-none'));
         document.getElementById('step' + step).classList.remove('d-none');
-    }
-
-    function prevStep(step) {
-        nextStep(step);
     }
 </script>
 

@@ -9,15 +9,27 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\CartItem;
 use App\Models\Category;
+use App\Models\Order;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
     public function index()
     {
+        $customer = Auth::guard('customer')->user();
+
         $customerId = Auth::guard('customer')->id();
+
+        // Ensure user is logged in
+        // if (!Auth::guard('customer')->check()) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'Please login to continue.'
+        //     ], 401); // 401 = Unauthorized
+        // }
 
         // Eager load variant and its related product
         $cartItems = CartItem::with(['variant.product'])
@@ -47,7 +59,82 @@ class CartController extends Controller
             'expressCharge',
             'taxPercent',
             'products',
+            'customer',
         ));
+    }
+
+    public function checkout(Request $request)
+    {
+        $customer = Auth::guard('customer')->user();
+        $cartItems = CartItem::where('customer_id', $customer->cus_id)->get();
+
+        if ($cartItems->isEmpty()) {
+            // return redirect()->back()->with('error', 'Your cart is empty.');
+        }
+
+        $orderNumber = 'ORD' . strtoupper(Str::random(8)); // e.g., ORD67J5WF2
+
+        $validator = Validator::make($request->all(), [
+            'full_name' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+            'email'    => [
+                'required',
+                'regex:/^[a-zA-Z0-9.]+@gmail\.com$/'
+            ],
+            'phone' => 'required|digits_between:10,15',
+            'pincode' => 'required|numeric',
+            'state' => 'required|string',
+            'city' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+            'area' => ['nullable', 'regex:/^[a-zA-Z\s]+$/', 'max:255'],
+            'address_line' => 'required|string',
+            'payment_method' => 'required|string',
+            // 'shipping_method' => 'required|string',
+            // 'total_amount' => 'required|numeric|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422); // 422 = Unprocessable Entity
+        }
+
+        $customer_area = '';
+        if ($request->filled('area')) {
+            $customer_area = $request->area;
+        }
+
+        // Save the order...
+        $order = Order::create([
+            'customer_id' => $customer->cus_id,
+            'order_number' => $orderNumber,
+            'total_amount' => $request->total_amount,
+            'payment_method' => $request->payment_method,
+            'payment_status' => 'pending',
+            'order_status' => 'pending',
+
+            // Address fields
+            'name' => $request->full_name,
+            'phone' => $request->phone,
+            'pincode' => $request->pincode,
+            'state' => $request->state,
+            'city' => $request->city,
+            'area' => $customer_area,
+            'address_line' => $request->address_line,
+        ]);
+
+        $req_area = $request->area;
+        $area_check = $request->filled('area');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Your order has been placed!',
+            'order_number' => $orderNumber,
+            'customer_id' => $customer->cus_id,
+            'customer' => $customer,
+            'req_area' => $req_area,
+            'area_check' => $area_check,
+            'form_data' => $request->all()
+        ]);
     }
 
     public function addcart(Request $request)
@@ -213,7 +300,7 @@ class CartController extends Controller
         }
 
         $cartItems->delete();
-        
+
         return response()->json([
             'status' => 'success',
             'message' => 'Cart cleared successfully.',
