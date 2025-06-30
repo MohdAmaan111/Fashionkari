@@ -9,6 +9,72 @@
     </div>
 </div>
 
+<!-- Order Card -->
+@foreach ($orders as $order)
+<div class="order-card mb-4">
+    <div class="d-flex justify-content-between mb-2">
+        <span><strong>Order ID:</strong> #{{ $order->order_number }}</span>
+        <span class="text-muted">{{ $order->created_at->format('M d, Y') }}</span>
+    </div>
+
+    <div class="order-content">
+        <div class="d-flex gap-3 mb-3">
+            @foreach ($order->items->take(3) as $item)
+            @php
+            $product = $item->product;
+            $productImages = json_decode($product->images ?? '[]', true);
+            @endphp
+            @if (!empty($productImages))
+            <img src="{{ asset('storage/products/' . $productImages[0]) }}" width="60">
+            @endif
+            @endforeach
+        </div>
+
+        <div class="order-info row align-items-center mb-3">
+            <div class="col-md-12 d-flex justify-content-between">
+                <div class="text-muted mb-2">Status</div>
+                <div class="mb-2">
+                    <span class="badge order-status-pill" style="color: #fe700d; background-color: #fff0de;">
+                        {{ ucfirst($order->order_status) }}
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex justify-content-between">
+                <div class="text-muted mb-2">Items</div>
+                <div class="mb-2" style="font-weight: 500;">
+                    {{ $order->items->sum('quantity') }} items
+                </div>
+            </div>
+            <div class="col-md-12 d-flex justify-content-between">
+                <div class="text-muted">Total</div>
+                <div style="font-weight: 600; color: #1c2b36;">
+                    ₹{{ number_format($order->total_amount, 2) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <a href="{{ route('track.order', $order->id) }}" class="order-tracking btn order-btn-hover w-100 py-2 fw-semibold">
+                Track Order
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ route('order.details', $order->id) }}" class="view-details btn btn-primary-dark w-100 py-2 fw-semibold">
+                View Details
+            </a>
+        </div>
+    </div>
+</div>
+@empty
+<div class="text-center py-5">
+    <h5 class="mb-3">You haven’t placed any orders yet.</h5>
+    <a href="" class="btn btn-primary">Start Shopping</a>
+</div>
+@endforelse
+
+
 <!-- Order Card 1 -->
 <div class="order-card">
     <div class="d-flex justify-content-between mb-2">

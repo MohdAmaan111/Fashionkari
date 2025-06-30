@@ -10,6 +10,7 @@ use App\Models\ProductVariant;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\OrderItem;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -22,14 +23,6 @@ class CartController extends Controller
         $customer = Auth::guard('customer')->user();
 
         $customerId = Auth::guard('customer')->id();
-
-        // Ensure user is logged in
-        // if (!Auth::guard('customer')->check()) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'Please login to continue.'
-        //     ], 401); // 401 = Unauthorized
-        // }
 
         // Eager load variant and its related product
         $cartItems = CartItem::with(['variant.product'])
@@ -66,10 +59,14 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
         $customer = Auth::guard('customer')->user();
+
         $cartItems = CartItem::where('customer_id', $customer->cus_id)->get();
 
         if ($cartItems->isEmpty()) {
-            // return redirect()->back()->with('error', 'Your cart is empty.');
+            return response()->json([
+                'success' => false,
+                'errors' => 'Your cart is empty.'
+            ], 400);
         }
 
         $orderNumber = 'ORD' . strtoupper(Str::random(8)); // e.g., ORD67J5WF2
@@ -108,6 +105,7 @@ class CartController extends Controller
             'customer_id' => $customer->cus_id,
             'order_number' => $orderNumber,
             'total_amount' => $request->total_amount,
+            'shipping_method' => $request->shipping_method,
             'payment_method' => $request->payment_method,
             'payment_status' => 'pending',
             'order_status' => 'pending',
@@ -121,6 +119,21 @@ class CartController extends Controller
             'area' => $customer_area,
             'address_line' => $request->address_line,
         ]);
+
+        // Save the cartItems...
+        foreach ($cartItems as $cart) {
+            OrderItem::create([
+                'order_id' => $orderNumber,
+                'product_id' => $cart->product_id,
+                'variant_id' => $cart->variant_id,
+                'size' => $cart->variant->size,
+                'price' => $cart->variant->selling_price,
+                'quantity' => $cart->quantity,
+                'total' => $request->total_amount,
+            ]);
+        }
+
+        CartItem::where('customer_id', $customer->cus_id)->delete();
 
         $req_area = $request->area;
         $area_check = $request->filled('area');

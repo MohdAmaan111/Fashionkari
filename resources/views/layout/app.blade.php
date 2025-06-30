@@ -536,7 +536,7 @@
                                         <a href="{{ route('cart') }}" class="text-gray-90 position-relative d-flex " data-toggle="tooltip" data-placement="top" title="Cart">
                                             <i class="font-size-22 ec ec-shopping-bag"></i>
                                             <!-- Number of cart items -->
-                                            <span class="width-22 height-22 bg-dark position-absolute d-flex align-items-center justify-content-center rounded-circle left-12 top-8 font-weight-bold font-size-12 text-white">{{ $cartItemCount }}</span>
+                                            <span id="cartItemCountBadge" class="width-22 height-22 bg-dark position-absolute d-flex align-items-center justify-content-center rounded-circle left-12 top-8 font-weight-bold font-size-12 text-white">{{ $cartItemCount }}</span>
                                             <!-- Total price added in cart -->
                                             @if ($cartSubtotal > 0)
                                             <span class="d-none d-xl-block font-weight-bold font-size-16 text-gray-90 ml-3">

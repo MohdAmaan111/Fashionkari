@@ -140,12 +140,12 @@
                 @include('checkout.form')
             </div>
 
-            <div class="col-lg-8" id="successOrder" style="display: none;">
+            <div class="col-lg-12" id="successOrder" style="display: none;">
                 @include('checkout.success')
             </div>
 
             <!-- Order Summary -->
-            <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="col-lg-4 mt-4 mt-lg-0" id="cartSummary">
                 <div class="cart-summary">
                     <h5 class="mb-3">Order Summary</h5>
 
@@ -203,7 +203,7 @@
                     <button class="btn btn-light w-100 mt-2" id="backToCartBtn" style="display: none; background-color: rgba(119, 131, 143, 0.1);">
                         <i class="bi bi-arrow-left"></i> Back To Cart
                     </button>
-
+                    <!-- Back To Shopping Page -->
                     <a href="{{ route('index') }}" id="backToShop" class="btn btn-light w-100 mt-2" style="background-color: rgba(119, 131, 143, 0.1);"><i class="bi bi-arrow-left"></i> Continue Shopping</a>
                 </div>
             </div>
@@ -393,8 +393,16 @@
 
     // Checkout logics
     $(document).ready(function() {
+        // Checkout Button working
         $('#checkoutBtn').click(function(e) {
             e.preventDefault();
+
+            // Check cart items is added or not
+            const cartCount = parseInt($('#cartItemCountBadge').text());
+            if (isNaN(cartCount) || cartCount === 0) {
+                showToast('Your cart is empty. Please add items before checkout.', 'danger');
+                return;
+            }
 
             // Show checkout Breadcrumb
             $('#checkoutBreadcrumb').show();
@@ -419,6 +427,7 @@
             const shippingMethod = $('input[name="shipping"]:checked').val();
             $('#shippingMethodInput').val(shippingMethod);
         });
+        // Back To Cart Button working
         $('#backToCartBtn').click(function(e) {
             e.preventDefault();
 
@@ -492,13 +501,28 @@
                 success: function(response) {
                     // console.log(response);
                     showToast(response.message, 'success');
-                    // Show success order section
-                    $('#successOrder').fadeIn();
 
-                    // Hide checkout form
+                    // Inject data
+                    $('#orderNumber').text('#' + response.order_number);
+                    $('#customerEmail').text(response.form_data.email);
+                    $('#customerName').text(response.form_data.full_name);
+                    $('#customerPhone').text(response.form_data.phone);
+                    const fullAddress = `${response.form_data.address_line} ${response.form_data.area ?? ''}, ${response.form_data.city}, ${response.form_data.state}, ${response.form_data.pincode}`;
+                    $('#shippingAddress').text(fullAddress);
+                    $('#deliveryOption').text(response.form_data.shipping_method);
+                    $('#paymentOption').text(response.form_data.payment_method);
+
+                    // Show order content
+                    $('#successOrder').fadeIn();
+                    // Hide form, cart summary
                     $('#checkoutContent').hide();
+                    $('#cartSummary').hide();
                 },
                 error: function(xhr) {
+                    if (xhr.status === 400) {
+                        const errorMessage = xhr.responseJSON?.errors || 'Your cart is empty.';
+                        showToast(errorMessage, 'danger');
+                    }
                     if (xhr.status === 422) {
                         const errors = xhr.responseJSON.errors;
 

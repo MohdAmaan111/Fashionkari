@@ -1,49 +1,100 @@
 <div class="cart-items order-success p-4 bg-white rounded shadow-sm">
-    <div class="text-success fw-bold fs-5 mb-2">Your order has been placed!</div>
-    <div class="fs-4 fw-semibold mb-3">Order ID <span class="text-primary">#51253134</span></div>
-    <p class="text-muted mb-4">
-        A confirmation email has been sent to <strong>hello@email.com</strong>
-    </p>
+    <div class="text-center mt-3">
+        <div class="text-success fw-bold fs-5 mb-2">Your order has been placed!</div>
+
+        <div class="fs-4 fw-semibold mb-3">
+            Order ID <span class="text-primary" id="orderNumber">#51253134</span>
+        </div>
+
+        <p class="text-muted mb-4">
+            A confirmation email has been sent to <strong id="customerEmail">hello@email.com</strong>
+        </p>
+    </div>
 
     <div class="row gy-3 justify-content-center">
         <!-- Customer Name -->
         <div class="col-md-8">
-            <div class="bg-light p-3 rounded d-flex justify-content-between">
-                <span class="fw-semibold">Customer Name</span>
-                <span>Captain Haddock</span>
+            <div class="d-flex align-items-stretch">
+                <!-- Label (Left side) -->
+                <div class="label-box rounded-start fw-semibold px-4 py-3 me-1" style="width: 180px; background-color: #ebf2f5;">
+                    <p class="mb-0 fw-semibold text-dark">Customer Name</p>
+                </div>
+                <!-- Value (Right side) -->
+                <div class="value-box bg-light flex-grow-1 rounded-end px-4 py-3">
+                    <p class="mb-0 text-dark" id="customerName">Your Name</p>
+                </div>
             </div>
         </div>
 
         <!-- Phone Number -->
         <div class="col-md-8">
-            <div class="bg-light p-3 rounded d-flex justify-content-between">
-                <span class="fw-semibold">Phone Number</span>
-                <span>+880 1423 4234 245</span>
+            <div class="d-flex align-items-stretch">
+                <!-- Label (Left side) -->
+                <div class="label-box rounded-start fw-semibold px-4 py-3 me-1"
+                    style="width: 180px; background-color: #ebf2f5;">
+                    <p class="mb-0 fw-semibold text-dark">Phone Number</p>
+                </div>
+                <!-- Value (Right side) -->
+                <div class="value-box bg-light flex-grow-1 rounded-end px-4 py-3">
+                    <p class="mb-0 text-dark" id="customerPhone">+880 1423 4234 245</p>
+                </div>
             </div>
         </div>
 
         <!-- Shipping Address -->
         <div class="col-md-8">
-            <div class="bg-light p-3 rounded d-flex justify-content-between">
-                <span class="fw-semibold">Shipping Address</span>
-                <span class="text-end">Apt: 6/B, 192 Edsel Road, Van Nuys, California, USA 96580</span>
-            </div>
-        </div>
+            <div class="d-flex align-items-stretch">
+                <!-- Label (Left side) -->
+                <div class="label-box rounded-start fw-semibold px-4 py-3 me-1"
+                    style="width: 180px; background-color: #ebf2f5;">
+                    <p class="mb-0 fw-semibold text-dark">Shipping Address</p>
+                </div>
 
-        <!-- Billing Address -->
-        <div class="col-md-8">
-            <div class="bg-light p-3 rounded d-flex justify-content-between">
-                <span class="fw-semibold">Billing Address</span>
-                <span class="text-end">Apt: 6/B, 192 Edsel Road, Van Nuys, California, USA 96580</span>
+                <!-- Value (Right side) -->
+                <div class="value-box bg-light flex-grow-1 rounded-end px-4 py-3">
+                    <p class="mb-0 text-dark" id="shippingAddress">
+                        56M/8B, Gaus nagar, Kareli, Kareli, Prayagraj, Maharashtra, 211016
+                    </p>
+                </div>
             </div>
+
         </div>
 
         <!-- Delivery Option -->
         <div class="col-md-8">
-            <div class="bg-light p-3 rounded d-flex justify-content-between">
-                <span class="fw-semibold">Delivery Option</span>
-                <span>Standard DDP</span>
+            <div class="d-flex align-items-stretch">
+                <!-- Label (Left side) -->
+                <div class="label-box rounded-start fw-semibold px-4 py-3 me-1" style="width: 180px; background-color: #ebf2f5;">
+                    <p class="mb-0 text-dark">Delivery Method</p>
+                </div>
+                <!-- Value (Right side) -->
+                <div class="value-box bg-light flex-grow-1 rounded-end px-4 py-3">
+                    <p class="mb-0 text-dark" id="deliveryOption">Standard DDP</p>
+                </div>
             </div>
         </div>
+
+        <!-- Payment Option -->
+        <div class="col-md-8">
+            <div class="d-flex align-items-stretch">
+                <!-- Label (Left side) -->
+                <div class="label-box rounded-start fw-semibold px-4 py-3 me-1" style="width: 180px; background-color: #ebf2f5;">
+                    <p class="mb-0 text-dark">Payment Method</p>
+                </div>
+                <!-- Value (Right side) -->
+                <div class="value-box bg-light flex-grow-1 rounded-end px-4 py-3">
+                    <p class="mb-0 text-dark" id="paymentOption">Payment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Back To Shopping Page -->
+    <div class="text-center mt-3">
+        <a href="{{ route('index') }}"
+            class="btn btn-light px-4 py-2"
+            style="background-color: rgba(119, 131, 143, 0.1);">
+            <i class="bi bi-arrow-left"></i> Continue Shopping
+        </a>
     </div>
 </div>

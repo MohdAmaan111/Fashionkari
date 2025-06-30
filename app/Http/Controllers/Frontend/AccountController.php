@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Category;
 use App\Models\Wishlist;
+use App\Models\Order;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -37,11 +38,15 @@ class AccountController extends Controller
         $customerId = Auth::guard('customer')->id();
 
         $ordersCount = 0;
+        $orders = Order::with('items.product')
+            ->where('customer_id', $customerId)
+            ->latest()
+            ->get();
 
         $wishlistCount = 0;
         $wishlistCount = Wishlist::where('customer_id', $customerId)->count();
 
-        return view('profile', compact('customer', 'wishlistCount', 'ordersCount'));
+        return view('profile', compact('customer', 'wishlistCount', 'ordersCount', 'orders'));
     }
 
     public function orders()

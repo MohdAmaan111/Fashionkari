@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->bigIncrements('order_item_id'); // Auto-incrementing primary key
 
-            $table->unsignedBigInteger('order_id');
+            $table->string('order_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('variant_id');
-            
+
             $table->string('size');
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
             $table->decimal('total', 10, 2);
             $table->timestamps();
 
-            $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade');
+            $table->foreign('order_id')->references('order_number')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('prod_id')->on('products')->onDelete('cascade');
             $table->foreign('variant_id')->references('variant_id')->on('variants')->onDelete('cascade');
         });
