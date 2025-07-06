@@ -88,7 +88,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Back To Shopping Page -->
     <div class="text-center mt-3">
         <a href="{{ route('index') }}"

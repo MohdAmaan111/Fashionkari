@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\AccountController;
+use App\Http\Controllers\Frontend\RazorpayController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -32,6 +33,10 @@ Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('product.show');
 
 Route::get('/customer/account', [AccountController::class, 'index'])->name('customer.account');
+
+Route::post('/customer/razorpay', [RazorpayController::class, 'index'])->name('customer.razorpay');
+Route::post('/razorpay/success', [RazorpayController::class, 'paymentSuccess'])->name('razorpay.success');
+Route::post('/razorpay/retry', [RazorpayController::class, 'retry'])->name('razorpay.retry');
 
 // Profile
 Route::get('/customer/profile', [AccountController::class, 'profile'])->name('customer.profile');

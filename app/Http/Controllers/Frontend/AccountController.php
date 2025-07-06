@@ -37,11 +37,12 @@ class AccountController extends Controller
         // dd($customer);
         $customerId = Auth::guard('customer')->id();
 
-        $ordersCount = 0;
         $orders = Order::with('items.product')
             ->where('customer_id', $customerId)
             ->latest()
             ->get();
+
+        $ordersCount = $orders->count(); // Count the number of orders
 
         // dd($orders);
 
@@ -53,9 +54,14 @@ class AccountController extends Controller
 
     public function orders()
     {
-        // $wishlist = Wishlist::with('product')->where('user_id', auth()->id())->get();
-        // return view('customer.partials.wishlist', compact('wishlist'));
-        return view('customer.partials.orders');
+        $customerId = Auth::guard('customer')->id();
+
+        $orders = Order::with('items.product')
+            ->where('customer_id', $customerId)
+            ->latest()
+            ->get();
+
+        return view('customer.partials.orders', compact('orders'));
     }
 
     public function wishlist()

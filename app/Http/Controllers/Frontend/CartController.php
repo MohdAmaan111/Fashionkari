@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 
+use Razorpay\Api\Api;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -108,7 +109,7 @@ class CartController extends Controller
             'shipping_method' => $request->shipping_method,
             'payment_method' => $request->payment_method,
             'payment_status' => 'pending',
-            'order_status' => 'pending',
+            'order_status' => $request->payment_method == 'COD' ? 'confirmed' : 'pending',
 
             // Address fields
             'name' => $request->full_name,
@@ -138,6 +139,13 @@ class CartController extends Controller
         $req_area = $request->area;
         $area_check = $request->filled('area');
 
+        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
+        $rzpOrder = $api->order->create([
+            'receipt' => 'ORD_' . $order->order_id,
+            'amount' => $order->total_amount * 100,
+            'currency' => 'INR'
+        ]);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Your order has been placed!',
@@ -146,7 +154,8 @@ class CartController extends Controller
             'customer' => $customer,
             'req_area' => $req_area,
             'area_check' => $area_check,
-            'form_data' => $request->all()
+            'form_data' => $request->all(),
+            'razorpay_order_id' => $rzpOrder['id'],
         ]);
     }
 

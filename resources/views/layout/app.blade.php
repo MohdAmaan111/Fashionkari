@@ -1236,6 +1236,9 @@
     <script src="{{asset('assets/vendor/popper.js/dist/umd/popper.min.js')}}"></script>
     <script src="{{asset('assets/vendor/bootstrap/bootstrap.min.js')}}"></script>
 
+    <!-- JS Razorpay -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <!-- JS Implementing Plugins -->
     <script src="{{asset('assets/vendor/appear.js')}}"></script>
     <script src="{{asset('assets/vendor/jquery.countdown.min.js')}}"></script>

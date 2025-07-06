@@ -120,23 +120,14 @@
                     <label class="form-label fw-bold">Choose Payment Method*</label>
 
                     <div class="d-grid gap-3" id="payment-method-wrapper">
-                        <!-- Card -->
-                        <label class="payment-option" id="option-card">
-                            <input type="radio" name="payment_method" value="Card">
-                            <i class="bi bi-credit-card fs-4"></i>
-                            <div>
-                                <div class="fw-bold">Pay via Card</div>
-                                <small class="text-muted">Pay with your debit or credit card</small>
-                            </div>
-                        </label>
 
                         <!-- UPI -->
                         <label class="payment-option" id="option-upi">
-                            <input type="radio" name="payment_method" value="UPI">
+                            <input type="radio" name="payment_method" value="Online">
                             <i class="bi bi-upc-scan fs-4"></i>
                             <div>
-                                <div class="fw-bold">UPI</div>
-                                <small class="text-muted">Pay using your UPI ID</small>
+                                <div class="fw-bold">Online</div>
+                                <small class="text-muted">Pay using your UPI ID or credit card</small>
                             </div>
                         </label>
 
@@ -150,39 +141,6 @@
                             </div>
                         </label>
                     </div>
-                </div>
-
-                <!-- Card Info -->
-                <div id="card-info" class="d-none mt-4">
-                    <label class="form-label">Supported cards</label>
-                    <div class="card-icons mb-3">
-                        <img src="https://img.icons8.com/color/48/visa.png" />
-                        <img src="https://img.icons8.com/color/48/mastercard-logo.png" />
-                        <img src="https://img.icons8.com/color/48/amex.png" />
-                        <img src="https://img.icons8.com/color/48/discover.png" />
-                    </div>
-
-                    <div class="row g-2">
-                        <div class="col-md-6 card-field mb-3">
-                            <input type="text" class="form-control" name="card_number" placeholder="Card number">
-                        </div>
-                        <div class="col-md-6 card-field mb-3">
-                            <input type="text" class="form-control" name="card_name" placeholder="Full name">
-                        </div>
-                        <div class="col-md-6 card-field mb-3">
-                            <input type="text" name="card_expiry" id="card-expiry" class="form-control" placeholder="MM/YY" maxlength="5" required>
-                        </div>
-                        <div class="col-md-6 card-field mb-3">
-                            <input type="text" class="form-control" name="card_cvv" placeholder="CVC">
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- UPI Info -->
-                <div id="upi-info" class="card-field d-none mt-4">
-                    <label class="form-label">Enter UPI ID</label>
-                    <input type="text" class="form-control" name="upi_id" placeholder="example@upi">
                 </div>
             </div>
 

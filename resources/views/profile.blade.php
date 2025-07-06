@@ -108,15 +108,17 @@
 
 <script>
     $(document).ready(function() {
-        $('.order-tracking').on('click', function() {
+        $('#profileContent').on('click', '.order-tracking', function(e) {
+            e.preventDefault();
+
             const trackingDiv = $(this).closest('.order-card').find('.tracking-details');
             trackingDiv.slideToggle(300);
         });
 
-        $('.view-details').click(function(e) {
+        $('#profileContent').on('click', '.view-details', function(e) {
             e.preventDefault();
+
             let detailsPanel = $(this).closest('.order-card').find('.order-details');
-            // Slide toggle the order details
             detailsPanel.slideToggle(300);
         });
 
@@ -284,6 +286,84 @@
             }
         });
     });
+
+    $('#retryPaymentBtn').click(function(e) {
+        e.preventDefault();
+
+        const orderId = $(this).data('order-id');
+
+        $.ajax({
+            url: '{{ route("razorpay.retry") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                order_id: orderId
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // showToast('Retrying payment...', 'success');
+
+                    // Call Razorpay again
+                    payWithRazorpay(response.razorpay_order_id, response.amount, response.order_number);
+                } else {
+                    showToast('Something went wrong. Try again later.', 'danger');
+                }
+            },
+            error: function() {
+                showToast('Failed to initiate payment retry.', 'danger');
+            }
+        });
+    });
+
+    function payWithRazorpay(rzpOrderId, amount, orderId) {
+        let options = {
+            "key": "{{ config('services.razorpay.key') }}",
+            "amount": amount,
+            "currency": "INR",
+            "name": "Your Store",
+            "description": "Payment for order #" + orderId,
+            "order_id": rzpOrderId,
+            "handler": function(response) {
+                // After payment is successful
+                console.log("✅ Razorpay Payment Success:", response);
+                console.log("📦 Laravel Order ID:", orderId);
+
+                $.ajax({
+                    url: '{{ route("razorpay.success") }}', // Create this route
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        order_id: orderId
+                    },
+                    success: function() {
+                        // Redirect to success page
+                        showToast("Thank you! Your payment has been received.", 'success');
+
+                        // ✅ Reload after 1.2 seconds
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1200);
+                    }
+                });
+            },
+            "modal": {
+                "ondismiss": function() {
+                    showToast("Payment was cancelled by you.", 'warning');
+                }
+            }
+        };
+
+        let rzp = new Razorpay(options);
+
+        rzp.on('payment.failed', function(response) {
+            console.error("❌ Razorpay Payment Failed:", response.error);
+
+            showToast("Payment failed: " + response.error.description, 'danger');
+        });
+
+        rzp.open();
+    }
 </script>
 
 @endsection

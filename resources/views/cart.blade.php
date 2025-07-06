@@ -144,6 +144,13 @@
                 @include('checkout.success')
             </div>
 
+            <div id="paymentFailedBox" class="text-center mt-3" style="display: none;">
+                <div class="p-4 text-center bg-white rounded shadow-sm">
+                    <div class="text-danger fw-bold fs-5 mb-2">Payment Failed</div>
+                    <p class="text-secondary mb-2">Your payment was unsuccessful.</p>
+                </div>
+            </div>
+
             <!-- Order Summary -->
             <div class="col-lg-4 mt-4 mt-lg-0" id="cartSummary">
                 <div class="cart-summary">
@@ -232,24 +239,6 @@
                 $input.val(currentVal - 1);
             }
         });
-
-        // Payment method card script
-        $('#card-expiry').on('input', function() {
-            let value = $(this).val().replace(/[^0-9]/g, '');
-
-            if (value.length >= 3) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            }
-
-            $(this).val(value);
-        });
-        // Optional: prevent deleting "/"
-        $('#card-expiry').on('keydown', function(e) {
-            if (e.key === 'Backspace' && this.selectionStart === 3 && this.value[2] === '/') {
-                e.preventDefault(); // Prevent deleting the "/"
-            }
-        });
-        // End Payment method card script
     });
 
     // To calculate order summary table
@@ -454,14 +443,6 @@
             $('.payment-option').removeClass('active');
             $(this).closest('.payment-option').addClass('active');
 
-            const method = $(this).val();
-            $('#card-info, #upi-info').addClass('d-none');
-
-            if (method === 'card') {
-                $('#card-info').removeClass('d-none');
-            } else if (method === 'upi') {
-                $('#upi-info').removeClass('d-none');
-            }
         });
         // Submit the checkout form when "Place Order" is clicked
         $('#placeOrderBtn').click(function(e) {
@@ -487,6 +468,8 @@
                 value: totalAmount
             });
 
+            let paymentMethod = $('input[name="payment_method"]:checked').val();
+
             console.log('Form Data (serializeArray):', formData);
 
             // Clear previous errors
@@ -499,24 +482,41 @@
                 type: 'POST',
                 data: $.param(formData), // this includes total_amount & shipping_method
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     showToast(response.message, 'success');
 
-                    // Inject data
-                    $('#orderNumber').text('#' + response.order_number);
-                    $('#customerEmail').text(response.form_data.email);
-                    $('#customerName').text(response.form_data.full_name);
-                    $('#customerPhone').text(response.form_data.phone);
-                    const fullAddress = `${response.form_data.address_line} ${response.form_data.area ?? ''}, ${response.form_data.city}, ${response.form_data.state}, ${response.form_data.pincode}`;
-                    $('#shippingAddress').text(fullAddress);
-                    $('#deliveryOption').text(response.form_data.shipping_method);
-                    $('#paymentOption').text(response.form_data.payment_method);
+                    if (paymentMethod === 'COD') {
+                        // ✅ Reload after 1.2 seconds
+                        setTimeout(function() {
+                            showOrderSuccess(response);
+                        }, 1200);
+                    } else {
+                        // alert("Payment method online");
 
-                    // Show order content
-                    $('#successOrder').fadeIn();
-                    // Hide form, cart summary
-                    $('#checkoutContent').hide();
-                    $('#cartSummary').hide();
+                        // ✅ Reload after 1.2 seconds
+                        setTimeout(function() {
+                            showOrderSuccess(response);
+                            payWithRazorpay(response.razorpay_order_id, response.amount, response.order_number);
+                        }, 1200);
+                    }
+
+                    function showOrderSuccess(response) {
+                        // Inject data
+                        $('#orderNumber').text('#' + response.order_number);
+                        $('#customerEmail').text(response.form_data.email);
+                        $('#customerName').text(response.form_data.full_name);
+                        $('#customerPhone').text(response.form_data.phone);
+                        const fullAddress = `${response.form_data.address_line} ${response.form_data.area ?? ''}, ${response.form_data.city}, ${response.form_data.state}, ${response.form_data.pincode}`;
+                        $('#shippingAddress').text(fullAddress);
+                        $('#deliveryOption').text(response.form_data.shipping_method);
+                        $('#paymentOption').text(response.form_data.payment_method);
+
+                        // Show order content
+                        $('#successOrder').fadeIn();
+                        // Hide form, cart summary
+                        $('#checkoutContent').hide();
+                        $('#cartSummary').hide();
+                    }
                 },
                 error: function(xhr) {
                     if (xhr.status === 400) {
@@ -560,6 +560,53 @@
                 }
             });
         });
+
+        function payWithRazorpay(rzpOrderId, amount, orderId) {
+            let options = {
+                "key": "{{ config('services.razorpay.key') }}",
+                "amount": amount,
+                "currency": "INR",
+                "name": "Your Store",
+                "description": "Payment for order #" + orderId,
+                "order_id": rzpOrderId,
+                "handler": function(response) {
+                    // After payment is successful
+                    console.log("✅ Razorpay Payment Success:", response);
+                    console.log("📦 Laravel Order ID:", orderId);
+
+                    $.ajax({
+                        url: '{{ route("razorpay.success") }}', // Create this route
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            order_id: orderId
+                        },
+                        success: function() {
+                            // Redirect to success page
+                            showToast("Thank you! Your payment has been received.", 'success');
+                        }
+                    });
+                },
+                "modal": {
+                    "ondismiss": function() {
+                        showToast("Payment was cancelled by you.", 'warning');
+
+                        $('#paymentFailedBox').fadeIn();
+                    }
+                }
+            };
+
+            let rzp = new Razorpay(options);
+
+            rzp.on('payment.failed', function(response) {
+                console.error("❌ Razorpay Payment Failed:", response.error);
+
+                showToast("Payment failed: " + response.error.description, 'danger');
+            });
+
+            rzp.open();
+        }
     });
     // End Checkout logics
 
