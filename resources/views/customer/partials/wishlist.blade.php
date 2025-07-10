@@ -1,14 +1,14 @@
 <h4 class="mb-4 fw-bold">My Wishlist</h4>
 <div class="d-flex justify-content-end mb-3">
-    <a href="{{ route('wishlist') }}">
+    <!-- <a href="{{ route('wishlist') }}">
         <button class="btn btn-outline-dark">Add All to Cart</button>
-    </a>
+    </a> -->
 </div>
 
-<div class="row">
+<div class="row align-items-stretch">
     @foreach ($wishlists as $item)
     <div class="col-md-4 mb-4">
-        <div class="profile-wishlist border rounded p-3 text-center shadow-sm">
+        <div class="profile-wishlist border rounded p-3 text-center shadow-sm h-100 d-flex flex-column justify-content-between" >
             <!-- show product image -->
             <div class="wishlist-image">
                 @php
@@ -44,9 +44,9 @@
 
             <!-- show product price -->
             <div class="fw-bold">
-                ${{ $item->variant->selling_price }}
+                ₹{{ $item->variant->selling_price }}
                 @if ($item->variant->mrp)
-                <del class="text-muted ms-2">${{ $item->variant->mrp }}</del>
+                <del class="text-muted ms-2">₹{{ $item->variant->mrp }}</del>
                 @endif
             </div>
 

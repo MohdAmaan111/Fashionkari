@@ -66,14 +66,14 @@
                             <i class="bi bi-heart"></i> Wishlists
                             <span class="order-status-pill badge ms-auto">{{ $wishlistCount }}</span>
                         </a>
-                        <a href="" class="list-group-item list-group-item-action sidebar-link"
+                        <!-- <a href="" class="list-group-item list-group-item-action sidebar-link"
                             data-url="{{ route('customer.payment') }}">
                             <i class="bi bi-wallet2"></i> Payment Methods
-                        </a>
-                        <a href="" class="list-group-item list-group-item-action sidebar-link"
+                        </a> -->
+                        <!-- <a href="" class="list-group-item list-group-item-action sidebar-link"
                             data-url="{{ route('customer.address') }}">
                             <i class="bi bi-geo-alt"></i> Addresses
-                        </a>
+                        </a> -->
                         <a href="" class="list-group-item list-group-item-action sidebar-link"
                             data-url="{{ route('customer.setting') }}">
                             <i class="bi bi-gear"></i> Account Settings

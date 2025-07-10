@@ -45,10 +45,6 @@ return [
             'driver' => 'session',
             'provider' => 'customers',
         ],
-        'customers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Customer::class,
-        ],
     ],
 
     /*

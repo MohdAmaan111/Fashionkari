@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RedirectIfNotCustomer;
 
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\AccountController;
@@ -27,6 +28,14 @@ Route::get('/welcome', function () {
 Route::post('/test-ajax', function () {
     dd('AJAX working!');
 });
+
+// Route::get('/test-custom', function () {
+//     return 'testing';
+// })->middleware('customer.auth');
+
+Route::get('/test-custom', function () {
+    return 'testing';
+})->middleware(RedirectIfNotCustomer::class);
 
 //Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
