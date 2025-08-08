@@ -147,7 +147,7 @@
 
                     setTimeout(function() {
                         location.reload();
-                    }, 1200);
+                    }, 800);
                 },
                 error: function() {
                     showToast("Error removing item", "danger");
@@ -177,7 +177,7 @@
 
                 setTimeout(function() {
                     location.reload();
-                }, 1200);
+                }, 800);
             },
             error: function(xhr, status, error) {
                 console.log('Error:', xhr.responseText);

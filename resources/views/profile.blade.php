@@ -254,7 +254,7 @@
 
                 setTimeout(function() {
                     location.reload();
-                }, 1200);
+                }, 800);
             },
             error: function(xhr) {
                 alert("Something went wrong. Please try again.");
@@ -279,10 +279,41 @@
 
                 setTimeout(function() {
                     window.location.href = "{{ route('index') }}";
-                }, 1200);
+                }, 800);
             },
             error: function(xhr) {
                 alert("Logout failed. Please try again.");
+            }
+        });
+    });
+
+    $(document).on('click', '#deleteAllWishlistBtn', function(e) {
+        e.preventDefault();
+
+        if (!confirm("Are you sure you want to delete all wishlist items?")) return;
+
+        $.ajax({
+            url: "{{ route('wishlist.deleteAll') }}",
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Replace wishlist content with empty message
+                    $('.row.align-items-stretch').html(`
+                            <div class="text-center py-5 w-100">
+                                <h5 class="mb-3">Your wishlist is empty.</h5>
+                                <a href="{{ route('index') }}" class="btn btn-primary">Browse Products</a>
+                            </div>
+                        `);
+                } else {
+                    alert(response.message || 'Could not delete wishlist.');
+                }
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                alert('Something went wrong. Please try again.');
             }
         });
     });
@@ -340,10 +371,9 @@
                         // Redirect to success page
                         showToast("Thank you! Your payment has been received.", 'success');
 
-                        // ✅ Reload after 1.2 seconds
                         setTimeout(function() {
                             window.location.reload();
-                        }, 1200);
+                        }, 800);
                     }
                 });
             },

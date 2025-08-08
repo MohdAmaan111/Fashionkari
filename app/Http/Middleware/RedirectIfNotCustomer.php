@@ -11,7 +11,7 @@ class RedirectIfNotCustomer
 {
     public function handle(Request $request, Closure $next)
     {
-        dd('CUSTOMER MIDDLEWARE HIT');
+        // dd('CUSTOMER MIDDLEWARE HIT');
 
         // Assuming 'customer' is your auth guard
         if (!Auth::guard('customer')->check()) {

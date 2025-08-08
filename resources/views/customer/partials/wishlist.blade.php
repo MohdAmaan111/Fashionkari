@@ -1,14 +1,14 @@
 <h4 class="mb-4 fw-bold">My Wishlist</h4>
 <div class="d-flex justify-content-end mb-3">
-    <!-- <a href="{{ route('wishlist') }}">
-        <button class="btn btn-outline-dark">Add All to Cart</button>
-    </a> -->
+    <a href="javascript:void(0);">
+        <button class="btn btn-outline-dark" id="deleteAllWishlistBtn">Delete All Wishlist</button>
+    </a>
 </div>
 
 <div class="row align-items-stretch">
-    @foreach ($wishlists as $item)
+    @forelse ($wishlists as $item)
     <div class="col-md-4 mb-4">
-        <div class="profile-wishlist border rounded p-3 text-center shadow-sm h-100 d-flex flex-column justify-content-between" >
+        <div class="profile-wishlist border rounded p-3 text-center shadow-sm h-100 d-flex flex-column justify-content-between">
             <!-- show product image -->
             <div class="wishlist-image">
                 @php
@@ -65,5 +65,10 @@
             @endif
         </div>
     </div>
-    @endforeach
+    @empty
+    <div class="text-center py-5">
+        <h5 class="mb-3">Your wishlist is empty.</h5>
+        <a href="{{ route('index') }}" class="btn btn-primary">Browse Products</a>
+    </div>
+    @endforelse
 </div>

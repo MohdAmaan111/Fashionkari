@@ -281,10 +281,10 @@
             success: function(response) {
                 showToast(response.message, "success");
 
-                // ✅ Reload after 1.2 seconds
+                // ✅ Reload after 0.8 seconds
                 setTimeout(function() {
                     window.location.href = "{{ route('index') }}";
-                }, 1200);
+                }, 800);
             },
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -318,10 +318,10 @@
             success: function(response) {
                 showToast(response.message, "success");
 
-                // ✅ Reload after 1.2 seconds
+                // ✅ Reload after 0.8 seconds
                 setTimeout(function() {
                     window.location.href = "{{ route('index') }}";
-                }, 1200);
+                }, 800);
             },
             error: function(xhr) {
                 if (xhr.status === 422) {

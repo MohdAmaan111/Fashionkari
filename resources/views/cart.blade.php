@@ -290,7 +290,7 @@
 
                 setTimeout(function() {
                     location.reload();
-                }, 1200);
+                }, 800);
             },
             error: function(xhr) {
                 console.error(xhr.responseText);
@@ -324,7 +324,7 @@
 
                 setTimeout(function() {
                     location.reload();
-                }, 1200);
+                }, 800);
             },
             error: function(xhr) {
                 if (xhr.status === 401) {
@@ -363,7 +363,7 @@
             success: function(response) {
                 if (response.status === 'success') {
                     showToast(response.message, 'success');
-                    setTimeout(() => location.reload(), 1200);
+                    setTimeout(() => location.reload(), 800);
                 }
             },
             error: function(xhr) {
@@ -486,18 +486,16 @@
                     showToast(response.message, 'success');
 
                     if (paymentMethod === 'COD') {
-                        // ✅ Reload after 1.2 seconds
                         setTimeout(function() {
                             showOrderSuccess(response);
-                        }, 1200);
+                        }, 800);
                     } else {
                         // alert("Payment method online");
 
-                        // ✅ Reload after 1.2 seconds
                         setTimeout(function() {
                             showOrderSuccess(response);
                             payWithRazorpay(response.razorpay_order_id, response.amount, response.order_number);
-                        }, 1200);
+                        }, 800);
                     }
 
                     function showOrderSuccess(response) {

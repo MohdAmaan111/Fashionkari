@@ -45,6 +45,11 @@ return [
             'driver' => 'session',
             'provider' => 'customers',
         ],
+
+        'customers' => [ // ✅ Add this
+            'driver' => 'eloquent',
+            'model' => App\Models\Customer::class,
+        ],
     ],
 
     /*

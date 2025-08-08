@@ -48,11 +48,10 @@ class FrontendController extends Controller
         $categories = Category::all();   // Get all categories
 
         // Fetch similar products (same category, exclude current), with category name
-        $similarProducts = Product::join('categories', 'products.category_id', '=', 'categories.cat_id')
-            ->where('products.category_id', $product->cat_id)  // Include category and variants data
-            ->where('products.prod_id', '!=', $product->prod_id)  // Exclude current product
-            ->whereHas('variants')  // Only include products that have variants
-            ->select('products.*', 'categories.cat_name')  //Selects all product fields plus the category name from the categories table.
+        $similarProducts = Product::with(['category', 'variants']) // eager load category relation
+            ->where('category_id', $product->category_id)
+            ->where('prod_id', '!=', $product->prod_id)
+            ->whereHas('variants')
             ->limit(6)
             ->get();
 

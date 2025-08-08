@@ -20,15 +20,6 @@ class WishlistController extends Controller
     {
         $customerId = Auth::guard('customer')->id();
 
-        // Ensure user is logged in
-        if (!Auth::guard('customer')->check()) {
-            // dd("Customer not logged in");
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Please login to continue.'
-            ], 401); // 401 = Unauthorized
-        }
-
         $wishlists = Wishlist::where('customer_id', $customerId)
             ->with(['product', 'variant']) // eager load product + variant
             ->get();
@@ -141,31 +132,16 @@ class WishlistController extends Controller
         return response()->json(['message' => 'Removed from wishlist']);
     }
 
-    public function clear(Request $request)
+    public function deleteAll(Request $request)
     {
         $customerId = Auth::guard('customer')->id();
 
         if (!$customerId) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'You must be logged in to clear the cart.',
-            ], 401);
+            Wishlist::where('customer_id', $customerId)
+            ->delete();
+            return response()->json(['status' => 'success', 'message' => 'All wishlist items deleted.']);
         }
 
-        $cartItems = CartItem::where('customer_id', $customerId);
-
-        if (!$cartItems->exists()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Your cart is already empty.',
-            ], 422);
-        }
-
-        $cartItems->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Cart cleared successfully.',
-        ]);
+        return response()->json(['status' => 'error', 'message' => 'Unauthorized.'], 401);
     }
 }

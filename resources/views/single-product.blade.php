@@ -48,7 +48,7 @@
 
                 $sortedVariants = $product->variants->sortBy('selling_price');
                 $variantFavID = $sortedVariants->first()->variant_id;
-                
+
                 $isWishlisted = in_array($variantFavID, $wishlistVariantIds ?? []);
                 @endphp
                 <!-- Product image body -->
@@ -601,32 +601,39 @@
             @forelse ($similarProducts as $similar)
             @php
             $images = json_decode($similar->images, true);
+            $variant = $similar->variants->first();
+
+            $isWishlisted = in_array($variant->variant_id, $wishlistVariantIds ?? []);
             @endphp
             <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item">
-                <div class="product-item__outer h-100">
+                <div class="product-item__outer h-100 w-100">
                     <div class="product-item__inner px-xl-4 p-3">
                         <div class="product-item__body pb-xl-2">
                             <div class="mb-2">
-                                <a href="#" class="font-size-12 text-gray-5">{{ $similar->cat_name ?? 'Unknown' }}</a>
+                                <a href="#" class="font-size-12 text-gray-5">
+                                    {{ $similar->category->cat_name ?? 'Unknown' }}
+                                </a>
                             </div>
                             <h5 class="mb-1 product-item__title">
-                                <a href="{{ url('/single-product/' . $similar->prod_id) }}" class="text-blue font-weight-bold">
-                                    {{ $similar->prod_name }}
+                                <a href="{{ route('product.show', $similar->prod_id) }}" class="text-blue font-weight-bold">
+                                    {{ $similar->product_name }}
                                 </a>
                             </h5>
                             <div class="mb-2">
-                                <a href="{{ url('/single-product/' . $similar->prod_id) }}" class="d-block text-center">
-                                    <img class="img-fluid" src="{{ asset('uploads/products/' . $images[0]) }}" alt="{{ $similar->prod_name }}">
+                                <a href="{{ route('product.show', $similar->prod_id) }}" class="max-width-150 d-block text-center" style="height: 150px; overflow: hidden;">
+                                    <img class="img-fluid object-fit-cover" src="{{ asset('uploads/products/' . $images[0]) }}" alt="{{ $similar->product_name }}">
                                 </a>
                             </div>
                             <div class="flex-center-between mb-1">
                                 <div class="prodcut-price">
-                                    <div class="text-gray-100">
-                                        ₹{{ number_format($similar->selling_price, 2) }}
+                                    <div class="text-gray-100"> ₹{{ number_format($variant->selling_price, 2) }}
                                     </div>
                                 </div>
                                 <div class="d-none d-xl-block prodcut-add-cart">
-                                    <a href="#" class="btn-add-cart btn-primary transition-3d-hover">
+                                    <a href="javascript:void(0);"
+                                        class="btn-add-cart btn-primary transition-3d-hover addToCartIndexBtn"
+                                        data-variant-id="{{ $variant->variant_id }}"
+                                        data-quantity="1">
                                         <i class="ec ec-add-to-cart"></i>
                                     </a>
                                 </div>
@@ -634,7 +641,15 @@
                         </div>
                         <div class="product-item__footer">
                             <div class="border-top pt-2 flex-center-between flex-wrap">
-                                <a href="#" class="text-gray-6 font-size-13"><i class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
+                                <a href="javascript:void(0);"
+                                    class="add-to-wishlist text-gray-6 font-size-13 mr-2"
+                                    data-product-id="{{ $similar->prod_id }}"
+                                    data-variant-id="{{ $variant->variant_id }}">
+                                    <i class="bi wishlist-icon mr-1 font-size-18 
+                                        {{ $isWishlisted ? 'bi-heart-fill active' : 'bi-heart' }}">
+                                    </i>
+                                    <span class="wishlist-label">Wishlist</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -741,7 +756,7 @@
 
                 setTimeout(function() {
                     location.reload();
-                }, 1200);
+                }, 800);
             },
             error: function(xhr, status, error) {
                 console.log('Error:', xhr.responseText);
@@ -772,10 +787,10 @@
                         $('#quantityError').text(errors.quantity[0]).show();
                     }
 
-                    // errorMessage = xhr.responseJSON.message;
+                    // errorMessage=xhr.responseJSON.message;
                 }
 
-                //showToast(errorMessage, "danger"); // ❌ Show red toast
+                //showToast(errorMessage, "danger" ); // ❌ Show red toast
             }
         });
     });

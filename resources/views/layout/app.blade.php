@@ -1429,7 +1429,7 @@
 
                         setTimeout(function() {
                             location.reload();
-                        }, 1200);
+                        }, 800);
                     },
                     error: function(xhr, status, error) {
                         console.log('Error:', xhr.responseText);
@@ -1496,7 +1496,7 @@
                             showToast("Removed from wishlist", "success");
                             setTimeout(function() {
                                 location.reload();
-                            }, 1200);
+                            }, 800);
                         },
                         error: function() {
                             showToast("Error removing from wishlist", "danger");
@@ -1518,7 +1518,7 @@
                         showToast(response.message, "success");
                         setTimeout(function() {
                             location.reload();
-                        }, 1200);
+                        }, 800);
                     },
                     error: function(xhr) {
                         if (xhr.status === 401) {

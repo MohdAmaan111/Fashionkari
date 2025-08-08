@@ -29,13 +29,14 @@ Route::post('/test-ajax', function () {
     dd('AJAX working!');
 });
 
-// Route::get('/test-custom', function () {
-//     return 'testing';
-// })->middleware('customer.auth');
-
 Route::get('/test-custom', function () {
     return 'testing';
 })->middleware(RedirectIfNotCustomer::class);
+
+Route::middleware(RedirectIfNotCustomer::class)->group(function () {
+    // Route::get('/customer/account', [AccountController::class, 'index'])->name('customer.profile');
+});
+
 
 //Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
@@ -77,6 +78,7 @@ Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear')
 Route::get('/customer/wishlist/', [WishlistController::class, 'index'])->name('wishlist');
 Route::post('/customer/wishlist/add', [WishlistController::class, 'addwishlist'])->name('wishlist.add');
 Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::delete('/wishlist/delete-all', [WishlistController::class, 'deleteAll'])->name('wishlist.deleteAll');
 
 // Orders
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

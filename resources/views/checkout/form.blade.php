@@ -15,17 +15,17 @@
                 <!-- Full name form input -->
                 <div class="col-md-12">
                     <label class="form-label">Full name*</label>
-                    <input type="text" name="full_name" class="form-control" placeholder="Enter full name" value="{{ old('fullname', $customer->cus_name) }}" required>
+                    <input type="text" name="full_name" class="form-control" placeholder="Enter full name" value="{{ old('fullname',  optional($customer)->cus_name) }}" required>
                 </div>
                 <!-- Email form input -->
                 <div class="col-6">
                     <label class="form-label">Email address*</label>
-                    <input type="email" name="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email', $customer->email) }}" required>
+                    <input type="email" name="email" class="form-control" placeholder="example@gmail.com" value="{{ old('email', optional($customer)->email) }}" required>
                 </div>
                 <!-- Phone number form input -->
                 <div class="col-md-6">
                     <label class="form-label">Phone number*</label>
-                    <input type="text" name="phone" class="form-control" placeholder="+91" value="{{ old('phone', $customer->phone) }}" required>
+                    <input type="text" name="phone" class="form-control" placeholder="+91" value="{{ old('phone', optional($customer)->phone) }}" required>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Pincode*</label>
-                    <input type="text" name="pincode" class="form-control" value="{{ old('postal_code', $customer->postal_code) }}" required>
+                    <input type="text" name="pincode" class="form-control" value="{{ old('postal_code', optional($customer)->postal_code) }}" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">State*</label>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">City*</label>
-                    <input type="text" name="city" class="form-control" value="{{ old('city', $customer->city) }}" required>
+                    <input type="text" name="city" class="form-control" value="{{ old('city', optional($customer)->city) }}" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Area</label>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-12">
                     <label class="form-label">Address line*</label>
-                    <textarea name="address_line" class="form-control" rows="2" required>{{ old('address_line', $customer->address) }}</textarea>
+                    <textarea name="address_line" class="form-control" rows="2" required>{{ old('address_line', optional($customer)->address) }}</textarea>
                 </div>
             </div>
 

@@ -1,12 +1,12 @@
 <!-- Main Content -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h5 class="mb-0">My Orders</h5>
-    <div class="my-orders d-flex gap-2 align-items-center">
+    <!-- <div class="my-orders d-flex gap-2 align-items-center">
         <div class="search-bar d-flex align-items-center mr-2">
             <input type="text" placeholder="Search orders...">
         </div>
         <button class="search-bar btn btn-outline-secondary ml-2"><i class="bi bi-funnel"></i> Filter</button>
-    </div>
+    </div> -->
 </div>
 
 <!-- Order Card -->

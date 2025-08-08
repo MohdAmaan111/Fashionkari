@@ -40241,7 +40241,7 @@ blockquote:not(.blockquote) p {
   height: 4px;
   background-color: #28a745;
   width: 100%;
-  animation: shrinkBar 1.2s linear forwards;
+  animation: shrinkBar 0.8s linear forwards;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
