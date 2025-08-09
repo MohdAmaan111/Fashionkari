@@ -41,6 +41,7 @@ Route::middleware(RedirectIfNotCustomer::class)->group(function () {
 //Frontend Routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/{id}', [FrontendController::class, 'singleProduct'])->name('product.show');
+Route::get('/search-products', [FrontendController::class, 'search'])->name('products.search');
 
 Route::get('/customer/account', [AccountController::class, 'index'])->name('customer.account');
 

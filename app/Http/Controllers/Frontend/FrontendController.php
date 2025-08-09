@@ -86,4 +86,22 @@ class FrontendController extends Controller
             compact('product', 'categories', 'similarProducts', 'meta', 'wishlistVariantIds')
         );
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('q'); // the search term
+        $categoryId = $request->input('category'); // optional category
+
+        $products = Product::with(['category', 'variants'])
+            ->when($categoryId, function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
+            })
+            ->where(function ($query) use ($search) {
+                $query->where('product_name', 'like', "%{$search}%")
+                    ->orWhere('prod_description', 'like', "%{$search}%");
+            })
+            ->paginate(12); // paginate results
+
+        return view('search-product', compact('products', 'search', 'categoryId'));
+    }
 }

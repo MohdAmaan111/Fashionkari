@@ -62,21 +62,6 @@
                                     <a href="#" class="u-header-topbar__nav-link"><i class="ec ec-transport mr-1"></i> Track Your Order</a>
                                 </li>
                                 <li class="list-inline-item mr-0 u-header-topbar__nav-item u-header-topbar__nav-item-border full-bg">
-                                    <!-- Account Sidebar Toggle Button -->
-                                    <!-- <a id="sidebarNavToggler" href="javascript:;" role="button" class="u-header-topbar__nav-link"
-                                        aria-controls="sidebarContent"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        data-unfold-event="click"
-                                        data-unfold-hide-on-scroll="false"
-                                        data-unfold-target="#sidebarContent"
-                                        data-unfold-type="css-animation"
-                                        data-unfold-animation-in="fadeInRight"
-                                        data-unfold-animation-out="fadeOutRight"
-                                        data-unfold-duration="500">
-                                        <i class="ec ec-user mr-1"></i> Register <span class="text-primary-darken-5">or</span> Sign in
-                                    </a> -->
-                                    <!-- End Account Sidebar Toggle Button -->
                                     @if(auth('customer')->check())
                                     <a href="{{ route('customer.profile') }}" class="u-header-topbar__nav-link">
                                         <i class="ec ec-user mr-1"></i> My Profile
@@ -464,10 +449,10 @@
 
                         <!-- Search Bar -->
                         <div class="col d-none d-xl-block">
-                            <form class="js-focus-state">
+                            <form action="{{ route('products.search') }}" method="GET" class="js-focus-state">
                                 <label class="sr-only" for="searchproduct">Search</label>
                                 <div class="input-group">
-                                    <input type="email" class="form-control py-2 pl-5 font-size-15 border-right-0 height-42 border-width-0 rounded-left-pill border-primary" name="email" id="searchproduct-item" placeholder="Search for Products" aria-label="Search for Products" aria-describedby="searchProduct1" required>
+                                    <input type="text" class="form-control py-2 pl-5 font-size-15 border-right-0 height-42 border-width-0 rounded-left-pill border-primary" name="q" id="searchproduct-item" placeholder="Search for Products" aria-label="Search for Products" aria-describedby="searchProduct1" required>
                                     <div class="input-group-append">
                                         <!-- Select -->
                                         <select class="js-select selectpicker dropdown-select custom-search-categories-select bg-white"
@@ -479,7 +464,7 @@
                                         </select>
 
                                         <!-- End Select -->
-                                        <button class="btn btn-dark height-42 py-2 px-3 rounded-right-pill" type="button" id="searchProduct1">
+                                        <button class="btn btn-dark height-42 py-2 px-3 rounded-right-pill" type="submit" id="searchProduct1">
                                             <span class="ec ec-search font-size-20"></span>
                                         </button>
                                     </div>

@@ -21,21 +21,6 @@
         </div>
     </div><!-- End Toast Message -->
 
-    @if(session('success'))
-    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">{{ session('success') }}</div>
-    <script>
-        $(document).ready(function() {
-            $('#successMessage').fadeIn(200).delay(2000).fadeOut(400, function() {
-                // window.location.href = "{{ route('index') }}";
-            });
-        });
-    </script>
-    @endif
-
-    <!-- Success Message -->
-    <div id="successMessage" style="display:none; position:fixed; top:20px; right:20px; background:#28a745; color:#fff; padding:10px 20px; border-radius:5px; z-index:9999;">
-    </div><!-- Success Message End -->
-
     <!-- Slider Section -->
     <div class="mb-4">
         <div class="bg-img-hero" style="background-image: url(assets/img/1920X422/img2.jpg);">
