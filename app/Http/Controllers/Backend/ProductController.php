@@ -67,7 +67,6 @@ class ProductController extends Controller
                 File::makeDirectory($folderPath, 0755, true);
             }
 
-
             // Create image name using product name + random string
             $slug = Str::slug($request->product_name) ?: 'product';
 
@@ -84,6 +83,26 @@ class ProductController extends Controller
             // Update existing product
             $product = Product::findOrFail($request->product_id);
 
+            // Get existing images from hidden input
+            $keptImages = $request->existing_images ?? [];
+
+            // Images stored in DB before update
+            $oldImages = json_decode($product->images, true) ?? [];
+
+            // Find which images were removed
+            $removedImages = array_diff($oldImages, $keptImages);
+
+            // Delete removed images from storage
+            foreach ($removedImages as $removedImage) {
+                $path = public_path('uploads/products/' . $removedImage);
+                if (File::exists($path)) {
+                    File::delete($path);
+                }
+            }
+
+            // Merge with any newly uploaded images
+            $finalImages = array_merge($keptImages, $imagePaths);
+
             $product->update([
                 'product_name'      => $request->product_name,
                 'fabric_name'       => $request->fabric_name,
@@ -97,7 +116,7 @@ class ProductController extends Controller
                 'care_instructions' => $request->care_instructions,
                 'prod_description'  => $request->prod_description,
                 'color'  => $request->color,
-                'images' => json_encode($imagePaths),
+                'images' => json_encode($finalImages),
                 'meta_title'        => $request->meta_title,
                 'meta_keyword'      => $request->meta_keyword,
                 'meta_description'  => $request->meta_description,

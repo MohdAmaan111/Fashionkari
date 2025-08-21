@@ -91,7 +91,7 @@
                       </button>
                       @endif
                     </td>
-
+                    <!-- Status -->
                     <td>
                       @if($product->status)
                       <span class="status-label active">Active</span>
@@ -487,10 +487,8 @@
 
 
   <!-- Variant Modal -->
-
   @foreach ($products as $product)
   <!---- Your product row ---->
-
   <div class="modal fade" id="variantModal{{ $product->prod_id }}" tabindex="-1" aria-labelledby="variantModalLabel{{ $product->prod_id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -558,7 +556,7 @@
     </div>
   </div>
   @endforeach
-
+  <!-- End Variant Modal -->
 
 </main><!-- End #main -->
 
@@ -574,6 +572,7 @@
     var addModal = new bootstrap.Modal($('#addProductModal')[0]);
     addModal.show();
   });
+
   $('#addVariantBtn').on('click', function() {
     const productId = $(this).data('product-id');
     console.log("Clicked Add Variant for product:", productId); // ✅ CHECK THIS
@@ -605,8 +604,7 @@
     });
   });
 
-
-  // Write the jQuery to fill in modal fields when "Edit Product Variant" is clicked
+  // Modal fields when "Edit Product Variant" is clicked
   $(document).on('click', '.edit-variant-btn', function() {
     const productId = $(this).data('id');
     const variants = $(this).data('variants'); // This will be an array of objects
@@ -642,7 +640,7 @@
     $('#variantModal' + productId).modal('show');
   });
 
-  // Write the jQuery to fill in modal fields when "Edit Product" is clicked
+  // Modal fields when "Edit Product" is clicked
   $(document).on('click', '.edit-product-btn', function() {
     // Extract data
     const $btn = $(this);
